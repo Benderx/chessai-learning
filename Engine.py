@@ -1,4 +1,4 @@
-import Piece.py
+import Piece
 
 # -1 will represent black
 # 1 will represent white
@@ -80,8 +80,8 @@ class Engine():
         	self.board[0][2] = white_bishop_1
         	self.board[0][5] = white_bishop_2
 
-        	black_king = Piece.King(-1,(3,7))
-        	black_queen = Piece.Queen(-1,(4,7))
+        	black_king = Piece.King(-1, (3,7))
+        	black_queen = Piece.Queen(-1, (4,7))
         	self.board[7][3] = black_king
         	self.board[7][4] = black_queen
 

@@ -2,7 +2,6 @@ class Piece():
 	def __init__(self, color, position):
 		self.color = color
 		self.pos = position
-		self.val 
 		self.alive = True
 
 	def get_color(self):
@@ -31,21 +30,21 @@ class Pawn(Piece):
 	def get_piece(self):
 		return("Pawn")
 
-class Rook(Pieces):
+class Rook(Piece):
 	def __init__(self, color, position):
 		super().__init__(color, position)
 
 	def get_piece(self):
 		return("Rook")
 
-class Knight(Pieces):
+class Knight(Piece):
 	def __init__(self, color, position):
 		super().__init__(color, position)
 
 	def get_piece(self):
 		return("Knight")
 
-class Bishop(Pieces):
+class Bishop(Piece):
 	def __init__(self, color, position):
 		super().__init__(color, position)
 
@@ -67,8 +66,8 @@ class King(Piece):
 		self.moved = True
 
 class Queen(Piece):
-	def __init__(self, color, engine, position):
-		super().__init__(color, engine, position)
+	def __init__(self, color, position):
+		super().__init__(color, position)
 
 	def get_piece(self):
 		return("Queen")
