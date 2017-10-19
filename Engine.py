@@ -349,10 +349,10 @@ class Engine():
 
     def promotions(self, color, pos, to_pos):
         promos = []
-        promos.append((pos, to_pos, Knight(color, pos)))
-        promos.append((pos, to_pos, Rook(color, pos)))
-        promos.append((pos, to_pos, Queen(color, pos)))
-        promos.append((pos, to_pos, Bishop(color, pos)))
+        promos.append((pos, to_pos, Piece.Knight(color, pos)))
+        promos.append((pos, to_pos, Piece.Rook(color, pos)))
+        promos.append((pos, to_pos, Piece.Queen(color, pos)))
+        promos.append((pos, to_pos, Piece.Bishop(color, pos)))
         return promos
 
 
@@ -812,8 +812,8 @@ class Engine():
                 pass
             else:
                 self.push_move(move)
-                if not self.in_check(color):
-                    final_moves.append(move)
+                # if not self.in_check(color):
+                final_moves.append(move)
                 self.pop_move()
                 
         # Add castles 
@@ -866,13 +866,13 @@ class Engine():
             qastle = False
 
         if castle:
-            move = ((3,y_pos),(2,y_pos))
+            move = ((3,pos_y),(2,pos_y))
             self.push_move(move)
             if self.in_check(color):
                 castle=False
                 self.pop_move()
             else:
-                move = ((2,y_pos),(1,y_pos))
+                move = ((2,pos_y),(1,pos_y))
                 self.push_move(move)
                 if self.in_check(color): 
                     castle=False
@@ -880,13 +880,13 @@ class Engine():
                 self.pop_move()
 
         if qastle: 
-            move = ((3,y_pos),(4,y_pos))
+            move = ((3,pos_y),(4,pos_y))
             self.push_move(move)
             if self.in_check(color):
                 qastle=False
                 self.pop_move()
             else:
-                move = ((4,y_pos),(5,y_pos))
+                move = ((4,pos_y),(5,pos_y))
                 self.push_move(move)
                 if self.in_check(color): 
                     qastle=False

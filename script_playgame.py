@@ -17,7 +17,7 @@ while not winner:
 	winner = engine.is_terminal(players[turn].get_color(), possible_moves)
 	print("\n\nBoardstate:")
 	engine.print_board()
-	print("Current players turn:", players[turn])
+	print("Current players turn:", turn)
 	print(possible_moves)
 	move = players[turn].get_move(possible_moves)
 	print("Move:", move)
