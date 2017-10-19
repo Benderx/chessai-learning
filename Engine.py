@@ -59,18 +59,41 @@ class Engine():
 
 
     def get_possible_squares(self, piece):
+        moves = []
+        pos = piece.get_position()
+        init_x = pos[0]
+        init_y = pos[1]
+
+
         if piece.get_piece() == 'Pawn':
             pass
-        if piece.get_piece() == 'Rook':
-            pass
+
+        elif piece.get_piece() == 'Rook':
+            for y in range(1, 8):
+                if init_y + y > 7:
+                    break
+                space = self.board[init_y + y][x]
+
+                if space is None:
+                    moves.append((x, init_y), (x, init_y + y))
+                elif space.get_color() == piece.get_color():
+                    break
+                else:
+                    moves.append((x, init_y), (x, init_y + y))
+
         elif piece.get_piece() == 'Knight':
             pass
+
         elif piece.get_piece() == 'Bishop':
             pass
+
         elif piece.get_piece() == 'Queen':
             pass
+
         elif piece.get_piece() == 'King':
             pass
+
+        return moves
 
 
     def get_legal_moves(self, color):
@@ -80,3 +103,4 @@ class Engine():
                 piece = self.board[row][col]
                 if piece is not None and piece.get_color == color:
                     moves += get_possible_squares(piece)
+        return moves
