@@ -176,49 +176,49 @@ class Engine():
         if up2 and right1:
             if self.board[y_pos-2][x_pos+1]:
                 local_piece = self.board[y_pos-2][x_pos+1]
-                if local_piece.get_piece() == "Knight" and local_piece.get_color() != color:
+                if local_piece.get_piece() == "Night" and local_piece.get_color() != color:
                     return(True)
 
         if up1 and right2:
             if self.board[y_pos-1][x_pos+2]:
                 local_piece = self.board[y_pos-1][x_pos+2]
-                if local_piece.get_piece() == "Knight" and local_piece.get_color() != color:
+                if local_piece.get_piece() == "Night" and local_piece.get_color() != color:
                     return(True)
 
         if down1 and right2:
             if self.board[y_pos+1][x_pos+2]:
                 local_piece = self.board[y_pos+1][x_pos+2]
-                if local_piece.get_piece() == "Knight" and local_piece.get_color() != color:
+                if local_piece.get_piece() == "Night" and local_piece.get_color() != color:
                     return(True)
 
         if down2 and right1:
             if self.board[y_pos+2][x_pos+1]:
                 local_piece = self.board[y_pos+2][x_pos+1]
-                if local_piece.get_piece() == "Knight" and local_piece.get_color() != color:
+                if local_piece.get_piece() == "Night" and local_piece.get_color() != color:
                     return(True)
 
         if down2 and left1:
             if self.board[y_pos+2][x_pos-1]:
                 local_piece = self.board[y_pos+2][x_pos-1]
-                if local_piece.get_piece() == "Knight" and local_piece.get_color() != color:
+                if local_piece.get_piece() == "Night" and local_piece.get_color() != color:
                     return(True)
 
         if down1 and left2:
             if self.board[y_pos+1][x_pos-2]:
                 local_piece = self.board[y_pos+1][x_pos-2]
-                if local_piece.get_piece() == "Knight" and local_piece.get_color() != color:
+                if local_piece.get_piece() == "Night" and local_piece.get_color() != color:
                     return(True)
 
         if up1 and left2:
             if self.board[y_pos-1][x_pos-2]:
                 local_piece = self.board[y_pos-1][x_pos-2]
-                if local_piece.get_piece() == "Knight" and local_piece.get_color() != color:
+                if local_piece.get_piece() == "Night" and local_piece.get_color() != color:
                     return(True)
 
         if up2 and left1:
             if self.board[y_pos-2][x_pos-1]:
                 local_piece = self.board[y_pos-2][x_pos-1]
-                if local_piece.get_piece() == "Knight" and local_piece.get_color() != color:
+                if local_piece.get_piece() == "Night" and local_piece.get_color() != color:
                     return(True)
 
 
