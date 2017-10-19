@@ -830,13 +830,11 @@ class Engine():
             king = black_king
             r1 = black_rook_1
             r2 = black_rook_2
-            pos_x = black_king_pos[0]
             pos_y = black_king_pos[1]
         else:
             king = white_king
             r1 = white_rook_1
             r2 = white_rook_2
-            pos_x = white_king_pos[0]
             pos_y = white_king_pos[1]
 
         if king.get_moved():
@@ -852,12 +850,32 @@ class Engine():
             qastle = False
 
         if castle:
-            pass
-            #Look for checks along the way
+            move = ((3,y_pos),(2,y_pos))
+            self.push_move(move)
+            if self.in_check(color):
+                castle=False
+                self.pop_move()
+            else:
+                move = ((2,y_pos),(1,y_pos))
+                self.push_move(move)
+                if self.in_check(color): 
+                    castle=False
+                self.pop_move()
+                self.pop_move()
 
         if qastle: 
-            pass
-            #Look for checks along the way
+            move = ((3,y_pos),(4,y_pos))
+            self.push_move(move)
+            if self.in_check(color):
+                qastle=False
+                self.pop_move()
+            else:
+                move = ((4,y_pos),(5,y_pos))
+                self.push_move(move)
+                if self.in_check(color): 
+                    qastle=False
+                self.pop_move()
+                self.pop_move()
 
         result = (castle,qastle)
         return(result)
