@@ -122,10 +122,6 @@ class Engine():
         pass
 
 
-    def valid_move(self, move):
-        pass
-
-
     def invert_color(self,color):
         return(-color)
 
