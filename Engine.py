@@ -337,7 +337,7 @@ class Engine():
                     self.black_king.sub_move()
             if self.board[move[1][1]][move[1][0]].get_piece() == 'Rook':
                 self.board[move[1][1]][move[1][0]].get_piece().sub_move()
-                
+
             self.board[move[0][1]][move[0][0]] = self.board[move[1][1]][move[1][0]]
             self.board[move[1][1]][move[1][0]] = piece
 
@@ -850,16 +850,16 @@ class Engine():
             r2 = white_rook_2
             pos_y = white_king_pos[1]
 
-        if king.get_moved():
+        if king.get_moved() > 0:
             return((False,False))
         if self.board[pos_y][1] or self.board[pos_y][2]:
             castle = False
         if self.board[pos_y][4] or self.board[pos_y][5] or self.board[pos_y][6]:
             qastle = False
 
-        if castle and r1.get_moved():
+        if castle and r1.get_moved() > 0:
             castle = False
-        if qastle and r2.get_moved():
+        if qastle and r2.get_moved() > 0:
             qastle = False
 
         if castle:
