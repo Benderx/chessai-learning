@@ -54,9 +54,9 @@ class Engine():
             self.board[0][0] = black_rook_1
             self.board[0][7] = black_rook_2
 
-            white_knight_1 = Piece.Knight(1,(1,4))
+            white_knight_1 = Piece.Knight(1,(1,7))
             white_knight_2 = Piece.Knight(1,(6,7))
-            self.board[4][1] = white_knight_1
+            self.board[7][1] = white_knight_1
             self.board[7][6] = white_knight_2
 
             black_knight_1 = Piece.Knight(-1,(1,0))
@@ -419,7 +419,61 @@ class Engine():
                     break
 
         elif piece_name == 'King':
-            pass
+            x_1 = init_x + 1
+            y_1 = init_y - 1
+            if x_1 < 8 and y_1 > -1:
+                space = self.board[y_1][x_1]
+                if not space or space.get_color() != piece.get_color():
+                    moves.append(((init_x, init_y), (x_1, y_1)))
+
+            x_2 = init_x + 1
+            y_2 = init_y
+            if x_2 < 8:
+                space = self.board[y_2][x_2]
+                if not space or space.get_color() != piece.get_color():
+                    moves.append(((init_x, init_y), (x_2, y_2)))
+
+            x_3 = init_x + 1
+            y_3 = init_y + 1
+            if x_3 < 8 and y_3 < 8:
+                space = self.board[y_3][x_3]
+                if not space or space.get_color() != piece.get_color():
+                    moves.append(((init_x, init_y), (x_3, y_3)))
+
+            x_4 = init_x
+            y_4 = init_y + 1
+            if y_4 < 8:
+                space = self.board[y_4][x_4]
+                if not space or space.get_color() != piece.get_color():
+                    moves.append(((init_x, init_y), (x_4, y_4)))
+
+            x_5 = init_x - 1
+            y_5 = init_y + 1
+            if x_5 > -1 and y_5 < 8:
+                space = self.board[y_5][x_5]
+                if not space or space.get_color() != piece.get_color():
+                    moves.append(((init_x, init_y), (x_5, y_5)))
+
+            x_6 = init_x - 1
+            y_6 = init_y
+            if x_6 > -1:
+                space = self.board[y_6][x_6]
+                if not space or space.get_color() != piece.get_color():
+                    moves.append(((init_x, init_y), (x_6, y_6)))
+
+            x_7 = init_x - 1
+            y_7 = init_y - 1
+            if x_7 > -1 and y_7 > -1:
+                space = self.board[y_7][x_7]
+                if not space or space.get_color() != piece.get_color():
+                    moves.append(((init_x, init_y), (x_7, y_7)))
+
+            x_8 = init_x
+            y_8 = init_y - 1
+            if y_8 > -1:
+                space = self.board[y_8][x_8]
+                if not space or space.get_color() != piece.get_color():
+                    moves.append(((init_x, init_y), (x_8, y_8)))
 
         return moves
 
