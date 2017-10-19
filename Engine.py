@@ -1,3 +1,9 @@
+# -1 will represent black
+# 1 will represent white
+# init_board will take in optional argument board, and initilize self.board
+#            to default position (or to the optional argument if provided)
+
+
 class Engine():
     def __init__(self):
         self.board = [[None for x in range(8)] for y in range(8)]
@@ -20,7 +26,7 @@ class Engine():
         return self.board
 
 
-    def push_move(self,move,color):
+    def push_move(self, move, color):
         self.stack.append(move)
         self.update_board(move,color)
 
@@ -48,5 +54,6 @@ class Engine():
         else:
             return('w')
 
-    def get_legal_moves(self):
+
+    def get_legal_moves(self, color):
         pass
