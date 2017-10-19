@@ -144,14 +144,54 @@ class Engine():
             for y in range(1, 8):
                 if init_y + y > 7:
                     break
-                space = self.board[init_y + y][x]
+                space = self.board[init_y + y][init_x]
 
                 if space is None:
-                    moves.append((x, init_y), (x, init_y + y))
+                    moves.append((init_x, init_y), (init_x, init_y + y))
                 elif space.get_color() == piece.get_color():
                     break
                 else:
-                    moves.append((x, init_y), (x, init_y + y))
+                    moves.append((init_x, init_y), (init_x, init_y + y))
+                    break
+
+            for y in range(1, 8):
+                if init_y - y < 0:
+                    break
+                space = self.board[init_y - y][init_x]
+
+                if space is None:
+                    moves.append((init_x, init_y), (init_x, init_y - y))
+                elif space.get_color() == piece.get_color():
+                    break
+                else:
+                    moves.append((init_x, init_y), (init_x, init_y - y))
+                    break
+
+            for x in range(1, 8):
+                if init_x + x < 0:
+                    break
+                space = self.board[init_y][init_x + x]
+
+                if space is None:
+                    moves.append((init_x, init_y), (init_x + x, init_y))
+                elif space.get_color() == piece.get_color():
+                    break
+                else:
+                    moves.append((init_x, init_y), (init_x + x, init_y))
+                    break
+
+            for x in range(1, 8):
+                if init_x - x > 7:
+                    break
+                space = self.board[init_y][init_x - x]
+
+                if space is None:
+                    moves.append((init_x, init_y), (init_x - x, init_y))
+                elif space.get_color() == piece.get_color():
+                    break
+                else:
+                    moves.append((init_x, init_y), (init_x - x, init_y))
+                    break
 
         elif piece.get_piece() == 'Knight':
             pass
