@@ -33,6 +33,10 @@ class Pawn(Piece):
 class Rook(Piece):
 	def __init__(self, color, position):
 		super().__init__(color, position)
+		self.moved = False
+
+	def has_moved(self):
+		return(self.moved)
 
 	def get_piece(self):
 		return("Rook")
