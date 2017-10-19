@@ -28,8 +28,11 @@ class Rook(Piece):
 		super().__init__(color)
 		self.moved = False
 
-	def has_moved(self):
+	def get_moved(self):
 		return(self.moved)
+
+	def no_castle(self):
+		self.moved = True
 
 	def get_piece(self):
 		return("Rook")
@@ -56,7 +59,7 @@ class King(Piece):
 	def get_piece(self):
 		return("King")
 
-	def has_moved(self):
+	def get_moved(self):
 		return(self.moved)
 
 	def no_castle(self):
