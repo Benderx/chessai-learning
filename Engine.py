@@ -138,12 +138,12 @@ class Engine():
         return(-color)
 
 
-    def promotions(self, color, pos):
+    def promotions(self, color, pos, to_pos):
         promos = []
-        promos.append((Knight(color, pos), pos))
-        promos.append((Rook(color, pos), pos))
-        promos.append((Queen(color, pos), pos))
-        promos.append((Bishop(color, pos), pos))
+        promos.append((pos, to_pos, Knight(color, pos)))
+        promos.append((pos, to_pos, Rook(color, pos)))
+        promos.append((pos, to_pos, Queen(color, pos)))
+        promos.append((pos, to_pos, Bishop(color, pos)))
         return promos
 
 
@@ -163,7 +163,7 @@ class Engine():
                     space = self.board[y_1][x_1]
                     if not space:
                         if y_1 == 0:
-                            moves += self.promotions(piece.get_color(), (x_1, y_1))
+                            moves += self.promotions(piece.get_color(), (init_x, init_y), (x_1, y_1))
                         else:
                             moves.append(((init_x, init_y), (x_1, y_1)))
 
@@ -173,7 +173,7 @@ class Engine():
                     space = self.board[y_2][x_2]
                     if space and space.get_color() != piece.get_color():
                         if y_2 == 0:
-                            moves += self.promotions(piece.get_color(), (x_2, y_2))
+                            moves += self.promotions(piece.get_color(), (init_x, init_y), (x_2, y_2))
                         else:
                             moves.append(((init_x, init_y), (x_2, y_2)))
 
@@ -183,7 +183,7 @@ class Engine():
                     space = self.board[y_3][x_3]
                     if space and space.get_color() != piece.get_color():
                         if y_3 == 0:
-                            moves += self.promotions(piece.get_color(), (x_3, y_3))
+                            moves += self.promotions(piece.get_color(), (init_x, init_y), (x_3, y_3))
                         else:
                             moves.append(((init_x, init_y), (x_3, y_3)))
 
@@ -200,7 +200,7 @@ class Engine():
                     space = self.board[y_1][x_1]
                     if not space:
                         if y_1 == 7:
-                            moves += self.promotions(piece.get_color(), (x_1, y_1))
+                            moves += self.promotions(piece.get_color(), (init_x, init_y), (x_1, y_1))
                         else:
                             moves.append(((init_x, init_y), (x_1, y_1)))
 
@@ -210,7 +210,7 @@ class Engine():
                     space = self.board[y_2][x_2]
                     if space and space.get_color() != piece.get_color():
                         if y_2 == 7:
-                            moves += self.promotions(piece.get_color(), (x_2, y_2))
+                            moves += self.promotions(piece.get_color(), (init_x, init_y), (x_2, y_2))
                         else:
                             moves.append(((init_x, init_y), (x_2, y_2)))
 
@@ -220,7 +220,7 @@ class Engine():
                     space = self.board[y_3][x_3]
                     if space and space.get_color() != piece.get_color():
                         if y_3 == 7:
-                            moves += self.promotions(piece.get_color(), (x_3, y_3))
+                            moves += self.promotions(piece.get_color(), (init_x, init_y), (x_3, y_3))
                         else:
                             moves.append(((init_x, init_y), (x_3, y_3)))
 
@@ -560,11 +560,14 @@ class Engine():
         return moves
 
 
+
     def get_legal_moves(self, color):
         moves = []
         for row in range(8):
             for col in range(8):
                 piece = self.board[row][col]
                 if piece is not None and piece.get_color() == color:
+                    # PAWN PROMOTION WILL RETURN AS (pawn_pos, promotion_pos, Piece)
+                    # CASTLING WILL RETURN AS
                     moves += self.get_possible_squares(piece)
         return moves
