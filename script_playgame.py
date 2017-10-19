@@ -5,7 +5,7 @@ winner = None
 engine = Engine.Engine()
 
 PLAYER_ONE = Player.AiRand(1,engine)
-PLAYER_TWO = Player.AiRand(1,engine)
+PLAYER_TWO = Player.AiRand(-1,engine)
 
 players = [PLAYER_ONE,PLAYER_TWO]
 
