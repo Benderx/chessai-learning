@@ -316,6 +316,8 @@ class Engine():
                 else:
                     self.black_king_pos = move[1]
                     self.black_king_pos.no_castle()
+            if self.board[move[0][1]][move[0][0]].get_piece() == 'Rook': # if moving rook
+                self.board[move[0][1]][move[0][0]].no_castle()
             self.board[move[1][1]][move[1][0]] = self.board[move[0][1]][move[0][0]]
             self.board[move[0][1]][move[0][0]] = None
 
@@ -818,3 +820,44 @@ class Engine():
                     return(-color)
                 else:
                     return(0)
+
+    def can_castle(self, color):
+        #Returns (True or False, True or False) for (can_castle,can_qastle)
+        castle = True
+        qastle = True
+
+        if color == -1:
+            king = black_king
+            r1 = black_rook_1
+            r2 = black_rook_2
+            pos_x = black_king_pos[0]
+            pos_y = black_king_pos[1]
+        else:
+            king = white_king
+            r1 = white_rook_1
+            r2 = white_rook_2
+            pos_x = white_king_pos[0]
+            pos_y = white_king_pos[1]
+
+        if king.get_moved():
+            return((False,False))
+        if self.board[pos_y][1] or self.board[pos_y][2]:
+            castle = False
+        if self.board[pos_y][4] or self.board[pos_y][5] or self.board[pos_y][6]:
+            qastle = False
+
+        if castle and r1.get_moved():
+            castle = False
+        if qastle and r2.get_moved():
+            qastle = False
+
+        if castle:
+            pass
+            #Look for checks along the way
+
+        if qastle: 
+            pass
+            #Look for checks along the way
+
+        result = (castle,qastle)
+        return(result)
