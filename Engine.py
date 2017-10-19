@@ -100,7 +100,10 @@ class Engine():
                 if col == None:
                     a.append(' ')
                 else:
-                    a.append(col.get_piece()[0])
+                    if col.get_color() == 1:
+                        a.append(col.get_piece()[0].lower())
+                    else:
+                        a.append(col.get_piece()[0].upper())
             print(a)
 
     def in_check(self, color):
