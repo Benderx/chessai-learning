@@ -1,4 +1,4 @@
-class Pieces():
+class Piece():
 	def __init__(self, color, engine, position, value):
 		self.engine = engine
 		self.color = color
@@ -25,23 +25,23 @@ class Pieces():
 		self.alive = False
 
 
-class Pawn(Pieces):
+class Pawn(Piece):
 	def __init__(self, color, engine, position, value):
 		super().__init__(color, engine, position, value)
 
-class Rook(Pieces):
+class Rook(Piece):
 	def __init__(self, color, engine, position, value):
 		super().__init__(color, engine, position, value)
 
-class Knight(Pieces):
+class Knight(Piece):
 	def __init__(self, color, engine, position, value):
 		super().__init__(color, engine, position, value)
 
-class Bishop(Pieces):
+class Bishop(Piece):
 	def __init__(self, color, engine, position, value):
 		super().__init__(color, engine, position, value)
 
-class King(Pieces):
+class King(Piece):
 	def __init__(self, color, engine, position, value):
 		super().__init__(color, engine, position, value)
 		self.moved = False
@@ -52,6 +52,6 @@ class King(Pieces):
 	def no_castle(self):
 		self.moved = True
 
-class Queen(Pieces):
+class Queen(Piece):
 	def __init__(self, color, engine, position, value):
 		super().__init__(color, engine, position, value)
