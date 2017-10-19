@@ -101,16 +101,56 @@ class Engine():
     def in_check(self, color):
         #Takes in color of player's turn
         #Ensures they do not end turn in check
+        #True for check
         if color == -1:
             pos = black_king.get_position()
         else:
             pos = white_king.get_position()
 
+        pos_x = pos[0]
+        pos_y = pos[1]
+        #Dont forget to check against kings colliding
+
         #Check to left of king
-        for i in range(pos[0]-1,-1,-1):
-            pass
+        for x in range(pos_x-1,-1,-1):
+            if self.board[pos_y][x]:
+                local_piece = self.board[pos_y][x]
+                if local_piece.get_color() != color and (local_piece.get_piece() == "Rook" or local_piece.get_piece() == "Queen"):
+                    return(True)
+                break
 
+        #Check to right of king
+        for x in range(pos_x+1, 8):
+            if self.board[pos_y][x]:
+                local_piece = self.board[pos_y][x]
+                if local_piece.get_color() != color and (local_piece.get_piece() == "Rook" or local_piece.get_piece() == "Queen"):
+                    return(True)
+                break
 
+        #Check above king
+        for y in range(pos_y-1,-1,-1):
+            if self.board[pos_y][x]:
+                local_piece = self.board[y][pos_x]
+                if local_piece.get_color() != color and (local_piece.get_piece() == "Rook" or local_piece.get_piece() == "Queen"):
+                    return(True)
+                break
+
+        #Check below king
+        for y in range(pos_y+1,8):
+            if self.board[pos_y][x]:
+                local_piece = self.board[y][pos_x]
+                if local_piece.get_color() != color and (local_piece.get_piece() == "Rook" or local_piece.get_piece() == "Queen"):
+                    return(True)
+                break
+
+        #Check knights
+        up,down,left,right = (False,False,False,False)
+        if x_pos + 2 <= 7: right = True
+        if x_pos - 2 >= 0: left = True
+        if y_pos - 2 >= 0: up = True
+        if y_pos + 2 <= 7: down = True
+
+        #Check Bishops and queens (and pawns)
 
     def get_board(self):
         return self.board
