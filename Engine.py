@@ -8,86 +8,90 @@ import Piece
 
 class Engine():
     def __init__(self):
-        #Board is accessed using [y][x] notation
+    	#Board is accessed using [y][x] notation
         self.board = [[None for x in range(8)] for y in range(8)]
 
 
     def init_board(self, board = None):
         if board:
-            #Custom board state
-            pass
+        	#Custom board state
+        	pass
         else:
-            #Initialize basic chess board
-            white_pawn_1 = Piece.Pawn(-1,(0,6))
-            white_pawn_2 = Piece.Pawn(-1,(1,6))
-            white_pawn_3 = Piece.Pawn(-1,(2,6))
-            white_pawn_4 = Piece.Pawn(-1,(3,6))
-            white_pawn_5 = Piece.Pawn(-1,(4,6))
-            white_pawn_6 = Piece.Pawn(-1,(5,6))
-            white_pawn_7 = Piece.Pawn(-1,(6,6))
-            white_pawn_8 = Piece.Pawn(-1,(7,6))
-            self.board[6][0] = white_pawn_1
-            self.board[6][1] = white_pawn_2
-            self.board[6][2] = white_pawn_3
-            self.board[6][3] = white_pawn_4
-            self.board[6][4] = white_pawn_5
-            self.board[6][5] = white_pawn_6
-            self.board[6][6] = white_pawn_7
-            self.board[6][7] = white_pawn_8
+        	#Initialize basic chess board
+        	white_pawn_1 = Piece.Pawn(1,(0,6))
+        	white_pawn_2 = Piece.Pawn(1,(1,6))
+        	white_pawn_3 = Piece.Pawn(1,(2,6))
+        	white_pawn_4 = Piece.Pawn(1,(3,6))
+        	white_pawn_5 = Piece.Pawn(1,(4,6))
+        	white_pawn_6 = Piece.Pawn(1,(5,6))
+        	white_pawn_7 = Piece.Pawn(1,(6,6))
+        	white_pawn_8 = Piece.Pawn(1,(7,6))
+        	self.board[6][0] = white_pawn_1
+        	self.board[6][1] = white_pawn_2
+        	self.board[6][2] = white_pawn_3
+        	self.board[6][3] = white_pawn_4
+        	self.board[6][4] = white_pawn_5
+        	self.board[6][5] = white_pawn_6
+        	self.board[6][6] = white_pawn_7
+        	self.board[6][7] = white_pawn_8
 
-            black_pawn_1 = Piece.Pawn(1,(0,1))
-            black_pawn_2 = Piece.Pawn(1,(1,1))
-            black_pawn_3 = Piece.Pawn(1,(2,1))
-            black_pawn_4 = Piece.Pawn(1,(3,1))
-            black_pawn_5 = Piece.Pawn(1,(4,1))
-            black_pawn_6 = Piece.Pawn(1,(5,1))
-            black_pawn_7 = Piece.Pawn(1,(6,1))
-            black_pawn_8 = Piece.Pawn(1,(7,1))
-            self.board[1][0] = black_pawn_1
-            self.board[1][1] = black_pawn_2
-            self.board[1][2] = black_pawn_3
-            self.board[1][3] = black_pawn_4
-            self.board[1][4] = black_pawn_5
-            self.board[1][5] = black_pawn_6
-            self.board[1][6] = black_pawn_7
-            self.board[1][7] = black_pawn_8
+        	black_pawn_1 = Piece.Pawn(-1,(0,1))
+        	black_pawn_2 = Piece.Pawn(-1,(1,1))
+        	black_pawn_3 = Piece.Pawn(-1,(2,1))
+        	black_pawn_4 = Piece.Pawn(-1,(3,1))
+        	black_pawn_5 = Piece.Pawn(-1,(4,1))
+        	black_pawn_6 = Piece.Pawn(-1,(5,1))
+        	black_pawn_7 = Piece.Pawn(-1,(6,1))
+        	black_pawn_8 = Piece.Pawn(-1,(7,1))
+        	self.board[1][0] = black_pawn_1
+        	self.board[1][1] = black_pawn_2
+        	self.board[1][2] = black_pawn_3
+        	self.board[1][3] = black_pawn_4
+        	self.board[1][4] = black_pawn_5
+        	self.board[1][5] = black_pawn_6
+        	self.board[1][6] = black_pawn_7
+        	self.board[1][7] = black_pawn_8
 
-            white_rook_1 = Piece.Rook(-1,(0,7))
-            white_rook_2 = Piece.Rook(-1,(7,7))
-            self.board[7][0] = white_rook_1
-            self.board[7][7] = white_rook_2
+        	white_rook_1 = Piece.Rook(1,(0,7))
+        	white_rook_2 = Piece.Rook(1,(7,7))
+        	self.board[7][0] = white_rook_1
+        	self.board[7][7] = white_rook_2
 
-            black_rook_1 = Piece.Rook(1,(0,0))
-            black_rook_2 = Piece.Rook(1,(7,0))
-            self.board[0][0] = black_rook_1
-            self.board[0][7] = black_rook_2
+        	black_rook_1 = Piece.Rook(-1,(0,0))
+        	black_rook_2 = Piece.Rook(-1,(7,0))
+        	self.board[0][0] = black_rook_1
+        	self.board[0][7] = black_rook_2
 
-            white_knight_1 = Piece.Knight(-1,(1,7))
-            white_knight_2 = Piece.Knight(-1,(6,7))
-            self.board[7][1] = white_knight_1
-            self.board[7][6] = white_knight_2
+        	white_knight_1 = Piece.Knight(1,(1,7))
+        	white_knight_2 = Piece.Knight(1,(6,7))
+        	self.board[7][1] = white_knight_1
+        	self.board[7][6] = white_knight_2
 
-            black_knight_1 = Piece.Knight(1,(1,0))
-            black_knight_2 = Piece.Knight(1,(6,0))
-            self.board[0][1] = black_knight_1
-            self.board[0][6] = black_knight_2
+        	black_knight_1 = Piece.Knight(-1,(1,0))
+        	black_knight_2 = Piece.Knight(-1,(6,0))
+        	self.board[0][1] = black_knight_1
+        	self.board[0][6] = black_knight_2
 
-            white_bishop_1 = Piece.Bishop(-1,(2,7))
-            white_bishop_2 = Piece.Bishop(-1,(5,7))
-            self.board[7][2] = white_bishop_1
-            self.board[7][5] = white_bishop_2
+        	white_bishop_1 = Piece.Bishop(1,(2,7))
+        	white_bishop_2 = Piece.Bishop(1,(5,7))
+        	self.board[7][2] = white_bishop_1
+        	self.board[7][5] = white_bishop_2
 
-            black_bishop_1 = Piece.Bishop(1,(2,0))
-            black_bishop_2 = Piece.Bishop(1,(5,0))
-            self.board[0][2] = black_bishop_1
-            self.board[0][5] = black_bishop_2
+        	black_bishop_1 = Piece.Bishop(-1,(2,0))
+        	black_bishop_2 = Piece.Bishop(-1,(5,0))
+        	self.board[0][2] = black_bishop_1
+        	self.board[0][5] = black_bishop_2
 
-            self.board[7][3] = Piece.King(-1,(3,7))
-            self.board[7][4] = Piece.Queen(-1,(4,7))
+        	white_king = Piece.King(1,(3,7))
+        	white_queen = Piece.Queen(1,(4,7))
+        	self.board[7][3] = white_king
+        	self.board[7][4] = white_queen
 
-            self.board[0][3] = Piece.King(1,(3,0))
-            self.board[0][4] = Piece.Queen(1,(4,0))
-            
+        	black_king = Piece.King(-1,(3,0))
+        	black_queen = Piece.Queen(-1,(4,0))
+            	self.board[0][3] = black_king
+            	self.board[0][4] = black_queen
+
 
     def print_board(self):
         for row in self.board:
@@ -100,15 +104,17 @@ class Engine():
             print(a)
 
     def in_check(self, color):
-        #Takes in color of player's turn
-        #Ensures they do not end turn in check
-        if color == -1:
-            pos = black_king.get_position()
-        else:
-            pos = white_king.get_position()
+    	#Takes in color of player's turn
+    	#Ensures they do not end turn in check
+    	if color == -1:
+    		pos = black_king.get_position()
+    	else:
+    		pos = white_king.get_position()
 
-        for i in range(0,pos[0]+1,-1):
+        #Check to left of king
+    	for i in range(pos[0]-1,-1,-1):
             pass
+
 
 
     def get_board(self):
