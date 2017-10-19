@@ -285,7 +285,8 @@ class Engine():
             if pos_x + 1 < 8 and self.board[y-1][x+1] and self.board[y-1][x+1].get_piece() == "Pawn":
                 return(True)
         #Check other king Last possible
-        return(abs(pos_x-pos_enemy[0]) == 1 or abs(pos_y-pos_enemy[1]) == 1)
+        # return(abs(pos_x-pos_enemy[0]) == 1 or abs(pos_y-pos_enemy[1]) == 1)
+        return(False)
 
 
     def get_board(self):
@@ -814,8 +815,8 @@ class Engine():
                 pass
             else:
                 self.push_move(move)
-                # if not self.in_check(color):
-                final_moves.append(move)
+                if not self.in_check(color):
+                    final_moves.append(move)
                 self.pop_move()
                 
         # Add castles 

@@ -27,4 +27,4 @@ while True:
 	print("Move:", move)
 	engine.update_board(move)
 	turn = 1-turn
-	time.sleep(1)
+	# time.sleep(1)
