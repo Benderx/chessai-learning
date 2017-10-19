@@ -1,73 +1,79 @@
 class Piece():
-	def __init__(self, color):
-		self.color = color
-		self.alive = True
+    def __init__(self, color):
+        self.color = color
+        self.alive = True
 
-	def get_color(self):
-		return(self.color)
+    def get_color(self):
+        return(self.color)
 
-	def on_board(self):
-		return(self.alive)
+    def on_board(self):
+        return(self.alive)
 
-	def remove(self):
-		self.alive = False
+    def remove(self):
+        self.alive = False
 
-	def get_piece(self):
-		raise Exception('This is not a piece') 
+    def get_piece(self):
+        raise Exception('This is not a piece') 
 
 
 class Pawn(Piece):
-	def __init__(self, color):
-		super().__init__(color)
+    def __init__(self, color):
+        super().__init__(color)
 
-	def get_piece(self):
-		return("Pawn")
+    def get_piece(self):
+        return("Pawn")
 
 class Rook(Piece):
-	def __init__(self, color):
-		super().__init__(color)
-		self.moved = False
+    def __init__(self, color):
+        super().__init__(color)
+        self.moved = 0
 
-	def get_moved(self):
-		return(self.moved)
+    def get_moved(self):
+        return(self.moved)
 
-	def no_castle(self):
-		self.moved = True
+    def get_piece(self):
+        return("Rook")
 
-	def get_piece(self):
-		return("Rook")
+    def add_move(self):
+        self.moved += 1
+
+    def sub_move(self):
+        self.moved -= 1
 
 class Knight(Piece):
-	def __init__(self, color):
-		super().__init__(color)
+    def __init__(self, color):
+        super().__init__(color)
 
-	def get_piece(self):
-		return("Night")
+    def get_piece(self):
+        return("Night")
 
 class Bishop(Piece):
-	def __init__(self, color):
-		super().__init__(color)
+    def __init__(self, color):
+        super().__init__(color)
 
-	def get_piece(self):
-		return("Bishop")
+    def get_piece(self):
+        return("Bishop")
 
 class King(Piece):
-	def __init__(self, color):
-		super().__init__(color)
-		self.moved = False
+    def __init__(self, color):
+        super().__init__(color)
+        self.moved = 0
 
-	def get_piece(self):
-		return("King")
+    def get_piece(self):
+        return("King")
 
-	def get_moved(self):
-		return(self.moved)
+    def get_moved(self):
+        return(self.moved)
 
-	def no_castle(self):
-		self.moved = True
+    def add_move(self):
+        self.moved += 1
+
+    def sub_move(self):
+        self.moved -= 1
 
 class Queen(Piece):
-	def __init__(self, color):
-		super().__init__(color)
+    def __init__(self, color):
+        super().__init__(color)
 
-	def get_piece(self):
-		return("Queen")
+    def get_piece(self):
+        return("Queen")
