@@ -47,8 +47,8 @@ class Engine():
 
             self.white_rook_1 = Piece.Rook(1)
             self.white_rook_2 = Piece.Rook(1)
-            self.board[7][0] = white_rook_1
-            self.board[7][7] = white_rook_2
+            self.board[7][0] = self.white_rook_1
+            self.board[7][7] = self.white_rook_2
 
             self.black_rook_1 = Piece.Rook(-1)
             self.black_rook_2 = Piece.Rook(-1)
@@ -153,79 +153,79 @@ class Engine():
         #Check knights
         up1,down1,left1,right1 = (False,False,False,False)
         up2,down2,left2,right2 = (False,False,False,False)
-        if x_pos + 1 <= 7: 
+        if pos_x + 1 <= 7: 
             right1 = True
-            if x_pos + 2 <= 7: 
+            if pos_x + 2 <= 7: 
                 right2 = True
 
-        if x_pos - 1 >= 0:
+        if pos_x - 1 >= 0:
             left1 = True
-            if x_pos - 2 >= 0: 
+            if pos_x - 2 >= 0: 
                 left2 = True
 
-        if y_pos - 1 >= 0:
+        if pos_y - 1 >= 0:
             up1 = True
-            if y_pos - 2 >= 0: 
+            if pos_y - 2 >= 0: 
                 up2 = True
 
-        if y_pos + 1 <= 7:
+        if pos_y + 1 <= 7:
             down1 = True
-            if y_pos + 2 <= 7: 
+            if pos_y + 2 <= 7: 
                 down2 = True
 
         if up2 and right1:
-            if self.board[y_pos-2][x_pos+1]:
-                local_piece = self.board[y_pos-2][x_pos+1]
+            if self.board[pos_y-2][pos_x+1]:
+                local_piece = self.board[pos_y-2][pos_x+1]
                 if local_piece.get_piece() == "Night" and local_piece.get_color() != color:
                     return(True)
 
         if up1 and right2:
-            if self.board[y_pos-1][x_pos+2]:
-                local_piece = self.board[y_pos-1][x_pos+2]
+            if self.board[pos_y-1][pos_x+2]:
+                local_piece = self.board[pos_y-1][pos_x+2]
                 if local_piece.get_piece() == "Night" and local_piece.get_color() != color:
                     return(True)
 
         if down1 and right2:
-            if self.board[y_pos+1][x_pos+2]:
-                local_piece = self.board[y_pos+1][x_pos+2]
+            if self.board[pos_y+1][pos_x+2]:
+                local_piece = self.board[pos_y+1][pos_x+2]
                 if local_piece.get_piece() == "Night" and local_piece.get_color() != color:
                     return(True)
 
         if down2 and right1:
-            if self.board[y_pos+2][x_pos+1]:
-                local_piece = self.board[y_pos+2][x_pos+1]
+            if self.board[pos_y+2][pos_x+1]:
+                local_piece = self.board[pos_y+2][pos_x+1]
                 if local_piece.get_piece() == "Night" and local_piece.get_color() != color:
                     return(True)
 
         if down2 and left1:
-            if self.board[y_pos+2][x_pos-1]:
-                local_piece = self.board[y_pos+2][x_pos-1]
+            if self.board[pos_y+2][pos_x-1]:
+                local_piece = self.board[pos_y+2][pos_x-1]
                 if local_piece.get_piece() == "Night" and local_piece.get_color() != color:
                     return(True)
 
         if down1 and left2:
-            if self.board[y_pos+1][x_pos-2]:
-                local_piece = self.board[y_pos+1][x_pos-2]
+            if self.board[pos_y+1][pos_x-2]:
+                local_piece = self.board[pos_y+1][pos_x-2]
                 if local_piece.get_piece() == "Night" and local_piece.get_color() != color:
                     return(True)
 
         if up1 and left2:
-            if self.board[y_pos-1][x_pos-2]:
-                local_piece = self.board[y_pos-1][x_pos-2]
+            if self.board[pos_y-1][pos_x-2]:
+                local_piece = self.board[pos_y-1][pos_x-2]
                 if local_piece.get_piece() == "Night" and local_piece.get_color() != color:
                     return(True)
 
         if up2 and left1:
-            if self.board[y_pos-2][x_pos-1]:
-                local_piece = self.board[y_pos-2][x_pos-1]
+            if self.board[pos_y-2][pos_x-1]:
+                local_piece = self.board[pos_y-2][pos_x-1]
                 if local_piece.get_piece() == "Night" and local_piece.get_color() != color:
                     return(True)
 
 
         #Check Bishops and queens (and pawns)
         #Check up/left
-        x = x_pos-1
-        y = y_pos-1
+        x = pos_x-1
+        y = pos_y-1
         while x >= 0 and y >= 0:
             if self.board[y][x]:
                 local_piece=self.board[y][x]
@@ -236,8 +236,8 @@ class Engine():
             y -= 1
 
         #Check up/right
-        x = x_pos+1
-        y = y_pos-1
+        x = pos_x+1
+        y = pos_y-1
         while x < 8 and y >= 0:
             if self.board[y][x]:
                 local_piece=self.board[y][x]
@@ -248,8 +248,8 @@ class Engine():
             y -= 1
 
         #Check down/right
-        x = x_pos+1
-        y = y_pos+1
+        x = pos_x+1
+        y = pos_y+1
         while x < 8 and y < 8:
             if self.board[y][x]:
                 local_piece=self.board[y][x]
@@ -260,8 +260,8 @@ class Engine():
             y += 1
 
         #Check down/left
-        x = x_pos-1
-        y = y_pos+1
+        x = pos_x-1
+        y = pos_y+1
         while x >= 0 and y < 8:
             if self.board[y][x]:
                 local_piece=self.board[y][x]
@@ -285,7 +285,7 @@ class Engine():
             if pos_x + 1 < 8 and self.board[y-1][x+1] and self.board[y-1][x+1].get_piece() == "Pawn":
                 return(True)
         #Check other king Last possible
-        return(abs(pos_x-enemy_pos[0]) == 1 or abs(pos_y-enemy_pos[1]) == 1)
+        return(abs(pos_x-pos_enemy[0]) == 1 or abs(pos_y-pos_enemy[1]) == 1)
 
 
     def get_board(self):
@@ -311,12 +311,12 @@ class Engine():
             pass
         else: # normal move
             if self.board[move[0][1]][move[0][0]].get_piece() == 'King': # if moving king
-                if self.board[move[0][1]][move[0][0]].get_color() == 1:
-                    self.white_king_pos = move[1]
-                    self.white_king_pos.add_move()
-                else:
-                    self.black_king_pos = move[1]
-                    self.black_king_pos.add_move()
+                # if self.board[move[0][1]][move[0][0]].get_color() == 1:
+                self.white_king_pos = move[1]
+                self.board[move[0][1]][move[0][0]].add_move()
+                # else:
+                #     self.black_king_pos = move[1]
+                #     self.board[move[0][1]][move[0][0]].add_move()
             if self.board[move[0][1]][move[0][0]].get_piece() == 'Rook': # if moving rook
                 self.board[move[0][1]][move[0][0]].add_move()
             self.board[move[1][1]][move[1][0]] = self.board[move[0][1]][move[0][0]]
@@ -330,14 +330,14 @@ class Engine():
             pass
         else: # normal move
             if self.board[move[1][1]][move[1][0]].get_piece() == 'King': # if moving king
-                if self.board[move[1][1]][move[1][0]].get_color() == 1:
-                    self.white_king_pos = move[0]
-                    self.white_king.sub_move()
-                else:
-                    self.black_king_pos = move[0]
-                    self.black_king.sub_move()
+                # if self.board[move[1][1]][move[1][0]].get_color() == 1:
+                self.white_king_pos = move[0]
+                self.board[move[1][1]][move[1][0]].sub_move()
+                # else:
+                #     self.black_king_pos = move[0]
+                #     self.board[move[1][1]][move[1][0]].sub_move()
             if self.board[move[1][1]][move[1][0]].get_piece() == 'Rook':
-                self.board[move[1][1]][move[1][0]].get_piece().sub_move()
+                self.board[move[1][1]][move[1][0]].sub_move()
 
             self.board[move[0][1]][move[0][0]] = self.board[move[1][1]][move[1][0]]
             self.board[move[1][1]][move[1][0]] = piece
@@ -844,12 +844,14 @@ class Engine():
             king = self.black_king
             r1 = self.black_rook_1
             r2 = self.black_rook_2
-            pos_y = black_king_pos[1]
+            pos_y = 0
+            # pos_y = self.black_king_pos[1]
         else:
             king = self.white_king
             r1 = self.white_rook_1
             r2 = self.white_rook_2
-            pos_y = white_king_pos[1]
+            pos_y = 7
+            # pos_y = self.white_king_pos[1]
 
         if king.get_moved() > 0:
             return((False,False))
