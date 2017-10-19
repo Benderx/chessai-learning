@@ -24,27 +24,45 @@ class Piece():
 	def remove(self):
 		self.alive = False
 
+	def get_piece(self):
+		raise Exception('This is not a piece') 
+
 
 class Pawn(Piece):
 	def __init__(self, color, engine, position, value):
 		super().__init__(color, engine, position, value)
 
-class Rook(Piece):
+	def get_piece(self):
+		return("Pawn")
+
+class Rook(Pieces):
 	def __init__(self, color, engine, position, value):
 		super().__init__(color, engine, position, value)
 
-class Knight(Piece):
+	def get_piece(self):
+		return("Rook")
+
+class Knight(Pieces):
 	def __init__(self, color, engine, position, value):
 		super().__init__(color, engine, position, value)
 
-class Bishop(Piece):
+	def get_piece(self):
+		return("Knight")
+
+class Bishop(Pieces):
 	def __init__(self, color, engine, position, value):
 		super().__init__(color, engine, position, value)
+
+	def get_piece(self):
+		return("Bishop")
 
 class King(Piece):
 	def __init__(self, color, engine, position, value):
 		super().__init__(color, engine, position, value)
 		self.moved = False
+
+	def get_piece(self):
+		return("King")
 
 	def has_moved(self):
 		return(self.moved)
@@ -55,3 +73,6 @@ class King(Piece):
 class Queen(Piece):
 	def __init__(self, color, engine, position, value):
 		super().__init__(color, engine, position, value)
+
+	def get_piece(self):
+		return("Queen")
