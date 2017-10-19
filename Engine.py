@@ -4,14 +4,13 @@ import Piece
 # 1 will represent white
 # init_board will take in optional argument board, and initilize self.board
 #            to default position (or to the optional argument if provided)
-# Position is in (x,y)
+# Position is in (x,y) board is in [y][x]
 
 class Engine():
     def __init__(self):
         #Board is accessed using [y][x] notation
         self.board = [[None for x in range(8)] for y in range(8)]
         self.stack = []
-
 
 
     def init_board(self, board = None):
@@ -101,6 +100,7 @@ class Engine():
                     else:
                         a.append(col.get_piece()[0].upper())
             print(a)
+
 
     def in_check(self, color):
         #Takes in color of player's turn
@@ -804,3 +804,15 @@ class Engine():
                     final_moves.append(move)
                 self.pop_move()
         return final_moves
+
+        def is_terminal(self,color,moves):
+            #Takes in moves and turn takers color
+            #Returns None if ongoing, zero if draw, or color of winner
+            if moves:
+                return(None)
+            else:
+                if self.in_check(color):
+                    return(-color)
+                else:
+                    return(0)
+
