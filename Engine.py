@@ -18,22 +18,14 @@ class Engine():
             pass
         else:
             #Initialize basic chess board
-            white_pawn_1 = Piece.Pawn(1,(0,6))
-            white_pawn_2 = Piece.Pawn(1,(1,6))
-            white_pawn_3 = Piece.Pawn(1,(2,6))
-            white_pawn_4 = Piece.Pawn(1,(3,6))
-            white_pawn_5 = Piece.Pawn(1,(4,6))
-            white_pawn_6 = Piece.Pawn(1,(5,6))
-            white_pawn_7 = Piece.Pawn(1,(6,6))
-            white_pawn_8 = Piece.Pawn(1,(7,6))
-            self.board[6][0] = white_pawn_1
-            self.board[6][1] = white_pawn_2
-            self.board[6][2] = white_pawn_3
-            self.board[6][3] = white_pawn_4
-            self.board[6][4] = white_pawn_5
-            self.board[6][5] = white_pawn_6
-            self.board[6][6] = white_pawn_7
-            self.board[6][7] = white_pawn_8
+            self.board[6][0] = Piece.Pawn(1,(0,6))
+            self.board[6][1] = Piece.Pawn(1,(1,6))
+            self.board[6][2] = Piece.Pawn(1,(2,6))
+            self.board[6][3] = Piece.Pawn(1,(3,6))
+            self.board[6][4] = Piece.Pawn(1,(4,6))
+            self.board[6][5] = Piece.Pawn(1,(5,6))
+            self.board[6][6] = Piece.Pawn(1,(6,6))
+            self.board[6][7] = Piece.Pawn(1,(7,6))
 
             black_pawn_1 = Piece.Pawn(-1,(0,1))
             black_pawn_2 = Piece.Pawn(-1,(1,1))
@@ -163,11 +155,11 @@ class Engine():
                 space = self.board[init_y + y][init_x]
 
                 if space is None:
-                    moves.append((init_x, init_y), (init_x, init_y + y))
+                    moves.append(((init_x, init_y), (init_x, init_y + y)))
                 elif space.get_color() == piece.get_color():
                     break
                 else:
-                    moves.append((init_x, init_y), (init_x, init_y + y))
+                    moves.append(((init_x, init_y), (init_x, init_y + y)))
                     break
 
             for y in range(1, 8):
@@ -176,37 +168,37 @@ class Engine():
                 space = self.board[init_y - y][init_x]
 
                 if space is None:
-                    moves.append((init_x, init_y), (init_x, init_y - y))
+                    moves.append(((init_x, init_y), (init_x, init_y - y)))
                 elif space.get_color() == piece.get_color():
                     break
                 else:
-                    moves.append((init_x, init_y), (init_x, init_y - y))
+                    moves.append(((init_x, init_y), (init_x, init_y - y)))
                     break
 
             for x in range(1, 8):
-                if init_x + x < 0:
+                if init_x + x > 7:
                     break
                 space = self.board[init_y][init_x + x]
 
                 if space is None:
-                    moves.append((init_x, init_y), (init_x + x, init_y))
+                    moves.append(((init_x, init_y), (init_x + x, init_y)))
                 elif space.get_color() == piece.get_color():
                     break
                 else:
-                    moves.append((init_x, init_y), (init_x + x, init_y))
+                    moves.append(((init_x, init_y), (init_x + x, init_y)))
                     break
 
             for x in range(1, 8):
-                if init_x - x > 7:
+                if init_x - x < 0:
                     break
                 space = self.board[init_y][init_x - x]
 
                 if space is None:
-                    moves.append((init_x, init_y), (init_x - x, init_y))
+                    moves.append(((init_x, init_y), (init_x - x, init_y)))
                 elif space.get_color() == piece.get_color():
                     break
                 else:
-                    moves.append((init_x, init_y), (init_x - x, init_y))
+                    moves.append(((init_x, init_y), (init_x - x, init_y)))
                     break
 
         elif piece.get_piece() == 'Knight':
@@ -229,6 +221,6 @@ class Engine():
         for row in range(8):
             for col in range(8):
                 piece = self.board[row][col]
-                if piece is not None and piece.get_color == color:
-                    moves += get_possible_squares(piece)
+                if piece is not None and piece.get_color() == color:
+                    moves += self.get_possible_squares(piece)
         return moves
