@@ -703,23 +703,23 @@ class Engine():
                     break
 
         elif piece_name == 'King':
-            if not piece.has_moved:
-                square_right_1 = self.board[init_y][init_x + 1]
-                square_right_2 = self.board[init_y][init_x + 2]
-                square_right_3 = self.board[init_y][init_x + 3]
+            # if not piece.has_moved:
+            #     square_right_1 = self.board[init_y][init_x + 1]
+            #     square_right_2 = self.board[init_y][init_x + 2]
+            #     square_right_3 = self.board[init_y][init_x + 3]
 
-                if not square_right_1 and not square_right_2 and square_right_3:
-                    if square_right_3.get_piece() == 'Rook' and not square_right_3.has_moved():
-                        moves.append('castle')
+            #     if not square_right_1 and not square_right_2 and square_right_3:
+            #         if square_right_3.get_piece() == 'Rook' and not square_right_3.has_moved():
+            #             moves.append('castle')
 
-                square_left_1 = self.board[init_y][init_x - 1]
-                square_left_2 = self.board[init_y][init_x - 2]
-                square_left_3 = self.board[init_y][init_x - 3]
-                square_left_4 = self.board[init_y][init_x - 4]
+            #     square_left_1 = self.board[init_y][init_x - 1]
+            #     square_left_2 = self.board[init_y][init_x - 2]
+            #     square_left_3 = self.board[init_y][init_x - 3]
+            #     square_left_4 = self.board[init_y][init_x - 4]
 
-                if not square_left_1 and not square_left_2 and not square_left_3 and square_left_4:
-                    if square_left_4.get_piece() == 'Rook' and not square_left_4.has_moved():
-                        moves.append('qastle')
+            #     if not square_left_1 and not square_left_2 and not square_left_3 and square_left_4:
+            #         if square_left_4.get_piece() == 'Rook' and not square_left_4.has_moved():
+            #             moves.append('qastle')
 
 
             x_1 = init_x + 1
@@ -809,6 +809,7 @@ class Engine():
                 if not self.in_check(color):
                     final_moves.append(move)
                 self.pop_move()
+                
         # Add castles 
         castle_possibles = self.can_castle(color)
         if castle_possibles[0]:
