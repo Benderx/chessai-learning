@@ -1,6 +1,6 @@
+import Engine
+
 import random
-import time
-import connect_engine
 import os
 
 class Player():
