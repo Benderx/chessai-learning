@@ -108,8 +108,10 @@ class Engine():
         #True for check
         if color == -1:
             pos = self.black_king_pos
+            pos_enemy = self.white_king_pos
         else:
             pos = self.white_king_pos
+            pos_enemy = self.black_king_pos
 
         pos_x = pos[0]
         pos_y = pos[1]
@@ -133,7 +135,7 @@ class Engine():
 
         #Check above king
         for y in range(pos_y-1,-1,-1):
-            if self.board[pos_y][x]:
+            if self.board[y][pos_x]:
                 local_piece = self.board[y][pos_x]
                 if local_piece.get_color() != color and (local_piece.get_piece() == "Rook" or local_piece.get_piece() == "Queen"):
                     return(True)
@@ -141,20 +143,92 @@ class Engine():
 
         #Check below king
         for y in range(pos_y+1,8):
-            if self.board[pos_y][x]:
+            if self.board[y][pos_x]:
                 local_piece = self.board[y][pos_x]
                 if local_piece.get_color() != color and (local_piece.get_piece() == "Rook" or local_piece.get_piece() == "Queen"):
                     return(True)
                 break
 
         #Check knights
-        up,down,left,right = (False,False,False,False)
-        if x_pos + 2 <= 7: right = True
-        if x_pos - 2 >= 0: left = True
-        if y_pos - 2 >= 0: up = True
-        if y_pos + 2 <= 7: down = True
+        up1,down1,left1,right1 = (False,False,False,False)
+        up2,down2,left2,right2 = (False,False,False,False)
+        if x_pos + 1 <= 7: 
+            right1 = True
+            if x_pos + 2 <= 7: 
+                right2 = True
+
+        if x_pos - 1 >= 0:
+            left1 = True
+            if x_pos - 2 >= 0: 
+                left2 = True
+
+        if y_pos - 1 >= 0:
+            up1 = True
+            if y_pos - 2 >= 0: 
+                up2 = True
+
+        if y_pos + 1 <= 7:
+            down1 = True
+            if y_pos + 2 <= 7: 
+                down2 = True
+
+        if up2 and right1:
+            if self.board[y_pos-2][x_pos+1]:
+                local_piece = self.board[y_pos-2][x_pos+1]
+                if local_piece.get_piece() == "Knight" and local_piece.get_color() != color:
+                    return(True)
+
+        if up1 and right2:
+            if self.board[y_pos-1][x_pos+2]:
+                local_piece = self.board[y_pos-1][x_pos+2]
+                if local_piece.get_piece() == "Knight" and local_piece.get_color() != color:
+                    return(True)
+
+        if down1 and right2:
+            if self.board[y_pos+1][x_pos+2]:
+                local_piece = self.board[y_pos+1][x_pos+2]
+                if local_piece.get_piece() == "Knight" and local_piece.get_color() != color:
+                    return(True)
+
+        if down2 and right1:
+            if self.board[y_pos+2][x_pos+1]:
+                local_piece = self.board[y_pos+2][x_pos+1]
+                if local_piece.get_piece() == "Knight" and local_piece.get_color() != color:
+                    return(True)
+
+        if down2 and left1:
+            if self.board[y_pos+2][x_pos-1]:
+                local_piece = self.board[y_pos+2][x_pos-1]
+                if local_piece.get_piece() == "Knight" and local_piece.get_color() != color:
+                    return(True)
+
+        if down1 and left2:
+            if self.board[y_pos+1][x_pos-2]:
+                local_piece = self.board[y_pos+1][x_pos-2]
+                if local_piece.get_piece() == "Knight" and local_piece.get_color() != color:
+                    return(True)
+
+        if up1 and left2:
+            if self.board[y_pos-1][x_pos-2]:
+                local_piece = self.board[y_pos-1][x_pos-2]
+                if local_piece.get_piece() == "Knight" and local_piece.get_color() != color:
+                    return(True)
+
+        if up2 and left1:
+            if self.board[y_pos-2][x_pos-1]:
+                local_piece = self.board[y_pos-2][x_pos-1]
+                if local_piece.get_piece() == "Knight" and local_piece.get_color() != color:
+                    return(True)
 
         #Check Bishops and queens (and pawns)
+
+        #Check other king
+        #Could save a line by making this the last check and having it directly return. Or by deleteing this comment
+        if abs(pos_x-enemy_pos[0]) == 1 or abs(pos_y-enemy_pos[1]) == 1:
+            return(False)
+
+        #No checks
+        return(False)
 
     def get_board(self):
         return self.board
