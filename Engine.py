@@ -54,9 +54,9 @@ class Engine():
             self.board[0][0] = black_rook_1
             self.board[0][7] = black_rook_2
 
-            white_knight_1 = Piece.Knight(1,(1,7))
+            white_knight_1 = Piece.Knight(1,(1,4))
             white_knight_2 = Piece.Knight(1,(6,7))
-            self.board[7][1] = white_knight_1
+            self.board[4][1] = white_knight_1
             self.board[7][6] = white_knight_2
 
             black_knight_1 = Piece.Knight(-1,(1,0))
@@ -143,12 +143,13 @@ class Engine():
         pos = piece.get_position()
         init_x = pos[0]
         init_y = pos[1]
+        piece_name = piece.get_piece()
 
 
-        if piece.get_piece() == 'Pawn':
+        if piece_name == 'Pawn':
             pass
 
-        elif piece.get_piece() == 'Rook':
+        elif piece_name == 'Rook':
             for y in range(1, 8):
                 if init_y + y > 7:
                     break
@@ -201,16 +202,223 @@ class Engine():
                     moves.append(((init_x, init_y), (init_x - x, init_y)))
                     break
 
-        elif piece.get_piece() == 'Knight':
-            pass
+        elif piece_name == 'Night':
+            x_1 = init_x + 1
+            y_1 = init_y - 2
+            if x_1 < 8 and y_1 > -1:
+                space = self.board[y_1][x_1]
+                if not space or space.get_color() != piece.get_color():
+                    moves.append(((init_x, init_y), (x_1, y_1)))
 
-        elif piece.get_piece() == 'Bishop':
-            pass
+            x_2 = init_x + 2
+            y_2 = init_y - 1
+            if x_2 < 8 and y_2 > -1:
+                space = self.board[y_2][x_2]
+                if not space or space.get_color() != piece.get_color():
+                    moves.append(((init_x, init_y), (x_2, y_2)))
 
-        elif piece.get_piece() == 'Queen':
-            pass
+            x_3 = init_x + 2
+            y_3 = init_y + 1
+            if x_3 < 8 and y_3 < 8:
+                space = self.board[y_3][x_3]
+                if not space or space.get_color() != piece.get_color():
+                    moves.append(((init_x, init_y), (x_3, y_3)))
 
-        elif piece.get_piece() == 'King':
+            x_4 = init_x + 1
+            y_4 = init_y + 2
+            if x_4 < 8 and y_4 < 8:
+                space = self.board[y_4][x_4]
+                if not space or space.get_color() != piece.get_color():
+                    moves.append(((init_x, init_y), (x_4, y_4)))
+
+            x_5 = init_x - 1
+            y_5 = init_y + 2
+            if x_5 > -1 and y_5 < 8:
+                space = self.board[y_5][x_5]
+                if not space or space.get_color() != piece.get_color():
+                    moves.append(((init_x, init_y), (x_5, y_5)))
+
+            x_6 = init_x - 2
+            y_6 = init_y + 1
+            if x_6 > -1 and y_6 < 8:
+                space = self.board[y_6][x_6]
+                if not space or space.get_color() != piece.get_color():
+                    moves.append(((init_x, init_y), (x_6, y_6)))
+
+            x_7 = init_x - 2
+            y_7 = init_y - 1
+            if x_7 > -1 and y_7 > -1:
+                space = self.board[y_7][x_7]
+                if not space or space.get_color() != piece.get_color():
+                    moves.append(((init_x, init_y), (x_7, y_7)))
+
+            x_8 = init_x - 1
+            y_8 = init_y - 2
+            if x_8 > -1 and y_8 > -1:
+                space = self.board[y_8][x_8]
+                if not space or space.get_color() != piece.get_color():
+                    moves.append(((init_x, init_y), (x_8, y_8)))
+
+        elif piece_name == 'Bishop':
+            for inc in range(1, 8):
+                if init_x + inc > 7 or init_y + inc > 7:
+                    break
+                space = self.board[init_y + inc][init_x + inc]
+
+                if space is None:
+                    moves.append(((init_x, init_y), (init_x + inc, init_y + inc)))
+                elif space.get_color() == piece.get_color():
+                    break
+                else:
+                    moves.append(((init_x, init_y), (init_x + inc, init_y + inc)))
+                    break
+
+            for inc in range(1, 8):
+                if init_x + inc > 7 or init_y - inc < 0:
+                    break
+                space = self.board[init_y - inc][init_x + inc]
+
+                if space is None:
+                    moves.append(((init_x, init_y), (init_x + inc, init_y - inc)))
+                elif space.get_color() == piece.get_color():
+                    break
+                else:
+                    moves.append(((init_x, init_y), (init_x + inc, init_y - inc)))
+                    break
+
+            for inc in range(1, 8):
+                if init_x - inc < 0 or init_y + inc > 7:
+                    break
+                space = self.board[init_y + inc][init_x - inc]
+
+                if space is None:
+                    moves.append(((init_x, init_y), (init_x - inc, init_y + inc)))
+                elif space.get_color() == piece.get_color():
+                    break
+                else:
+                    moves.append(((init_x, init_y), (init_x - inc, init_y + inc)))
+                    break
+
+            for inc in range(1, 8):
+                if init_x - inc < 0 or init_y - inc < 0:
+                    break
+                space = self.board[init_y - inc][init_x - inc]
+
+                if space is None:
+                    moves.append(((init_x, init_y), (init_x - inc, init_y - inc)))
+                elif space.get_color() == piece.get_color():
+                    break
+                else:
+                    moves.append(((init_x, init_y), (init_x - inc, init_y - inc)))
+                    break
+
+        elif piece_name == 'Queen':
+            for y in range(1, 8):
+                if init_y + y > 7:
+                    break
+                space = self.board[init_y + y][init_x]
+
+                if space is None:
+                    moves.append(((init_x, init_y), (init_x, init_y + y)))
+                elif space.get_color() == piece.get_color():
+                    break
+                else:
+                    moves.append(((init_x, init_y), (init_x, init_y + y)))
+                    break
+
+            for y in range(1, 8):
+                if init_y - y < 0:
+                    break
+                space = self.board[init_y - y][init_x]
+
+                if space is None:
+                    moves.append(((init_x, init_y), (init_x, init_y - y)))
+                elif space.get_color() == piece.get_color():
+                    break
+                else:
+                    moves.append(((init_x, init_y), (init_x, init_y - y)))
+                    break
+
+            for x in range(1, 8):
+                if init_x + x > 7:
+                    break
+                space = self.board[init_y][init_x + x]
+
+                if space is None:
+                    moves.append(((init_x, init_y), (init_x + x, init_y)))
+                elif space.get_color() == piece.get_color():
+                    break
+                else:
+                    moves.append(((init_x, init_y), (init_x + x, init_y)))
+                    break
+
+            for x in range(1, 8):
+                if init_x - x < 0:
+                    break
+                space = self.board[init_y][init_x - x]
+
+                if space is None:
+                    moves.append(((init_x, init_y), (init_x - x, init_y)))
+                elif space.get_color() == piece.get_color():
+                    break
+                else:
+                    moves.append(((init_x, init_y), (init_x - x, init_y)))
+                    break
+
+
+            for inc in range(1, 8):
+                if init_x + inc > 7 or init_y + inc > 7:
+                    break
+                space = self.board[init_y + inc][init_x + inc]
+
+                if space is None:
+                    moves.append(((init_x, init_y), (init_x + inc, init_y + inc)))
+                elif space.get_color() == piece.get_color():
+                    break
+                else:
+                    moves.append(((init_x, init_y), (init_x + inc, init_y + inc)))
+                    break
+
+            for inc in range(1, 8):
+                if init_x + inc > 7 or init_y - inc < 0:
+                    break
+                space = self.board[init_y - inc][init_x + inc]
+
+                if space is None:
+                    moves.append(((init_x, init_y), (init_x + inc, init_y - inc)))
+                elif space.get_color() == piece.get_color():
+                    break
+                else:
+                    moves.append(((init_x, init_y), (init_x + inc, init_y - inc)))
+                    break
+
+            for inc in range(1, 8):
+                if init_x - inc < 0 or init_y + inc > 7:
+                    break
+                space = self.board[init_y + inc][init_x - inc]
+
+                if space is None:
+                    moves.append(((init_x, init_y), (init_x - inc, init_y + inc)))
+                elif space.get_color() == piece.get_color():
+                    break
+                else:
+                    moves.append(((init_x, init_y), (init_x - inc, init_y + inc)))
+                    break
+
+            for inc in range(1, 8):
+                if init_x - inc < 0 or init_y - inc < 0:
+                    break
+                space = self.board[init_y - inc][init_x - inc]
+
+                if space is None:
+                    moves.append(((init_x, init_y), (init_x - inc, init_y - inc)))
+                elif space.get_color() == piece.get_color():
+                    break
+                else:
+                    moves.append(((init_x, init_y), (init_x - inc, init_y - inc)))
+                    break
+
+        elif piece_name == 'King':
             pass
 
         return moves

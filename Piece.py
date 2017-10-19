@@ -42,7 +42,7 @@ class Knight(Piece):
 		super().__init__(color, position)
 
 	def get_piece(self):
-		return("Knight")
+		return("Night")
 
 class Bishop(Piece):
 	def __init__(self, color, position):
