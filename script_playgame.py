@@ -12,9 +12,12 @@ players = [PLAYER_ONE,PLAYER_TWO]
 
 turn = 0
 
-while not winner:
+while True:
 	possible_moves = engine.get_legal_moves(players[turn].get_color())
 	winner = engine.is_terminal(players[turn].get_color(), possible_moves)
+	if winner:
+		print("Results are in:",winner)
+		break
 	print("\n\nBoardstate:")
 	engine.print_board()
 	print("Current players turn:", players[turn].get_color())
