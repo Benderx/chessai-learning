@@ -277,12 +277,13 @@ class Engine():
             if pos_x - 1 >= 0 and self.board[y+1][x-1] and self.board[y+1][x-1].get_piece() == "Pawn":
                 return(True)
             if pos_x + 1 < 8 and self.board[y+1][x+1] and self.board[y+1][x+1].get_piece() == "Pawn":
+                return(True)
 
         elif color == 1 and pos_y > 1: 
             if pos_x - 1 >= 0 and self.board[y-1][x-1] and self.board[y-1][x-1].get_piece() == "Pawn":
                 return(True)
             if pos_x + 1 < 8 and self.board[y-1][x+1] and self.board[y-1][x+1].get_piece() == "Pawn":
-
+                return(True)
         #Check other king Last possible
         return(abs(pos_x-enemy_pos[0]) == 1 or abs(pos_y-enemy_pos[1]) == 1)
 
