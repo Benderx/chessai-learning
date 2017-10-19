@@ -312,8 +312,10 @@ class Engine():
             if self.board[move[0][1]][move[0][0]].get_piece() == 'King': # if moving king
                 if self.board[move[0][1]][move[0][0]].get_color() == 1:
                     self.white_king_pos = move[1]
+                    self.white_king_pos.no_castle()
                 else:
                     self.black_king_pos = move[1]
+                    self.black_king_pos.no_castle()
             self.board[move[1][1]][move[1][0]] = self.board[move[0][1]][move[0][0]]
             self.board[move[0][1]][move[0][0]] = None
 
@@ -781,6 +783,7 @@ class Engine():
     #       En passant has no implementation
     #       Castling does not check if it castles through check
 
+
     def get_legal_moves(self, color):
         moves = []
         for row in range(8):
@@ -815,4 +818,3 @@ class Engine():
                     return(-color)
                 else:
                     return(0)
-
