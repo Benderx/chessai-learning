@@ -1,3 +1,5 @@
+import Piece.py
+
 # -1 will represent black
 # 1 will represent white
 # init_board will take in optional argument board, and initilize self.board
@@ -10,7 +12,11 @@ class Engine():
 
 
     def init_board(self, board = None):
-        pass
+        if board:
+        	pass
+        else:
+        	#matt in progress
+        	black_rook_1 = Piece.Pawn(-1,)
 
 
     def print_final(self):
@@ -49,10 +55,7 @@ class Engine():
 
 
     def invert_color(self,color):
-        if color == 'w':
-            return('b')
-        else:
-            return('w')
+        return(-color)
 
 
     def get_legal_moves(self, color):
