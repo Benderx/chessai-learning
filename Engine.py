@@ -349,10 +349,10 @@ class Engine():
 
     def promotions(self, color, pos, to_pos):
         promos = []
-        promos.append((pos, to_pos, Piece.Knight(color, pos)))
-        promos.append((pos, to_pos, Piece.Rook(color, pos)))
-        promos.append((pos, to_pos, Piece.Queen(color, pos)))
-        promos.append((pos, to_pos, Piece.Bishop(color, pos)))
+        promos.append((pos, to_pos, Piece.Knight(color)))
+        promos.append((pos, to_pos, Piece.Rook(color)))
+        promos.append((pos, to_pos, Piece.Queen(color)))
+        promos.append((pos, to_pos, Piece.Bishop(color)))
         return promos
 
 
@@ -395,12 +395,13 @@ class Engine():
                         else:
                             moves.append(((init_x, init_y), (x_3, y_3)))
 
-                x_4 = init_x
-                y_4 = init_y - 2
-                space = self.board[y_4][x_4]
-                inter_space = self.board[y_4+1][x_4]
-                if not space and not inter_space:
-                    moves.append(((init_x, init_y), (x_4, y_4)))
+                if init_y == 6:
+                    x_4 = init_x
+                    y_4 = init_y - 2
+                    space = self.board[y_4][x_4]
+                    inter_space = self.board[y_4+1][x_4]
+                    if not space and not inter_space:
+                        moves.append(((init_x, init_y), (x_4, y_4)))
             else:
                 x_1 = init_x
                 y_1 = init_y + 1
@@ -432,12 +433,13 @@ class Engine():
                         else:
                             moves.append(((init_x, init_y), (x_3, y_3)))
 
-                x_4 = init_x
-                y_4 = init_y + 2
-                space = self.board[y_4][x_4]
-                inter_space = self.board[y_4-1][x_4]
-                if not space and not inter_space:
-                    moves.append(((init_x, init_y), (x_4, y_4)))
+                if init_y == 1:
+                    x_4 = init_x
+                    y_4 = init_y + 2
+                    space = self.board[y_4][x_4]
+                    inter_space = self.board[y_4-1][x_4]
+                    if not space and not inter_space:
+                        moves.append(((init_x, init_y), (x_4, y_4)))
 
         elif piece_name == 'Rook':
             for y in range(1, 8):

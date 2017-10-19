@@ -1,5 +1,6 @@
 import Engine
 import Player
+import time
 
 winner = None
 engine = Engine.Engine()
@@ -26,3 +27,4 @@ while True:
 	print("Move:", move)
 	engine.update_board(move)
 	turn = 1-turn
+	time.sleep(1)
