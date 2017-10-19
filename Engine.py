@@ -312,12 +312,12 @@ class Engine():
             if self.board[move[0][1]][move[0][0]].get_piece() == 'King': # if moving king
                 if self.board[move[0][1]][move[0][0]].get_color() == 1:
                     self.white_king_pos = move[1]
-                    self.white_king_pos.no_castle()
+                    self.white_king_pos.add_move()
                 else:
                     self.black_king_pos = move[1]
-                    self.black_king_pos.no_castle()
+                    self.black_king_pos.add_move()
             if self.board[move[0][1]][move[0][0]].get_piece() == 'Rook': # if moving rook
-                self.board[move[0][1]][move[0][0]].no_castle()
+                self.board[move[0][1]][move[0][0]].add_move()
             self.board[move[1][1]][move[1][0]] = self.board[move[0][1]][move[0][0]]
             self.board[move[0][1]][move[0][0]] = None
 
@@ -331,8 +331,13 @@ class Engine():
             if self.board[move[1][1]][move[1][0]].get_piece() == 'King': # if moving king
                 if self.board[move[1][1]][move[1][0]].get_color() == 1:
                     self.white_king_pos = move[0]
+                    self.white_king.sub_move()
                 else:
                     self.black_king_pos = move[0]
+                    self.black_king.sub_move()
+            if self.board[move[1][1]][move[1][0]].get_piece() == 'Rook':
+                self.board[move[1][1]][move[1][0]].get_piece().sub_move()
+                
             self.board[move[0][1]][move[0][0]] = self.board[move[1][1]][move[1][0]]
             self.board[move[1][1]][move[1][0]] = piece
 
