@@ -45,15 +45,15 @@ class Engine():
             self.board[1][6] = black_pawn_7
             self.board[1][7] = black_pawn_8
 
-            white_rook_1 = Piece.Rook(1)
-            white_rook_2 = Piece.Rook(1)
+            self.white_rook_1 = Piece.Rook(1)
+            self.white_rook_2 = Piece.Rook(1)
             self.board[7][0] = white_rook_1
             self.board[7][7] = white_rook_2
 
-            black_rook_1 = Piece.Rook(-1)
-            black_rook_2 = Piece.Rook(-1)
-            self.board[0][0] = black_rook_1
-            self.board[0][7] = black_rook_2
+            self.black_rook_1 = Piece.Rook(-1)
+            self.black_rook_2 = Piece.Rook(-1)
+            self.board[0][0] = self.black_rook_1
+            self.board[0][7] = self.black_rook_2
 
             white_knight_1 = Piece.Knight(1)
             white_knight_2 = Piece.Knight(1)
@@ -75,16 +75,16 @@ class Engine():
             self.board[0][2] = black_bishop_1
             self.board[0][5] = black_bishop_2
 
-            white_king = Piece.King(1)
+            self.white_king = Piece.King(1)
             self.white_king_pos = (7, 3)
             white_queen = Piece.Queen(1)
-            self.board[7][3] = white_king
+            self.board[7][3] = self.white_king
             self.board[7][4] = white_queen
 
-            black_king = Piece.King(-1)
+            self.black_king = Piece.King(-1)
             self.black_king_pos = (0, 3)
             black_queen = Piece.Queen(-1)
-            self.board[0][3] = black_king
+            self.board[0][3] = self.black_king
             self.board[0][4] = black_queen
 
 
@@ -841,14 +841,14 @@ class Engine():
         qastle = True
 
         if color == -1:
-            king = black_king
-            r1 = black_rook_1
-            r2 = black_rook_2
+            king = self.black_king
+            r1 = self.black_rook_1
+            r2 = self.black_rook_2
             pos_y = black_king_pos[1]
         else:
-            king = white_king
-            r1 = white_rook_1
-            r2 = white_rook_2
+            king = self.white_king
+            r1 = self.white_rook_1
+            r2 = self.white_rook_2
             pos_y = white_king_pos[1]
 
         if king.get_moved() > 0:
