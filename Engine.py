@@ -134,8 +134,17 @@ class Engine():
         pass
 
 
-    def invert_color(self,color):
+    def invert_color(self, color):
         return(-color)
+
+
+    def promotions(self, color, pos):
+        promos = []
+        promos.append((Knight(color, pos), pos))
+        promos.append((Rook(color, pos), pos))
+        promos.append((Queen(color, pos), pos))
+        promos.append((Bishop(color, pos), pos))
+        return promos
 
 
     def get_possible_squares(self, piece):
@@ -147,7 +156,80 @@ class Engine():
 
 
         if piece_name == 'Pawn':
-            pass
+            if piece.get_color() == 1:
+                x_1 = init_x
+                y_1 = init_y - 1
+                if y_1 > -1:
+                    space = self.board[y_1][x_1]
+                    if not space:
+                        if y_1 == 0:
+                            moves += self.promotions(piece.get_color(), (x_1, y_1))
+                        else:
+                            moves.append(((init_x, init_y), (x_1, y_1)))
+
+                x_2 = init_x + 1
+                y_2 = init_y - 1
+                if x_2 < 8 and y_2 > -1:
+                    space = self.board[y_2][x_2]
+                    if space and space.get_color() != piece.get_color():
+                        if y_2 == 0:
+                            moves += self.promotions(piece.get_color(), (x_2, y_2))
+                        else:
+                            moves.append(((init_x, init_y), (x_2, y_2)))
+
+                x_3 = init_x - 1
+                y_3 = init_y - 1
+                if x_3 > -1 and y_3 > -1:
+                    space = self.board[y_3][x_3]
+                    if space and space.get_color() != piece.get_color():
+                        if y_3 == 0:
+                            moves += self.promotions(piece.get_color(), (x_3, y_3))
+                        else:
+                            moves.append(((init_x, init_y), (x_3, y_3)))
+
+                x_4 = init_x
+                y_4 = init_y - 2
+                space = self.board[y_4][x_4]
+                inter_space = self.board[y_4+1][x_4]
+                if not space and not inter_space:
+                    moves.append(((init_x, init_y), (x_4, y_4)))
+            else:
+                x_1 = init_x
+                y_1 = init_y + 1
+                if y_1 < 8:
+                    space = self.board[y_1][x_1]
+                    if not space:
+                        if y_1 == 7:
+                            moves += self.promotions(piece.get_color(), (x_1, y_1))
+                        else:
+                            moves.append(((init_x, init_y), (x_1, y_1)))
+
+                x_2 = init_x + 1
+                y_2 = init_y + 1
+                if x_2 < 8 and y_2 < 8:
+                    space = self.board[y_2][x_2]
+                    if space and space.get_color() != piece.get_color():
+                        if y_2 == 7:
+                            moves += self.promotions(piece.get_color(), (x_2, y_2))
+                        else:
+                            moves.append(((init_x, init_y), (x_2, y_2)))
+
+                x_3 = init_x - 1
+                y_3 = init_y + 1
+                if x_3 > -1 and y_3 < 8:
+                    space = self.board[y_3][x_3]
+                    if space and space.get_color() != piece.get_color():
+                        if y_3 == 7:
+                            moves += self.promotions(piece.get_color(), (x_3, y_3))
+                        else:
+                            moves.append(((init_x, init_y), (x_3, y_3)))
+
+                x_4 = init_x
+                y_4 = init_y + 2
+                space = self.board[y_4][x_4]
+                inter_space = self.board[y_4-1][x_4]
+                if not space and not inter_space:
+                    moves.append(((init_x, init_y), (x_4, y_4)))
 
         elif piece_name == 'Rook':
             for y in range(1, 8):
