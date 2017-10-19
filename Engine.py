@@ -129,7 +129,7 @@ class Engine():
         info = self.stack.pop()
         move = info[0]
         piece = info[1]
-        self.undo_move(move, piece)
+        self.undo_board(move, piece)
 
 
     def update_board(self, move):
@@ -147,7 +147,7 @@ class Engine():
             self.board[move[0][1]][move[0][0]] = None
 
 
-    def undo_move(self, move, piece):
+    def undo_board(self, move, piece):
         if len(move) == 1: # castling
             pass
         elif len(move) == 3: # pawn promotion
@@ -616,8 +616,10 @@ class Engine():
             for col in range(8):
                 piece = self.board[row][col]
                 if piece is not None and piece.get_color() == color:
+                    # RETURNS A LIST OF POSSIBLE MOVES
                     # PAWN PROMOTION WILL RETURN AS (pawn_pos, promotion_pos, Piece)
                     # CASTLING WILL RETURN AS ("castle") or ("qastle")
+                    # EVERYTHING ELSE RETURNS AS (piece_pos, to_piece_pos)
                     moves += self.get_possible_squares(piece, (col, row))
 
         # checking if move puts you in check
