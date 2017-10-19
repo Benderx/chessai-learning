@@ -1,6 +1,10 @@
 class Engine():
     def __init__(self):
-        self.board = [['0' for x in range(8)] for y in range(8)]
+        self.board = [[None for x in range(8)] for y in range(8)]
+
+
+    def init_board(self, board = None):
+        pass
 
 
     def print_final(self):
@@ -9,7 +13,7 @@ class Engine():
 
 
     def is_terminal(self, color, moves):
-        
+        pass
 
 
     def get_board(self):
@@ -27,15 +31,15 @@ class Engine():
 
 
     def update_board(self, move, color):
-        
+        pass
 
 
     def undo_move(self, move):
-        
+        pass
 
 
     def valid_move(self, move):
-        
+        pass
 
 
     def invert_color(self,color):
@@ -45,4 +49,4 @@ class Engine():
             return('w')
 
     def get_legal_moves(self):
-        
+        pass
