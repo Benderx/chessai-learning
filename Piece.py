@@ -1,9 +1,8 @@
 class Piece():
-	def __init__(self, color, engine, position, value):
-		self.engine = engine
+	def __init__(self, color, position):
 		self.color = color
 		self.pos = position
-		self.val = value
+		self.val 
 		self.alive = True
 
 	def get_color(self):
@@ -14,9 +13,6 @@ class Piece():
 
 	def update_position(self, new_pos):
 		self.pos = new_pos
-
-	def get_val(self):
-		return(self.value)
 
 	def on_board(self):
 		return(self.alive)
@@ -29,36 +25,36 @@ class Piece():
 
 
 class Pawn(Piece):
-	def __init__(self, color, engine, position, value):
-		super().__init__(color, engine, position, value)
+	def __init__(self, color, position):
+		super().__init__(color, position)
 
 	def get_piece(self):
 		return("Pawn")
 
 class Rook(Pieces):
-	def __init__(self, color, engine, position, value):
-		super().__init__(color, engine, position, value)
+	def __init__(self, color, position):
+		super().__init__(color, position)
 
 	def get_piece(self):
 		return("Rook")
 
 class Knight(Pieces):
-	def __init__(self, color, engine, position, value):
-		super().__init__(color, engine, position, value)
+	def __init__(self, color, position):
+		super().__init__(color, position)
 
 	def get_piece(self):
 		return("Knight")
 
 class Bishop(Pieces):
-	def __init__(self, color, engine, position, value):
-		super().__init__(color, engine, position, value)
+	def __init__(self, color, position):
+		super().__init__(color, position)
 
 	def get_piece(self):
 		return("Bishop")
 
 class King(Piece):
-	def __init__(self, color, engine, position, value):
-		super().__init__(color, engine, position, value)
+	def __init__(self, color, position):
+		super().__init__(color, position)
 		self.moved = False
 
 	def get_piece(self):
@@ -71,8 +67,8 @@ class King(Piece):
 		self.moved = True
 
 class Queen(Piece):
-	def __init__(self, color, engine, position, value):
-		super().__init__(color, engine, position, value)
+	def __init__(self, color, engine, position):
+		super().__init__(color, engine, position)
 
 	def get_piece(self):
 		return("Queen")
