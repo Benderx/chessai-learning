@@ -55,5 +55,25 @@ class Engine():
             return('w')
 
 
+    def get_possible_squares(self, piece):
+        if piece.get_piece() == 'Pawn':
+            pass
+        if piece.get_piece() == 'Rook':
+            pass
+        elif piece.get_piece() == 'Knight':
+            pass
+        elif piece.get_piece() == 'Bishop':
+            pass
+        elif piece.get_piece() == 'Queen':
+            pass
+        elif piece.get_piece() == 'King':
+            pass
+
+
     def get_legal_moves(self, color):
-        pass
+        moves = []
+        for row in range(8):
+            for col in range(8):
+                piece = self.board[row][col]
+                if piece is not None and piece.get_color == color:
+                    moves += get_possible_squares(piece)
