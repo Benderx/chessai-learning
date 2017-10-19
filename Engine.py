@@ -111,7 +111,7 @@ class Engine():
 
         #Check to left of king
     	for i in range(pos[0]-1,-1,-1):
-            if not 
+            pass 
 
 
     def is_terminal(self, color, moves):
