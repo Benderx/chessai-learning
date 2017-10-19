@@ -89,8 +89,8 @@ class Engine():
 
         	black_king = Piece.King(-1,(3,0))
         	black_queen = Piece.Queen(-1,(4,0))
-            self.board[0][3] = black_king
-            self.board[0][4] = black_queen
+            	self.board[0][3] = black_king
+            	self.board[0][4] = black_queen
 
 
     def print_board(self):
