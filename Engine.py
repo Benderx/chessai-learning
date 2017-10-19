@@ -90,10 +90,15 @@ class Engine():
         	self.board[0][3] = white_king
         	self.board[0][4] = white_queen
 
-
-    def print_final(self):
-        for i in self.board:
-            print(i)
+    def print_board(self):
+        for row in self.board:
+            a = []
+            for col in row:
+                if col == None:
+                    a.append(' ')
+                else:
+                    a.append(col.get_piece()[0])
+            print(a)
 
 
     def is_terminal(self, color, moves):
