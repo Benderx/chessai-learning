@@ -115,8 +115,8 @@ class Engine():
 
         pos_x = pos[0]
         pos_y = pos[1]
-        #Dont forget to check against kings colliding
 
+        #Check rooks and non-diagnal queens
         #Check to left of king
         for x in range(pos_x-1,-1,-1):
             if self.board[pos_y][x]:
@@ -148,6 +148,7 @@ class Engine():
                 if local_piece.get_color() != color and (local_piece.get_piece() == "Rook" or local_piece.get_piece() == "Queen"):
                     return(True)
                 break
+
 
         #Check knights
         up1,down1,left1,right1 = (False,False,False,False)
@@ -220,15 +221,71 @@ class Engine():
                 if local_piece.get_piece() == "Knight" and local_piece.get_color() != color:
                     return(True)
 
+
         #Check Bishops and queens (and pawns)
+        #Check up/left
+        x = x_pos-1
+        y = y_pos-1
+        while x >= 0 and y >= 0:
+            if self.board[y][x]:
+                local_piece=self.board[y][x]
+                if local_piece.get_color() != color and (local_piece.get_piece() == "Bishop" or local_piece.get_piece() == "Queen"):
+                    return(True)
+                break
+            x -= 1
+            y -= 1
 
-        #Check other king
-        #Could save a line by making this the last check and having it directly return. Or by deleteing this comment
-        if abs(pos_x-enemy_pos[0]) == 1 or abs(pos_y-enemy_pos[1]) == 1:
-            return(False)
+        #Check up/right
+        x = x_pos+1
+        y = y_pos-1
+        while x < 8 and y >= 0:
+            if self.board[y][x]:
+                local_piece=self.board[y][x]
+                if local_piece.get_color() != color and (local_piece.get_piece() == "Bishop" or local_piece.get_piece() == "Queen"):
+                    return(True)
+                break
+            x += 1
+            y -= 1
 
-        #No checks
-        return(False)
+        #Check down/right
+        x = x_pos+1
+        y = y_pos+1
+        while x < 8 and y < 8:
+            if self.board[y][x]:
+                local_piece=self.board[y][x]
+                if local_piece.get_color() != color and (local_piece.get_piece() == "Bishop" or local_piece.get_piece() == "Queen"):
+                    return(True)
+                break
+            x += 1
+            y += 1
+
+        #Check down/left
+        x = x_pos-1
+        y = y_pos+1
+        while x >= 0 and y < 8:
+            if self.board[y][x]:
+                local_piece=self.board[y][x]
+                if local_piece.get_color() != color and (local_piece.get_piece() == "Bishop" or local_piece.get_piece() == "Queen"):
+                    return(True)
+                break
+            x -= 1
+            y += 1
+
+
+        #Check pawn
+        if color == -1 and pos_y < 6:
+            if pos_x - 1 >= 0 and self.board[y+1][x-1] and self.board[y+1][x-1].get_piece() == "Pawn":
+                return(True)
+            if pos_x + 1 < 8 and self.board[y+1][x+1] and self.board[y+1][x+1].get_piece() == "Pawn":
+
+        elif color == 1 and pos_y > 1: 
+            if pos_x - 1 >= 0 and self.board[y-1][x-1] and self.board[y-1][x-1].get_piece() == "Pawn":
+                return(True)
+            if pos_x + 1 < 8 and self.board[y-1][x+1] and self.board[y-1][x+1].get_piece() == "Pawn":
+
+        #Check other king Last possible
+        return(abs(pos_x-enemy_pos[0]) == 1 or abs(pos_y-enemy_pos[1]) == 1)
+
 
     def get_board(self):
         return self.board
