@@ -784,6 +784,7 @@ class Engine():
     # KNOWN ISSUES:
     #       En passant has no implementation
     #       Castling does not check if it castles through check
+    #       Difference between qastle and castle not well defined for color
 
 
     def get_legal_moves(self, color):
@@ -808,18 +809,24 @@ class Engine():
                 if not self.in_check(color):
                     final_moves.append(move)
                 self.pop_move()
+        # Add castles 
+        castle_possibles = self.can_castle(color)
+        if castle_possibles[0]:
+            final_moves.append(tuple("castle"))
+        if castle_possibles[1]:
+            final_moves.append(tuple("qastle"))
         return final_moves
 
-        def is_terminal(self,color,moves):
-            #Takes in moves and turn takers color
-            #Returns None if ongoing, zero if draw, or color of winner
-            if moves:
-                return(None)
+    def is_terminal(self,color,moves):
+        #Takes in moves and turn takers color
+        #Returns None if ongoing, zero if draw, or color of winner
+        if moves:
+            return(None)
+        else:
+            if self.in_check(color):
+                return(-color)
             else:
-                if self.in_check(color):
-                    return(-color)
-                else:
-                    return(0)
+                return(0)
 
     def can_castle(self, color):
         #Returns (True or False, True or False) for (can_castle,can_qastle)
