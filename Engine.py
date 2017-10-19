@@ -89,7 +89,7 @@ class Engine():
 
         	black_king = Piece.King(1,(3,0))
         	black_queen = Piece.Queen(1,(4,0))
-            
+
 
     def print_board(self):
         for row in self.board:
@@ -109,7 +109,9 @@ class Engine():
     	else:
     		pos = white_king.get_position()
 
-    	for i in range(0,pos[0]+1,-1):
+        #Check to left of king
+    	for i in range(pos[0]-1,-1,-1):
+            if not 
 
 
     def is_terminal(self, color, moves):
