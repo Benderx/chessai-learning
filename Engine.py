@@ -10,6 +10,8 @@ class Engine():
     def __init__(self):
         #Board is accessed using [y][x] notation
         self.board = [[None for x in range(8)] for y in range(8)]
+        self.stack = []
+
 
 
     def init_board(self, board = None):
@@ -18,23 +20,23 @@ class Engine():
             pass
         else:
             #Initialize basic chess board
-            self.board[6][0] = Piece.Pawn(1,(0,6))
-            self.board[6][1] = Piece.Pawn(1,(1,6))
-            self.board[6][2] = Piece.Pawn(1,(2,6))
-            self.board[6][3] = Piece.Pawn(1,(3,6))
-            self.board[6][4] = Piece.Pawn(1,(4,6))
-            self.board[6][5] = Piece.Pawn(1,(5,6))
-            self.board[6][6] = Piece.Pawn(1,(6,6))
-            self.board[6][7] = Piece.Pawn(1,(7,6))
+            self.board[6][0] = Piece.Pawn(1)
+            self.board[6][1] = Piece.Pawn(1)
+            self.board[6][2] = Piece.Pawn(1)
+            self.board[6][3] = Piece.Pawn(1)
+            self.board[6][4] = Piece.Pawn(1)
+            self.board[6][5] = Piece.Pawn(1)
+            self.board[6][6] = Piece.Pawn(1)
+            self.board[6][7] = Piece.Pawn(1)
 
-            black_pawn_1 = Piece.Pawn(-1,(0,1))
-            black_pawn_2 = Piece.Pawn(-1,(1,1))
-            black_pawn_3 = Piece.Pawn(-1,(2,1))
-            black_pawn_4 = Piece.Pawn(-1,(3,1))
-            black_pawn_5 = Piece.Pawn(-1,(4,1))
-            black_pawn_6 = Piece.Pawn(-1,(5,1))
-            black_pawn_7 = Piece.Pawn(-1,(6,1))
-            black_pawn_8 = Piece.Pawn(-1,(7,1))
+            black_pawn_1 = Piece.Pawn(-1)
+            black_pawn_2 = Piece.Pawn(-1)
+            black_pawn_3 = Piece.Pawn(-1)
+            black_pawn_4 = Piece.Pawn(-1)
+            black_pawn_5 = Piece.Pawn(-1)
+            black_pawn_6 = Piece.Pawn(-1)
+            black_pawn_7 = Piece.Pawn(-1)
+            black_pawn_8 = Piece.Pawn(-1)
             self.board[1][0] = black_pawn_1
             self.board[1][1] = black_pawn_2
             self.board[1][2] = black_pawn_3
@@ -44,43 +46,45 @@ class Engine():
             self.board[1][6] = black_pawn_7
             self.board[1][7] = black_pawn_8
 
-            white_rook_1 = Piece.Rook(1,(0,7))
-            white_rook_2 = Piece.Rook(1,(7,7))
+            white_rook_1 = Piece.Rook(1)
+            white_rook_2 = Piece.Rook(1)
             self.board[7][0] = white_rook_1
             self.board[7][7] = white_rook_2
 
-            black_rook_1 = Piece.Rook(-1,(0,0))
-            black_rook_2 = Piece.Rook(-1,(7,0))
+            black_rook_1 = Piece.Rook(-1)
+            black_rook_2 = Piece.Rook(-1)
             self.board[0][0] = black_rook_1
             self.board[0][7] = black_rook_2
 
-            white_knight_1 = Piece.Knight(1,(1,7))
-            white_knight_2 = Piece.Knight(1,(6,7))
+            white_knight_1 = Piece.Knight(1)
+            white_knight_2 = Piece.Knight(1)
             self.board[7][1] = white_knight_1
             self.board[7][6] = white_knight_2
 
-            black_knight_1 = Piece.Knight(-1,(1,0))
-            black_knight_2 = Piece.Knight(-1,(6,0))
+            black_knight_1 = Piece.Knight(-1)
+            black_knight_2 = Piece.Knight(-1)
             self.board[0][1] = black_knight_1
             self.board[0][6] = black_knight_2
 
-            white_bishop_1 = Piece.Bishop(1,(2,7))
-            white_bishop_2 = Piece.Bishop(1,(5,7))
+            white_bishop_1 = Piece.Bishop(1)
+            white_bishop_2 = Piece.Bishop(1)
             self.board[7][2] = white_bishop_1
             self.board[7][5] = white_bishop_2
 
-            black_bishop_1 = Piece.Bishop(-1,(2,0))
-            black_bishop_2 = Piece.Bishop(-1,(5,0))
+            black_bishop_1 = Piece.Bishop(-1)
+            black_bishop_2 = Piece.Bishop(-1)
             self.board[0][2] = black_bishop_1
             self.board[0][5] = black_bishop_2
 
-            white_king = Piece.King(1,(3,7))
-            white_queen = Piece.Queen(1,(4,7))
+            white_king = Piece.King(1)
+            self.white_king_pos = (7, 3)
+            white_queen = Piece.Queen(1)
             self.board[7][3] = white_king
             self.board[7][4] = white_queen
 
-            black_king = Piece.King(-1,(3,0))
-            black_queen = Piece.Queen(-1,(4,0))
+            black_king = Piece.King(-1)
+            self.black_king_pos = (0, 3)
+            black_queen = Piece.Queen(-1)
             self.board[0][3] = black_king
             self.board[0][4] = black_queen
 
@@ -102,9 +106,9 @@ class Engine():
         #Takes in color of player's turn
         #Ensures they do not end turn in check
         if color == -1:
-            pos = black_king.get_position()
+            pos = self.black_king_pos
         else:
-            pos = white_king.get_position()
+            pos = self.white_king_pos
 
         #Check to left of king
         for i in range(pos[0]-1,-1,-1):
@@ -116,22 +120,46 @@ class Engine():
         return self.board
 
 
-    def push_move(self, move, color):
-        self.stack.append(move)
-        self.update_board(move,color)
+    def push_move(self, move):
+        self.stack.append((move, self.board[move[1][1]][move[1][0]]))
+        self.update_board(move)
 
 
     def pop_move(self):
-        move = self.stack.pop()
-        self.undo_move(move)
+        info = self.stack.pop()
+        move = info[0]
+        piece = info[1]
+        self.undo_move(move, piece)
 
 
-    def update_board(self, move, color):
-        pass
+    def update_board(self, move):
+        if len(move) == 1: # castling
+            pass
+        elif len(move) == 3: # pawn promotion
+            pass
+        else: # normal move
+            if self.board[move[0][1]][move[0][0]].get_piece() == 'King': # if moving king
+                if self.board[move[0][1]][move[0][0]].get_color() == 1:
+                    self.white_king_pos = move[1]
+                else:
+                    self.black_king_pos = move[1]
+            self.board[move[1][1]][move[1][0]] = self.board[move[0][1]][move[0][0]]
+            self.board[move[0][1]][move[0][0]] = None
 
 
-    def undo_move(self, move):
-        pass
+    def undo_move(self, move, piece):
+        if len(move) == 1: # castling
+            pass
+        elif len(move) == 3: # pawn promotion
+            pass
+        else: # normal move
+            if self.board[move[1][1]][move[1][0]].get_piece() == 'King': # if moving king
+                if self.board[move[1][1]][move[1][0]].get_color() == 1:
+                    self.white_king_pos = move[0]
+                else:
+                    self.black_king_pos = move[0]
+            self.board[move[0][1]][move[0][0]] = self.board[move[1][1]][move[1][0]]
+            self.board[move[1][1]][move[1][0]] = piece
 
 
     def invert_color(self, color):
@@ -147,9 +175,8 @@ class Engine():
         return promos
 
 
-    def get_possible_squares(self, piece):
+    def get_possible_squares(self, piece, pos):
         moves = []
-        pos = piece.get_position()
         init_x = pos[0]
         init_y = pos[1]
         piece_name = piece.get_piece()
@@ -579,6 +606,9 @@ class Engine():
         return moves
 
 
+    # KNOWN ISSUES:
+    #       En passant has no implementation
+    #       Castling does not check if it castles through check
 
     def get_legal_moves(self, color):
         moves = []
@@ -587,6 +617,17 @@ class Engine():
                 piece = self.board[row][col]
                 if piece is not None and piece.get_color() == color:
                     # PAWN PROMOTION WILL RETURN AS (pawn_pos, promotion_pos, Piece)
-                    # CASTLING WILL RETURN AS
-                    moves += self.get_possible_squares(piece)
-        return moves
+                    # CASTLING WILL RETURN AS ("castle") or ("qastle")
+                    moves += self.get_possible_squares(piece, (col, row))
+
+        # checking if move puts you in check
+        final_moves = []
+        for move in moves:
+            if move[0] == type(""): # castling edge case
+                pass
+            else:
+                self.push_move(move)
+                if not self.in_check(color):
+                    final_moves.append(move)
+                self.pop_move()
+        return final_moves
