@@ -84,8 +84,8 @@ class Engine():
 
         	white_king = Piece.King(-1,(3,7))
         	white_queen = Piece.Queen(-1,(4,7))
-        	self.board[7][3] = temp_king
-        	self.board[7][4] = temp_queen
+        	self.board[7][3] = white_king
+        	self.board[7][4] = white_queen
 
         	black_king = Piece.King(1,(3,0))
         	black_queen = Piece.Queen(1,(4,0))
@@ -111,7 +111,7 @@ class Engine():
 
         #Check to left of king
     	for i in range(pos[0]-1,-1,-1):
-            pass 
+            pass
 
 
     def is_terminal(self, color, moves):
