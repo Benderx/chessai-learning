@@ -375,40 +375,59 @@ class Engine():
 
 
     def update_board(self, move):
+        x1 = move[0][0]
+        y1 = move[0][1]
+        x2 = move[1][0]
+        y2 = move[1][1]
+
+        square1 = self.board[y1][x1]
+        square2 = self.board[y2][x2]
+
         if len(move) == 1: # castling
             pass
         elif len(move) == 3: # pawn promotion
             pass
         else: # normal move
-            if self.board[move[0][1]][move[0][0]].get_piece() == 'King': # if moving king
-                if self.board[move[0][1]][move[0][0]].get_color() == 1:
+            if square1.get_piece() == 'King': # if moving king
+                square1.add_move()
+                if square1.get_color() == 1:
                     self.white_king_pos = move[1]
                 else:
                     self.black_king_pos = move[1]
-                self.board[move[0][1]][move[0][0]].add_move()
-            if self.board[move[0][1]][move[0][0]].get_piece() == 'Rook': # if moving rook
-                self.board[move[0][1]][move[0][0]].add_move()
-            self.board[move[1][1]][move[1][0]] = self.board[move[0][1]][move[0][0]]
-            self.board[move[0][1]][move[0][0]] = None
+
+            if square1.get_piece() == 'Rook': # if moving rook
+                square1.add_move()
+            
+            self.board[y2][x2] = square1
+            self.board[y1][x1] = None
 
 
-    def undo_board(self, move, piece):
+    def undo_board(self, move, old_piece):
+        x1 = move[0][0]
+        y1 = move[0][1]
+        x2 = move[1][0]
+        y2 = move[1][1]
+
+        square1 = self.board[y1][x1]
+        square2 = self.board[y2][x2]
+
         if len(move) == 1: # castling
             pass
         elif len(move) == 3: # pawn promotion
             pass
         else: # normal move
-            if self.board[move[1][1]][move[1][0]].get_piece() == 'King': # if moving king
-                if self.board[move[1][1]][move[1][0]].get_color() == 1:
+            if square2.get_piece() == 'King': # if moving king
+                if square2.get_color() == 1:
                     self.white_king_pos = move[0]
                 else:
                     self.black_king_pos = move[0]
-                self.board[move[1][1]][move[1][0]].sub_move()
-            if self.board[move[1][1]][move[1][0]].get_piece() == 'Rook':
-                self.board[move[1][1]][move[1][0]].sub_move()
+                square2.sub_move()
 
-            self.board[move[0][1]][move[0][0]] = self.board[move[1][1]][move[1][0]]
-            self.board[move[1][1]][move[1][0]] = piece
+            if square2.get_piece() == 'Rook':
+                square2.sub_move()
+
+            self.board[y1][x1] = square2
+            self.board[y2][x2] = old_piece
 
 
     def invert_color(self, color):
