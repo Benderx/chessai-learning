@@ -7,7 +7,7 @@ engine = Engine.Engine()
 engine.init_board()
 
 PLAYER_ONE = Player.AiRand(1,engine)
-PLAYER_TWO = Player.AiRand(-1,engine)
+PLAYER_TWO = Player.AiMonte(-1,engine, 10000)
 
 players = [PLAYER_ONE,PLAYER_TWO]
 
@@ -27,4 +27,4 @@ while True:
     print("Move:", move)
     engine.update_board(move)
     turn = 1-turn
-    # time.sleep(1)
+    # time.sleep()

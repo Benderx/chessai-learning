@@ -14,6 +14,7 @@ class Engine():
         #Board is accessed using [y][x] notation
         self.board = [[None for x in range(8)] for y in range(8)]
         self.stack = []
+        self.moves_made = 0
 
 
     def init_board(self, board = None):
@@ -366,15 +367,30 @@ class Engine():
 
 
     def push_move(self, move):
-        self.stack.append((move, self.board[move[1][1]][move[1][0]]))
+        if len(move) == 1: # castling
+            self.stack.append((move))
+        elif len(move) == 3: # pawn promotion
+            self.stack.append((move, self.board[move[1][1]][move[1][0]], move[2]))
+        else:
+            self.stack.append((move, self.board[move[1][1]][move[1][0]]))
         self.update_board(move)
+        self.moves_made += 1
 
 
     def pop_move(self):
         info = self.stack.pop()
-        move = info[0]
-        piece = info[1]
+        if len(info) == 1: # castling
+            move = info[0]
+            piece = info[1]
+        elif len(info) == 3: # pawn promotion
+            move = info[0]
+            piece = info[1]
+        else:
+            move = info[0]
+            piece = info[1]
+
         self.undo_board(move, piece)
+        self.moves_made -= 1
 
 
     def update_board(self, move):
@@ -936,7 +952,9 @@ class Engine():
     def is_terminal(self,color,moves):
         #Takes in moves and turn takers color
         #Returns None if ongoing, zero if draw, or color of winner
-        if len(moves) != 0:
+        if self.moves_made > 500:
+            return(0)
+        elif len(moves) != 0:
             return(None)
         else:
             if self.in_check(color):

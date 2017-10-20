@@ -81,7 +81,7 @@ class AiMonte(Player):
 
         for child in moves:
             for i in range(samples_per_child):
-                self.engine.push_move(child, self.color)
+                self.engine.push_move(child)
                 
                 inv_color = self.engine.invert_color(self.color)
                 winner = self.hard_rollout(inv_color)
@@ -98,17 +98,17 @@ class AiMonte(Player):
         a = children_vals.index(best_path)
         return(moves[a])
 
-    def hard_rollout(self,color):
-        moves = self.engine.get_legal_moves()
-        node_state  = self.engine.is_terminal(color,moves)
+    def hard_rollout(self, color):
+        moves = self.engine.get_legal_moves(color)
+        node_state  = self.engine.is_terminal(color, moves)
 
-        if node_state != 0:
+        if node_state != None:
             return(node_state)
         else:
             inv_color = self.engine.invert_color(color)
 
             next_move = random.choice(moves)
-            self.engine.push_move(next_move,color)
+            self.engine.push_move(next_move)
             v = self.hard_rollout(inv_color)
             self.engine.pop_move()
             return(v)
