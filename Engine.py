@@ -78,13 +78,13 @@ class Engine():
             self.board[0][5] = black_bishop_2
 
             self.white_king = Piece.King(1)
-            self.white_king_pos = (7, 3)
+            self.white_king_pos = (3, 7)
             white_queen = Piece.Queen(1)
             self.board[7][3] = self.white_king
             self.board[7][4] = white_queen
 
             self.black_king = Piece.King(-1)
-            self.black_king_pos = (0, 3)
+            self.black_king_pos = (3, 0)
             black_queen = Piece.Queen(-1)
             self.board[0][3] = self.black_king
             self.board[0][4] = black_queen
@@ -387,7 +387,7 @@ class Engine():
 
             square1 = self.board[y1][x1]
             square2 = self.board[y2][x2]
-            
+
             if square1.get_piece() == 'King': # if moving king
                 square1.add_move()
                 if square1.get_color() == 1:
