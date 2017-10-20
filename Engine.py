@@ -32,6 +32,9 @@ class Engine():
             self.board[6][5] = Piece.Pawn(1)
             self.board[6][6] = Piece.Pawn(1)
             self.board[6][7] = Piece.Pawn(1)
+            self.white_pawn_arr = []
+            for i in self.board[6]:
+                self.white_pawn_arr.append(i)
 
             black_pawn_1 = Piece.Pawn(-1)
             black_pawn_2 = Piece.Pawn(-1)
@@ -49,6 +52,9 @@ class Engine():
             self.board[1][5] = black_pawn_6
             self.board[1][6] = black_pawn_7
             self.board[1][7] = black_pawn_8
+            self.black_pawn_arr = []
+            for i in self.board[1]:
+                self.black_pawn_arr.append(i)
 
             self.white_rook_1 = Piece.Rook(1)
             self.white_rook_2 = Piece.Rook(1)
