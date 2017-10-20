@@ -8,6 +8,7 @@ import Piece
 
 debug_check = False
 debug_king = False
+debug_square1 = True
 
 class Engine():
     def __init__(self):
@@ -416,6 +417,7 @@ class Engine():
             square1 = self.board[y1][x1]
             square2 = self.board[y2][x2]
 
+            if debug_square1: print("x and y value of square is:", (x1,y1))
             if square1.get_piece() == 'King': # if moving king
                 square1.add_move()
                 if square1.get_color() == 1:
