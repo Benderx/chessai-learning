@@ -8,7 +8,7 @@ import Piece
 
 debug_check = False
 debug_king = False
-debug_square1 = True
+debug_square1 = False
 
 class Engine():
     def __init__(self):
@@ -1007,9 +1007,9 @@ class Engine():
 
         if king.get_moved() > 0:
             return((False,False))
-        if self.board[pos_y][1] or self.board[pos_y][2]:
+        if self.board[pos_y][5] or self.board[pos_y][6]:
             castle = False
-        if self.board[pos_y][4] or self.board[pos_y][5] or self.board[pos_y][6]:
+        if self.board[pos_y][1] or self.board[pos_y][2] or self.board[pos_y][3]:
             qastle = False
 
         if castle and r1.get_moved() > 0:
@@ -1018,13 +1018,13 @@ class Engine():
             qastle = False
 
         if castle:
-            move = ((3,pos_y),(2,pos_y))
+            move = ((4,pos_y),(5,pos_y))
             self.push_move(move)
             if self.in_check(color):
                 castle=False
                 self.pop_move()
             else:
-                move = ((2,pos_y),(1,pos_y))
+                move = ((5,pos_y),(6,pos_y))
                 self.push_move(move)
                 if self.in_check(color): 
                     castle=False
@@ -1032,13 +1032,13 @@ class Engine():
                 self.pop_move()
 
         if qastle: 
-            move = ((3,pos_y),(4,pos_y))
+            move = ((4,pos_y),(3,pos_y))
             self.push_move(move)
             if self.in_check(color):
                 qastle=False
                 self.pop_move()
             else:
-                move = ((4,pos_y),(5,pos_y))
+                move = ((3,pos_y),(2,pos_y))
                 self.push_move(move)
                 if self.in_check(color): 
                     qastle=False
