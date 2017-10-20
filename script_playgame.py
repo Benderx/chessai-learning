@@ -22,13 +22,19 @@ while True:
     engine.print_board()
     print("Current players turn:", players[turn].get_color())
     print("All moves:\n",possible_moves)
-    if winner:
-        print("Results are in:",winner)
+    if winner != None:
+        if winner == 1:
+            print("Results are in: White wins")
+        elif winner == -1:
+            print("Results are in: Black wins")
+        else:
+            print("Results are in: Draw")
         break
     move = players[turn].get_move(possible_moves)
     print("Move:", move)
     engine.update_board(move)
     turn = 1-turn
+    print(engine.get_game_length())
     if play_by_play:
         input("")
     # time.sleep(1)
