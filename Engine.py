@@ -80,16 +80,16 @@ class Engine():
             self.board[0][5] = black_bishop_2
 
             self.white_king = Piece.King(1)
-            self.white_king_pos = (3, 7)
+            self.white_king_pos = (4, 7)
             white_queen = Piece.Queen(1)
-            self.board[7][3] = self.white_king
-            self.board[7][4] = white_queen
+            self.board[7][4] = self.white_king
+            self.board[7][3] = white_queen
 
             self.black_king = Piece.King(-1)
-            self.black_king_pos = (3, 0)
+            self.black_king_pos = (4, 0)
             black_queen = Piece.Queen(-1)
-            self.board[0][3] = self.black_king
-            self.board[0][4] = black_queen
+            self.board[0][4] = self.black_king
+            self.board[0][3] = black_queen
 
 
     def print_board(self):
@@ -369,6 +369,8 @@ class Engine():
     def push_move(self, move):
         if len(move) == 1: # castling
             self.stack.append((move))
+        # elif len(move) == 3: # pawn promotion
+        #     self.stack.append((move, self.board[move[1][1]][move[1][0]]))
         else:
             self.stack.append((move, self.board[move[1][1]][move[1][0]]))
         self.update_board(move)
@@ -379,6 +381,9 @@ class Engine():
         if len(info) == 1: # castling
             move = info[0]
             piece = None
+        # elif len(info) == 3: # pawn promotion
+        #     move = info[0]
+        #     piece = info[1]
         else:
             move = info[0]
             piece = info[1]
@@ -391,7 +396,17 @@ class Engine():
         if len(move) == 1: # castling
             pass
         elif len(move) == 3: # pawn promotion
-            pass
+            x1 = move[0][0]
+            y1 = move[0][1]
+            x2 = move[1][0]
+            y2 = move[1][1]
+            new_piece = move[2]
+
+            square1 = self.board[y1][x1]
+            square2 = self.board[y2][x2]
+
+            self.board[y1][x1] = None
+            self.board[y2][x2] = new_piece
         else: # normal move
             x1 = move[0][0]
             y1 = move[0][1]
@@ -420,7 +435,17 @@ class Engine():
         if len(move) == 1: # castling
             pass
         elif len(move) == 3: # pawn promotion
-            pass
+            x1 = move[0][0]
+            y1 = move[0][1]
+            x2 = move[1][0]
+            y2 = move[1][1]
+            color = self.board[y2][x2].get_color()
+
+            square1 = self.board[y1][x1]
+            square2 = self.board[y2][x2]
+
+            self.board[y1][x1] = Piece.Pawn(color)
+            self.board[y2][x2] = old_piece
         else: # normal move
             x1 = move[0][0]
             y1 = move[0][1]
