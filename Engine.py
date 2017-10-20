@@ -372,7 +372,6 @@ class Engine():
         else:
             self.stack.append((move, self.board[move[1][1]][move[1][0]]))
         self.update_board(move)
-        self.moves_made += 1
 
 
     def pop_move(self):
@@ -385,10 +384,10 @@ class Engine():
             piece = info[1]
 
         self.undo_board(move, piece)
-        self.moves_made -= 1
 
 
     def update_board(self, move):
+        self.moves_made += 1
         if len(move) == 1: # castling
             pass
         elif len(move) == 3: # pawn promotion
@@ -417,6 +416,7 @@ class Engine():
 
 
     def undo_board(self, move, old_piece):
+        self.moves_made -= 1
         if len(move) == 1: # castling
             pass
         elif len(move) == 3: # pawn promotion
@@ -947,7 +947,7 @@ class Engine():
     def is_terminal(self,color,moves):
         #Takes in moves and turn takers color
         #Returns None if ongoing, zero if draw, or color of winner
-        if self.moves_made > 500:
+        if self.get_game_length() > 500:
             return(0)
         elif len(moves) != 0:
             return(None)
@@ -956,6 +956,9 @@ class Engine():
                 return(-color)
             else:
                 return(0)
+
+    def get_game_length(self):
+        return(self.moves_made)
 
     def can_castle(self, color):
         #Returns (True or False, True or False) for (can_castle,can_qastle)
