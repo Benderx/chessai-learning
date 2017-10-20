@@ -131,6 +131,8 @@ class Engine():
 
         #Check rooks and non-diagnal queens
         #Check to left of king
+
+        
         for x in range(pos_x-1,-1,-1):
             if self.board[pos_y][x]:
                 local_piece = self.board[pos_y][x]
