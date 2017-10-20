@@ -395,7 +395,25 @@ class Engine():
     def update_board(self, move):
         self.moves_made += 1
         if len(move) == 1: # castling
-            pass
+            if move[0][0] == 'w':
+                y = 7
+            else:
+                y = 0
+            x1_king = 4
+
+            if move[0][1:] == 'castle':
+                x2_king = 6
+                x1_rook = 7
+                x2_rook = 5
+            else:
+                x2_king = 2
+                x1_rook = 0
+                x2_rook = 3
+
+            self.board[y][x2_king] = self.board[y][x1_king]
+            self.board[y][x2_rook] = self.board[y][x1_rook]
+            self.board[y][x1_king] = None
+            self.board[y][x1_rook] = None
         elif len(move) == 3: # pawn promotion
             x1 = move[0][0]
             y1 = move[0][1]
@@ -417,7 +435,7 @@ class Engine():
             square1 = self.board[y1][x1]
             square2 = self.board[y2][x2]
 
-            if debug_square1: print("x and y value of square is:", (x1,y1))
+            if debug_square1: print("x and y value of square is:", (x1, y1))
             if square1.get_piece() == 'King': # if moving king
                 square1.add_move()
                 if square1.get_color() == 1:
@@ -435,7 +453,30 @@ class Engine():
     def undo_board(self, move, old_piece):
         self.moves_made -= 1
         if len(move) == 1: # castling
-            pass
+            print(self.print_board())
+            if move[0][0] == 'w':
+                y = 7
+            else:
+                y = 0
+            x2_king = 4
+
+            if move[0][1:] == 'castle':
+                x1_king = 6
+                x2_rook = 7
+                x1_rook = 5
+            else:
+                x1_king = 2
+                x2_rook = 0
+                x1_rook = 3
+
+            self.board[y][x2_king] = self.board[y][x1_king]
+            self.board[y][x2_rook] = self.board[y][x1_rook]
+            self.board[y][x1_king] = None
+            self.board[y][x1_rook] = None
+            print()
+            print(self.print_board())
+            exit()
+
         elif len(move) == 3: # pawn promotion
             x1 = move[0][0]
             y1 = move[0][1]
@@ -965,9 +1006,15 @@ class Engine():
         # Add castles 
         castle_possibles = self.can_castle(color)
         if castle_possibles[0]:
-            final_moves.append(tuple(["castle"]))
+            if color == 1:
+                final_moves.append(tuple(["wcastle"]))
+            else:
+                final_moves.append(tuple(["bcastle"]))
         if castle_possibles[1]:
-            final_moves.append(tuple(["qastle"]))
+            if color == 1:
+                final_moves.append(tuple(["wqastle"]))
+            else:
+                final_moves.append(tuple(["bqastle"]))
 
         return final_moves
 
@@ -994,15 +1041,15 @@ class Engine():
 
         if color == -1:
             king = self.black_king
-            r1 = self.black_rook_1
-            r2 = self.black_rook_2
             pos_y = 0
+            r1 = self.board[pos_y][0]
+            r2 = self.board[pos_y][7]
             # pos_y = self.black_king_pos[1]
         else:
             king = self.white_king
-            r1 = self.white_rook_1
-            r2 = self.white_rook_2
             pos_y = 7
+            r1 = self.board[pos_y][0]
+            r2 = self.board[pos_y][7]
             # pos_y = self.white_king_pos[1]
 
         if king.get_moved() > 0:
@@ -1012,38 +1059,24 @@ class Engine():
         if self.board[pos_y][1] or self.board[pos_y][2] or self.board[pos_y][3]:
             qastle = False
 
-        if castle and r1.get_moved() > 0:
+        if castle and r1 and r1.get_piece() == 'Rook' and r1.get_moved() > 0:
             castle = False
-        if qastle and r2.get_moved() > 0:
+        if qastle and r2 and r2.get_piece() == 'Rook' and r2.get_moved() > 0:
             qastle = False
 
         if castle:
-            move = ((4,pos_y),(5,pos_y))
+            move = ((4, pos_y), (5, pos_y))
             self.push_move(move)
             if self.in_check(color):
-                castle=False
-                self.pop_move()
-            else:
-                move = ((5,pos_y),(6,pos_y))
-                self.push_move(move)
-                if self.in_check(color): 
-                    castle=False
-                self.pop_move()
-                self.pop_move()
+                castle = False
+            self.pop_move()
 
         if qastle: 
-            move = ((4,pos_y),(3,pos_y))
+            move = ((4, pos_y), (3, pos_y))
             self.push_move(move)
             if self.in_check(color):
-                qastle=False
-                self.pop_move()
-            else:
-                move = ((3,pos_y),(2,pos_y))
-                self.push_move(move)
-                if self.in_check(color): 
-                    qastle=False
-                self.pop_move()
-                self.pop_move()
+                qastle = False
+            self.pop_move()
 
-        result = (castle,qastle)
+        result = (castle, qastle)
         return(result)
