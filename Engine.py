@@ -381,12 +381,11 @@ class Engine():
             pass
         else: # normal move
             if self.board[move[0][1]][move[0][0]].get_piece() == 'King': # if moving king
-                # if self.board[move[0][1]][move[0][0]].get_color() == 1:
-                self.white_king_pos = move[1]
+                if self.board[move[0][1]][move[0][0]].get_color() == 1:
+                    self.white_king_pos = move[1]
+                else:
+                    self.black_king_pos = move[1]
                 self.board[move[0][1]][move[0][0]].add_move()
-                # else:
-                #     self.black_king_pos = move[1]
-                #     self.board[move[0][1]][move[0][0]].add_move()
             if self.board[move[0][1]][move[0][0]].get_piece() == 'Rook': # if moving rook
                 self.board[move[0][1]][move[0][0]].add_move()
             self.board[move[1][1]][move[1][0]] = self.board[move[0][1]][move[0][0]]
@@ -400,12 +399,11 @@ class Engine():
             pass
         else: # normal move
             if self.board[move[1][1]][move[1][0]].get_piece() == 'King': # if moving king
-                # if self.board[move[1][1]][move[1][0]].get_color() == 1:
-                self.white_king_pos = move[0]
+                if self.board[move[1][1]][move[1][0]].get_color() == 1:
+                    self.white_king_pos = move[0]
+                else:
+                    self.black_king_pos = move[0]
                 self.board[move[1][1]][move[1][0]].sub_move()
-                # else:
-                #     self.black_king_pos = move[0]
-                #     self.board[move[1][1]][move[1][0]].sub_move()
             if self.board[move[1][1]][move[1][0]].get_piece() == 'Rook':
                 self.board[move[1][1]][move[1][0]].sub_move()
 
