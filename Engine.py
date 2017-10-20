@@ -369,8 +369,6 @@ class Engine():
     def push_move(self, move):
         if len(move) == 1: # castling
             self.stack.append((move))
-        elif len(move) == 3: # pawn promotion
-            self.stack.append((move, self.board[move[1][1]][move[1][0]], move[2]))
         else:
             self.stack.append((move, self.board[move[1][1]][move[1][0]]))
         self.update_board(move)
@@ -381,10 +379,7 @@ class Engine():
         info = self.stack.pop()
         if len(info) == 1: # castling
             move = info[0]
-            piece = info[1]
-        elif len(info) == 3: # pawn promotion
-            move = info[0]
-            piece = info[1]
+            piece = None
         else:
             move = info[0]
             piece = info[1]

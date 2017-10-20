@@ -2,12 +2,14 @@ import Engine
 import Player
 import time
 
+play_by_play = True
+
 winner = None
 engine = Engine.Engine()
 engine.init_board()
 
 PLAYER_ONE = Player.AiRand(1,engine)
-PLAYER_TWO = Player.AiMonte(-1,engine, 10000)
+PLAYER_TWO = Player.AiRand(-1,engine)
 
 players = [PLAYER_ONE,PLAYER_TWO]
 
@@ -27,4 +29,6 @@ while True:
     print("Move:", move)
     engine.update_board(move)
     turn = 1-turn
-    # time.sleep()
+    if play_by_play:
+        input("")
+    # time.sleep(1)
