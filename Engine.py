@@ -125,10 +125,10 @@ class Engine():
                 local_piece = self.board[pos_y][x]
                 if local_piece.get_color() != color and (local_piece.get_piece() == "Rook" or local_piece.get_piece() == "Queen"):
                     if debug_check:
-                    	if local_piece.get_piece() == "Rook":
-                    		print("Enemy rook at:",(x,pos_y),"got me.")
-                    	else:
-                    		print("Enemy queen at:",(x,pos_y),"got me.")
+                        if local_piece.get_piece() == "Rook":
+                            print("Enemy rook at:",(x,pos_y),"got me.")
+                        else:
+                            print("Enemy queen at:",(x,pos_y),"got me.")
                     return(True)
                 break
 
@@ -138,10 +138,10 @@ class Engine():
                 local_piece = self.board[pos_y][x]
                 if local_piece.get_color() != color and (local_piece.get_piece() == "Rook" or local_piece.get_piece() == "Queen"):
                     if debug_check:
-                    	if local_piece.get_piece() == "Rook":
-                    		print("Enemy rook at:",(x,pos_y),"got me.")
-                    	else:
-                    		print("Enemy queen at:",(x,pos_y),"got me.")
+                        if local_piece.get_piece() == "Rook":
+                            print("Enemy rook at:",(x,pos_y),"got me.")
+                        else:
+                            print("Enemy queen at:",(x,pos_y),"got me.")
                     return(True)
                 break
 
@@ -151,10 +151,10 @@ class Engine():
                 local_piece = self.board[y][pos_x]
                 if local_piece.get_color() != color and (local_piece.get_piece() == "Rook" or local_piece.get_piece() == "Queen"):
                     if debug_check:
-                    	if local_piece.get_piece() == "Rook":
-                    		print("Enemy rook at:",(pos_x,y),"got me.")
-                    	else:
-                    		print("Enemy queen at:",(pos_x,y),"got me.")
+                        if local_piece.get_piece() == "Rook":
+                            print("Enemy rook at:",(pos_x,y),"got me.")
+                        else:
+                            print("Enemy queen at:",(pos_x,y),"got me.")
                     return(True)
                 break
 
@@ -164,10 +164,10 @@ class Engine():
                 local_piece = self.board[y][pos_x]
                 if local_piece.get_color() != color and (local_piece.get_piece() == "Rook" or local_piece.get_piece() == "Queen"):
                     if debug_check:
-                    	if local_piece.get_piece() == "Rook":
-                    		print("Enemy rook at:",(pos_x,y),"got me.")
-                    	else:
-                    		print("Enemy queen at:",(pos_x,y),"got me.")
+                        if local_piece.get_piece() == "Rook":
+                            print("Enemy rook at:",(pos_x,y),"got me.")
+                        else:
+                            print("Enemy queen at:",(pos_x,y),"got me.")
                     return(True)
                 break
 
@@ -199,8 +199,8 @@ class Engine():
             if self.board[pos_y-2][pos_x+1]:
                 local_piece = self.board[pos_y-2][pos_x+1]
                 if local_piece.get_piece() == "Night" and local_piece.get_color() != color:
-                	if debug_check:
-                    	print("Enemy night at:",(pos_x+1,pos_y-2),"got me.")
+                    if debug_check:
+                        print("Enemy night at:",(pos_x+1,pos_y-2),"got me.")
                     return(True)
 
         if up1 and right2:
@@ -208,7 +208,7 @@ class Engine():
                 local_piece = self.board[pos_y-1][pos_x+2]
                 if local_piece.get_piece() == "Night" and local_piece.get_color() != color:
                     if debug_check:
-                    	print("Enemy night at:",(pos_x+2,pos_y-1),"got me.")
+                        print("Enemy night at:",(pos_x+2,pos_y-1),"got me.")
                     return(True)
 
         if down1 and right2:
@@ -216,7 +216,7 @@ class Engine():
                 local_piece = self.board[pos_y+1][pos_x+2]
                 if local_piece.get_piece() == "Night" and local_piece.get_color() != color:
                     if debug_check:
-                    	print("Enemy night at:",(pos_x+2,pos_y+1),"got me.")
+                        print("Enemy night at:",(pos_x+2,pos_y+1),"got me.")
                     return(True)
 
         if down2 and right1:
@@ -224,7 +224,7 @@ class Engine():
                 local_piece = self.board[pos_y+2][pos_x+1]
                 if local_piece.get_piece() == "Night" and local_piece.get_color() != color:
                     if debug_check:
-                    	print("Enemy night at:",(pos_x+1,pos_y+2),"got me.")
+                        print("Enemy night at:",(pos_x+1,pos_y+2),"got me.")
                     return(True)
 
         if down2 and left1:
@@ -232,7 +232,7 @@ class Engine():
                 local_piece = self.board[pos_y+2][pos_x-1]
                 if local_piece.get_piece() == "Night" and local_piece.get_color() != color:
                     if debug_check:
-                    	print("Enemy night at:",(pos_x-1,pos_y+2),"got me.")
+                        print("Enemy night at:",(pos_x-1,pos_y+2),"got me.")
                     return(True)
 
         if down1 and left2:
@@ -240,7 +240,7 @@ class Engine():
                 local_piece = self.board[pos_y+1][pos_x-2]
                 if local_piece.get_piece() == "Night" and local_piece.get_color() != color:
                     if debug_check:
-                    	print("Enemy night at:",(pos_x-2,pos_y+1),"got me.")
+                        print("Enemy night at:",(pos_x-2,pos_y+1),"got me.")
                     return(True)
 
         if up1 and left2:
@@ -248,7 +248,7 @@ class Engine():
                 local_piece = self.board[pos_y-1][pos_x-2]
                 if local_piece.get_piece() == "Night" and local_piece.get_color() != color:
                     if debug_check:
-                    	print("Enemy night at:",(pos_x-1,pos_y-2),"got me.")
+                        print("Enemy night at:",(pos_x-1,pos_y-2),"got me.")
                     return(True)
 
         if up2 and left1:
@@ -256,8 +256,8 @@ class Engine():
                 local_piece = self.board[pos_y-2][pos_x-1]
                 if local_piece.get_piece() == "Night" and local_piece.get_color() != color:
                     if debug_check:
-                    	print("Enemy night at:",(pos_x-1,pos_y-2),"got me.")
-                   return(True)
+                        print("Enemy night at:",(pos_x-1,pos_y-2),"got me.")
+                    return(True)
 
 
         #Check Bishops and queens (and pawns)
@@ -269,10 +269,10 @@ class Engine():
                 local_piece=self.board[y][x]
                 if local_piece.get_color() != color and (local_piece.get_piece() == "Bishop" or local_piece.get_piece() == "Queen"):
                     if debug_check:
-                    	if local_piece.get_piece() == "Bishop":
-                    		print("Enemy bishop at:",(x,y),"got me.")
-                    	else:
-                    		print("Enemy queen at:",(x,y),"got me.")
+                        if local_piece.get_piece() == "Bishop":
+                            print("Enemy bishop at:",(x,y),"got me.")
+                        else:
+                            print("Enemy queen at:",(x,y),"got me.")
                     return(True)
                 break
             x -= 1
@@ -286,10 +286,10 @@ class Engine():
                 local_piece=self.board[y][x]
                 if local_piece.get_color() != color and (local_piece.get_piece() == "Bishop" or local_piece.get_piece() == "Queen"):
                     if debug_check:
-                    	if local_piece.get_piece() == "Bishop":
-                    		print("Enemy bishop at:",(x,y),"got me.")
-                    	else:
-                    		print("Enemy queen at:",(x,y),"got me.")
+                        if local_piece.get_piece() == "Bishop":
+                            print("Enemy bishop at:",(x,y),"got me.")
+                        else:
+                            print("Enemy queen at:",(x,y),"got me.")
                     return(True)
                 break
             x += 1
@@ -303,10 +303,10 @@ class Engine():
                 local_piece=self.board[y][x]
                 if local_piece.get_color() != color and (local_piece.get_piece() == "Bishop" or local_piece.get_piece() == "Queen"):
                     if debug_check:
-                    	if local_piece.get_piece() == "Bishop":
-                    		print("Enemy bishop at:",(x,y),"got me.")
-                    	else:
-                    		print("Enemy queen at:",(x,y),"got me.")
+                        if local_piece.get_piece() == "Bishop":
+                            print("Enemy bishop at:",(x,y),"got me.")
+                        else:
+                            print("Enemy queen at:",(x,y),"got me.")
                     return(True)
                 break
             x += 1
@@ -320,10 +320,10 @@ class Engine():
                 local_piece=self.board[y][x]
                 if local_piece.get_color() != color and (local_piece.get_piece() == "Bishop" or local_piece.get_piece() == "Queen"):
                     if debug_check:
-                    	if local_piece.get_piece() == "Bishop":
-                    		print("Enemy bishop at:",(x,y),"got me.")
-                    	else:
-                    		print("Enemy queen at:",(x,y),"got me.")
+                        if local_piece.get_piece() == "Bishop":
+                            print("Enemy bishop at:",(x,y),"got me.")
+                        else:
+                            print("Enemy queen at:",(x,y),"got me.")
                     return(True)
                 break
             x -= 1
@@ -333,23 +333,23 @@ class Engine():
         #Check pawn
         if color == -1 and pos_y < 6:
             if pos_x - 1 >= 0 and self.board[pos_y+1][pos_x-1] and self.board[pos_y+1][pos_x-1].get_piece() == "Pawn":
-            	if debug_check:
-            		print("Enemy pawn at:",(pos_x-1,pos_y+1),"got me.")
+                if debug_check:
+                    print("Enemy pawn at:",(pos_x-1,pos_y+1),"got me.")
                 return(True)
             if pos_x + 1 < 8 and self.board[pos_y+1][pos_x+1] and self.board[pos_y+1][pos_x+1].get_piece() == "Pawn":
-            	if debug_check:
-            		print("Enemy pawn at:",(pos_x+1,pos_y+1),"got me.")
+                if debug_check:
+                    print("Enemy pawn at:",(pos_x+1,pos_y+1),"got me.")
                 return(True)
 
         elif color == 1 and pos_y > 1: 
             if pos_x - 1 >= 0 and self.board[pos_y-1][pos_x-1] and self.board[pos_y-1][pos_x-1].get_piece() == "Pawn":
                 if debug_check:
-            		print("Enemy pawn at:",(pos_x-1,pos_y-1),"got me.")
+                    print("Enemy pawn at:",(pos_x-1,pos_y-1),"got me.")
                 return(True)
 
             if pos_x + 1 < 8 and self.board[pos_y-1][pos_x+1] and self.board[pos_y-1][pos_x+1].get_piece() == "Pawn":
                 if debug_check:
-            		print("Enemy pawn at:",(pos_x+1,pos_y-1),"got me.")
+                    print("Enemy pawn at:",(pos_x+1,pos_y-1),"got me.")
                 return(True)
         #Check other king Last possible
         # return(abs(pos_x-pos_enemy[0]) == 1 or abs(pos_y-pos_enemy[1]) == 1)
