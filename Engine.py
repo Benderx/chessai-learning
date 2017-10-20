@@ -355,7 +355,7 @@ class Engine():
                     print("Enemy pawn at:",(pos_x+1,pos_y-1),"got me.")
                 return(True)
         #Check other king Last possible
-        if abs(pos_x-pos_enemy[0]) == 1 or abs(pos_y-pos_enemy[1]) == 1:
+        if abs(pos_x-pos_enemy[0]) == 1 and abs(pos_y-pos_enemy[1]) == 1:
             print("Enemy King at got me.")
             return True
         return(False)
