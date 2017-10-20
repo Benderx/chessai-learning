@@ -14,7 +14,7 @@ class Engine():
         #Board is accessed using [y][x] notation
         self.board = [[None for x in range(8)] for y in range(8)]
         self.stack = []
-        self.moves_made = 0
+        self.moves_made = -1
 
 
     def init_board(self, board = None):
