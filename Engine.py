@@ -6,8 +6,8 @@ import Piece
 #            to default position (or to the optional argument if provided)
 # Position is in (x,y) board is in [y][x]
 
-debug_check = True
-debug_king = True
+debug_check = False
+debug_king = False
 
 class Engine():
     def __init__(self):
