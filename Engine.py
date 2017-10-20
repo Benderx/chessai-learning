@@ -357,7 +357,7 @@ class Engine():
                 return(True)
         #Check other king Last possible
         if abs(pos_x-pos_enemy[0]) < 2 and abs(pos_y-pos_enemy[1]) < 2:
-            print("Enemy King at got me.")
+            if debug_check: print("Enemy King at:",pos, "got me.")
             return(True)
         return(False)
 
