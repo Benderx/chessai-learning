@@ -2,7 +2,7 @@ import Engine
 import Player
 import time
 
-play_by_play = True
+play_by_play = False
 
 winner = None
 engine = Engine.Engine()
