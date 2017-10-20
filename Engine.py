@@ -399,23 +399,34 @@ class Engine():
         if len(move) == 1: # castling
             if move[0][0] == 'w':
                 y = 7
+                self.white_king.add_move()
             else:
                 y = 0
+                self.black_king.add_move()
             x1_king = 4
 
             if move[0][1:] == 'castle':
                 x2_king = 6
                 x1_rook = 7
                 x2_rook = 5
+                if move[0][0] == 'w':
+                    self.white_king_pos = (6, 7)
+                else:
+                    self.black_king_pos = (6, 0)
             else:
                 x2_king = 2
                 x1_rook = 0
                 x2_rook = 3
+                if move[0][0] == 'w':
+                    self.white_king_pos = (2, 7)
+                else:
+                    self.black_king_pos = (2, 0)
 
             self.board[y][x2_king] = self.board[y][x1_king]
             self.board[y][x2_rook] = self.board[y][x1_rook]
             self.board[y][x1_king] = None
             self.board[y][x1_rook] = None
+
         elif len(move) == 3: # pawn promotion
             x1 = move[0][0]
             y1 = move[0][1]
@@ -455,29 +466,35 @@ class Engine():
     def undo_board(self, move, old_piece):
         self.moves_made -= 1
         if len(move) == 1: # castling
-            print(self.print_board())
             if move[0][0] == 'w':
                 y = 7
+                self.white_king.sub_move()
             else:
                 y = 0
+                self.black_king.sub_move()
             x2_king = 4
 
             if move[0][1:] == 'castle':
                 x1_king = 6
                 x2_rook = 7
                 x1_rook = 5
+                if move[0][0] == 'w':
+                    self.white_king_pos = (4, 7)
+                else:
+                    self.black_king_pos = (4, 0)
             else:
                 x1_king = 2
                 x2_rook = 0
                 x1_rook = 3
+                if move[0][0] == 'w':
+                    self.white_king_pos = (4, 7)
+                else:
+                    self.black_king_pos = (4, 0)
 
             self.board[y][x2_king] = self.board[y][x1_king]
             self.board[y][x2_rook] = self.board[y][x1_rook]
             self.board[y][x1_king] = None
             self.board[y][x1_rook] = None
-            print()
-            print(self.print_board())
-            exit()
 
         elif len(move) == 3: # pawn promotion
             x1 = move[0][0]
@@ -1004,7 +1021,7 @@ class Engine():
                 if not self.in_check(color):
                     final_moves.append(move)
                 self.pop_move()
-                
+        
         # Add castles 
         castle_possibles = self.can_castle(color)
         if castle_possibles[0]:
