@@ -95,13 +95,13 @@ class Engine():
             a = []
             for col in row:
                 if col == None:
-                    a.append(' ')
+                    a.append('-')
                 else:
                     if col.get_color() == 1:
                         a.append(col.get_piece()[0].lower())
                     else:
                         a.append(col.get_piece()[0].upper())
-            print(a)
+            print(''.join(a))
 
 
     def in_check(self, color):
@@ -333,29 +333,29 @@ class Engine():
 
 
         #Check pawn
-        if color == -1 and pos_y < 6:
-            if pos_x - 1 >= 0 and self.board[pos_y+1][pos_x-1] and self.board[pos_y+1][pos_x-1].get_piece() == "Pawn":
+        if color == -1 and pos_y < 7:
+            if pos_x - 1 >= 0 and self.board[pos_y+1][pos_x-1] and self.board[pos_y+1][pos_x-1].get_piece() == "Pawn" and self.board[pos_y+1][pos_x-1].get_color() == 1:
                 if debug_check:
                     print("Enemy pawn at:",(pos_x-1,pos_y+1),"got me.")
                 return(True)
-            if pos_x + 1 < 8 and self.board[pos_y+1][pos_x+1] and self.board[pos_y+1][pos_x+1].get_piece() == "Pawn":
+            if pos_x + 1 < 8 and self.board[pos_y+1][pos_x+1] and self.board[pos_y+1][pos_x+1].get_piece() == "Pawn" and self.board[pos_y+1][pos_x+1].get_color() == 1:
                 if debug_check:
                     print("Enemy pawn at:",(pos_x+1,pos_y+1),"got me.")
                 return(True)
 
-        elif color == 1 and pos_y > 1: 
-            if pos_x - 1 >= 0 and self.board[pos_y-1][pos_x-1] and self.board[pos_y-1][pos_x-1].get_piece() == "Pawn":
+        elif color == 1 and pos_y > 0: 
+            if pos_x - 1 >= 0 and self.board[pos_y-1][pos_x-1] and self.board[pos_y-1][pos_x-1].get_piece() == "Pawn" and self.board[pos_y-1][pos_x-1].get_color() == -1:
                 if debug_check:
                     print("Enemy pawn at:",(pos_x-1,pos_y-1),"got me.")
                 return(True)
 
-            if pos_x + 1 < 8 and self.board[pos_y-1][pos_x+1] and self.board[pos_y-1][pos_x+1].get_piece() == "Pawn":
+            if pos_x + 1 < 8 and self.board[pos_y-1][pos_x+1] and self.board[pos_y-1][pos_x+1].get_piece() == "Pawn" and self.board[pos_y-1][pos_x+1].get_color() == -1:
                 if debug_check:
                     print("Enemy pawn at:",(pos_x+1,pos_y-1),"got me.")
                 return(True)
         #Check other king Last possible
-        # return(abs(pos_x-pos_enemy[0]) == 1 or abs(pos_y-pos_enemy[1]) == 1)
-        return(False)
+        return(abs(pos_x-pos_enemy[0]) == 1 or abs(pos_y-pos_enemy[1]) == 1)
+        # return(False)
 
 
     def get_board(self):
@@ -908,15 +908,16 @@ class Engine():
         # Add castles 
         castle_possibles = self.can_castle(color)
         if castle_possibles[0]:
-            final_moves.append(tuple("castle"))
+            final_moves.append(tuple(["castle"]))
         if castle_possibles[1]:
-            final_moves.append(tuple("qastle"))
+            final_moves.append(tuple(["qastle"]))
+
         return final_moves
 
     def is_terminal(self,color,moves):
         #Takes in moves and turn takers color
         #Returns None if ongoing, zero if draw, or color of winner
-        if moves:
+        if len(moves) != 0:
             return(None)
         else:
             if self.in_check(color):
