@@ -365,6 +365,79 @@ class Engine():
 
     def get_board(self):
         return self.board
+
+
+    def push_move(self, move):
+        if len(move) == 1: # castling
+            self.stack.append((move))
+        # elif len(move) == 3: # pawn promotion
+        #     self.stack.append((move, self.board[move[1][1]][move[1][0]]))
+        else:
+            self.stack.append((move, self.board[move[1][1]][move[1][0]]))
+        self.update_board(move)
+
+
+    def pop_move(self):
+        info = self.stack.pop()
+        if len(info) == 1: # castling
+            move = info[0]
+            piece = None
+        # elif len(info) == 3: # pawn promotion
+        #     move = info[0]
+        #     piece = info[1]
+        else:
+            move = info[0]
+            piece = info[1]
+
+        self.undo_board(move, piece)
+
+
+    def update_board(self, move):
+        self.moves_made += 1
+        if len(move) == 1: # castling
+            pass
+        elif len(move) == 3: # pawn promotion
+            x1 = move[0][0]
+            y1 = move[0][1]
+            x2 = move[1][0]
+            y2 = move[1][1]
+            new_piece = move[2]
+
+            square1 = self.board[y1][x1]
+            square2 = self.board[y2][x2]
+
+            self.board[y1][x1] = None
+            self.board[y2][x2] = new_piece
+        else: # normal move
+            x1 = move[0][0]
+            y1 = move[0][1]
+            x2 = move[1][0]
+            y2 = move[1][1]
+
+            square1 = self.board[y1][x1]
+            square2 = self.board[y2][x2]
+
+            if debug_square1: print("x and y value of square is:", (x1,y1))
+            if square1.get_piece() == 'King': # if moving king
+                square1.add_move()
+                if square1.get_color() == 1:
+                    self.white_king_pos = move[1]
+                else:
+                    self.black_king_pos = move[1]
+
+            if square1.get_piece() == 'Rook': # if moving rook
+                square1.add_move()
+            
+            self.board[y2][x2] = square1
+            self.board[y1][x1] = None
+
+
+    def undo_board(self, move, old_piece):
+        self.moves_made -= 1
+        if len(move) == 1: # castling
+            pass
+        elif len(move) == 3: # pawn promotion
+            x1 = move[0][0]
             y1 = move[0][1]
             x2 = move[1][0]
             y2 = move[1][1]
