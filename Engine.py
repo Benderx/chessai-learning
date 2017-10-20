@@ -115,6 +115,8 @@ class Engine():
             pos = self.white_king_pos
             pos_enemy = self.black_king_pos
 
+        if debug_check: print("I am color:", color, "I am at:", pos)
+
         pos_x = pos[0]
         pos_y = pos[1]
 
