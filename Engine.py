@@ -7,6 +7,7 @@ import Piece
 # Position is in (x,y) board is in [y][x]
 
 debug_check = True
+debug_king = True
 
 class Engine():
     def __init__(self):
@@ -816,13 +817,15 @@ class Engine():
             #         if square_left_4.get_piece() == 'Rook' and not square_left_4.has_moved():
             #             moves.append('qastle')
 
-
+            if debug_king: print('I want to move')
             x_1 = init_x + 1
             y_1 = init_y - 1
             if x_1 < 8 and y_1 > -1:
                 space = self.board[y_1][x_1]
                 if not space or space.get_color() != piece.get_color():
                     moves.append(((init_x, init_y), (x_1, y_1)))
+                elif debug_king:
+                    print("I cannot move UR")
 
             x_2 = init_x + 1
             y_2 = init_y
@@ -830,6 +833,8 @@ class Engine():
                 space = self.board[y_2][x_2]
                 if not space or space.get_color() != piece.get_color():
                     moves.append(((init_x, init_y), (x_2, y_2)))
+                elif debug_king:
+                    print("I cannot move R")
 
             x_3 = init_x + 1
             y_3 = init_y + 1
@@ -837,6 +842,8 @@ class Engine():
                 space = self.board[y_3][x_3]
                 if not space or space.get_color() != piece.get_color():
                     moves.append(((init_x, init_y), (x_3, y_3)))
+                elif debug_king:
+                    print("I cannot move DR")
 
             x_4 = init_x
             y_4 = init_y + 1
@@ -844,6 +851,8 @@ class Engine():
                 space = self.board[y_4][x_4]
                 if not space or space.get_color() != piece.get_color():
                     moves.append(((init_x, init_y), (x_4, y_4)))
+                elif debug_king:
+                    print("I cannot move D")
 
             x_5 = init_x - 1
             y_5 = init_y + 1
@@ -851,6 +860,8 @@ class Engine():
                 space = self.board[y_5][x_5]
                 if not space or space.get_color() != piece.get_color():
                     moves.append(((init_x, init_y), (x_5, y_5)))
+                elif debug_king:
+                    print("I cannot move DL")
 
             x_6 = init_x - 1
             y_6 = init_y
@@ -858,6 +869,8 @@ class Engine():
                 space = self.board[y_6][x_6]
                 if not space or space.get_color() != piece.get_color():
                     moves.append(((init_x, init_y), (x_6, y_6)))
+                elif debug_king:
+                    print("I cannot move L")
 
             x_7 = init_x - 1
             y_7 = init_y - 1
@@ -865,6 +878,8 @@ class Engine():
                 space = self.board[y_7][x_7]
                 if not space or space.get_color() != piece.get_color():
                     moves.append(((init_x, init_y), (x_7, y_7)))
+                elif debug_king:
+                    print("I cannot move UL")
 
             x_8 = init_x
             y_8 = init_y - 1
@@ -872,6 +887,8 @@ class Engine():
                 space = self.board[y_8][x_8]
                 if not space or space.get_color() != piece.get_color():
                     moves.append(((init_x, init_y), (x_8, y_8)))
+                elif debug_king:
+                    print("I cannot move U")
 
         return moves
 
