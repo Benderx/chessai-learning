@@ -1056,7 +1056,7 @@ class Engine():
         return check_filtered_moves
 
 
-    def is_terminal(self,color,moves):
+    def is_terminal(self, color, moves):
         #Takes in moves and turn takers color
         #Returns None if ongoing, zero if draw, or color of winner
         if self.get_game_length() > 500:
@@ -1065,7 +1065,7 @@ class Engine():
             return(None)
         else:
             if self.in_check(color):
-                return(-color)
+                return(self.invert_color(color))
             else:
                 return(0)
 

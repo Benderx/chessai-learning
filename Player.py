@@ -63,22 +63,17 @@ class AiMonte(Player):
         self.samples = samples
 
     def get_move(self, moves):
-
         children = len(moves)
         children_vals = children*[0]
         curr_samples = self.samples
         samples_per_child = curr_samples//children
-
 
         #THINK HARDER
         while samples_per_child == 0:
             curr_samples += 1
             samples_per_child = curr_samples//children
 
-        # print('getting move with', samples_per_child)
-
-        child_index=0
-
+        child_index = 0
         for child in moves:
             for i in range(samples_per_child):
                 self.engine.push_move(child)
@@ -88,10 +83,10 @@ class AiMonte(Player):
                 self.engine.pop_move()
 
                 if winner == self.color:
-                    children_vals[child_index]+=1
+                    children_vals[child_index] += 1
                 elif winner == inv_color:
-                    children_vals[child_index]-=1
-            child_index+=1
+                    children_vals[child_index] -= 1
+            child_index += 1
 
 
         best_path = max(children_vals)
