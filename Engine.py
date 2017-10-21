@@ -376,6 +376,7 @@ class Engine():
 
 
     def push_move(self, move):
+        extra = move[3]
         if len(move) == 1: # castling
             self.stack.append((move))
         else:
@@ -573,6 +574,11 @@ class Engine():
 
 
     def create_move(self, pos1, pos2, extra):
+        if extra == None:  # the move is a normal move (pos1, pos2, None)
+            pass
+        if extra == type(Piece.Piece):  # the move is a promotion move (pos1, pos2, Piece)
+            pass
+        if extra == type(""): # the move is an enpassant promotion move (pos1, pos2, Piece)
         return tuple(pos1, pos2, extra)
 
 
