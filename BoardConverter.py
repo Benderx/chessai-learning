@@ -23,6 +23,9 @@ class BoardConverter():
 		self.con[71] = color
 		self.encode_board()
 		self.write_to_file()
+		self.output = self.read_from_file()
+		print(self.con)
+		print(self.output)
 
 
 	def encode_board(self):
@@ -38,8 +41,18 @@ class BoardConverter():
 				i += 1
 		print(self.con)
 
-	def write_to_file(self):
-		file = h5.File('Game','w')
+	#Consider moving name slot to self.
+	def write_to_file(self,game=0):
+		name = "Game"+str(game)
+		file = h5.File('Name')
+		file.create_dataset("Board", data = self.con)
+		file.close()
+
+	def read_from_file(self,game=0):
+		name = "Game"+str(game)
+		read_file = h5.File("Game",'r')
+		self.decoded_board = read_file["Board"][:]
+		read_file.close()
 
 	def piece_to_val(self,piece_obj):
 		piece = piece_obj.get_piece()
