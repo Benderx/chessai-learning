@@ -131,10 +131,8 @@ class Engine():
         pos_x = pos[0]
         pos_y = pos[1]
 
-        #Check rooks and non-diagnal queens
+        ############### Check rooks and non-diagnal queens ###############
         #Check to left of king
-
-        
         for x in range(pos_x-1,-1,-1):
             if self.board[pos_y][x]:
                 local_piece = self.board[pos_y][x]
@@ -455,7 +453,7 @@ class Engine():
         square2 = self.board[y2][x2]
 
         if len(move) == 4: # enpassant
-            diff = y1 - y2
+            # self.print_board()
             self.board[y1][x2] = None
 
         if debug_square1: print("x and y value of square is:", (x1, y1))
@@ -478,6 +476,11 @@ class Engine():
         
         self.board[y2][x2] = square1
         self.board[y1][x1] = None
+
+        # if len(move) == 4:
+        #     print()
+        #     self.print_board()
+        #     exit()
 
 
     def undo_board(self, move, old_piece):
@@ -539,8 +542,7 @@ class Engine():
 
         if len(move) == 4: # enpassant
             self.print_board()
-            diff = y1 - y2
-            self.board[y1][x2] = Piece.Pawn(square2.get_color())
+            self.board[y1][x2] = Piece.Pawn(self.invert_color(square2.get_color()))
             self.enpassant[x2] = True
 
         if square2.get_piece() == 'King': # if moving king
