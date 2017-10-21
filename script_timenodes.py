@@ -53,7 +53,11 @@ def get_time():
 
         i_time = time.clock()
         for j in range(num):
-            possible_moves = engine.get_legal_moves(players[turn].get_color())
+            if True:
+                possible_moves = engine.get_legal_moves(players[turn].get_color(), True)
+                exit()
+            else:
+                possible_moves = engine.get_legal_moves(players[turn].get_color())
         e_time = time.clock()
 
         calc1 = (e_time-i_time)/float(num)

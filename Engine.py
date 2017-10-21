@@ -1,4 +1,5 @@
 import Piece
+import time
 
 # -1 will represent black
 # 1 will represent white
@@ -1005,18 +1006,38 @@ class Engine():
         return moves
 
 
-    def get_legal_moves(self, color):
+    def get_legal_moves(self, color, timing = False):
         # Add all moves but castles
-        moves = []
-        for row in range(8):
-            for col in range(8):
-                piece = self.board[row][col]
-                if piece is not None and piece.get_color() == color:
-                    # RETURNS A LIST OF POSSIBLE MOVES TUPLES DEFINED AS (pos1, pos2, identity)
-                    # PAWN PROMOTION WILL RETURN AS (pos1, pos2, Piece())
-                    # ENAPSSANT WILL RETURN AS (pos1, pos2, 'enpassant')
-                    # EVERYTHING ELSE RETURNS AS (pos1, pos2, None)
-                    moves += self.get_possible_squares(piece, (col, row))
+
+        if timing:
+            i_time = time.clock()
+            num = 10000
+
+        if timing:
+            for i in range(num):
+                moves = []
+                for row in range(8):
+                    for col in range(8):
+                        piece = self.board[row][col]
+                        if piece is not None and piece.get_color() == color:
+                            moves += self.get_possible_squares(piece, (col, row))
+        else:
+            moves = []
+            for row in range(8):
+                for col in range(8):
+                    piece = self.board[row][col]
+                    if piece is not None and piece.get_color() == color:
+                        # RETURNS A LIST OF POSSIBLE MOVES TUPLES DEFINED AS (pos1, pos2, identity)
+                        # PAWN PROMOTION WILL RETURN AS (pos1, pos2, Piece())
+                        # ENAPSSANT WILL RETURN AS (pos1, pos2, 'enpassant')
+                        # EVERYTHING ELSE RETURNS AS (pos1, pos2, None)
+                        moves += self.get_possible_squares(piece, (col, row))
+
+        if timing:
+            e_time = time.clock()
+            calc1 = (e_time-i_time)/float(num)
+            print('time taken to get unfiltered moves over {0} iterations on turn {1}: {2:.{3}e}'.format(num, self.get_game_length(), calc1, 4))
+
 
 
         # Add castles 
@@ -1044,6 +1065,8 @@ class Engine():
                 check_filtered_moves.append(move)
             self.pop_move()
         
+        if timing:
+            print()
         return check_filtered_moves
 
 
