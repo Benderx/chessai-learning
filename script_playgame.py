@@ -8,8 +8,8 @@ winner = None
 engine = Engine.Engine()
 engine.init_board()
 
-PLAYER_ONE = Player.AiRand(1,engine)
-PLAYER_TWO = Player.AiRand(-1,engine)
+PLAYER_ONE = Player.AiRand(1, engine)
+PLAYER_TWO = Player.AiMonte(-1, engine, 1000)
 
 players = [PLAYER_ONE,PLAYER_TWO]
 
