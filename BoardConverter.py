@@ -63,7 +63,7 @@ class BoardConverter():
 		name = "Game"+str(game)
 		read_file = h5.File(name,'r')
 		for line in read_file:
-			print(line)
+			print(read_file[line][:])
 
 
 	def piece_to_val(self,piece_obj):
