@@ -1039,7 +1039,6 @@ class Engine():
         # checking if move puts you in check
         check_filtered_moves = []
         for move in moves:
-            print('checking move', move)
             self.push_move(move)
             if not self.in_check(color):
                 check_filtered_moves.append(move)
