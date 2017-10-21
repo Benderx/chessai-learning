@@ -41,8 +41,6 @@ class BoardConverter():
 	def write_to_file(self):
 		file = h5.File('Game','w')
 
-
-
 	def piece_to_val(self,piece_obj):
 		piece = piece_obj.get_piece()
 		color = piece_obj.get_color()
