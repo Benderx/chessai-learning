@@ -3,7 +3,8 @@ Python - Using self play to make a chess engine.
 
 Log of functions and API's:
 
---------------------------------------------------Engine Class----------------------------------------------------\n
+--------------------------------------------------Engine Class----------------------------------------------------
+
 __init__(self)
 Takes in nothing
 Returns nothing

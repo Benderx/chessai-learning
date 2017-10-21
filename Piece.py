@@ -19,12 +19,14 @@ class Piece():
 class Pawn(Piece):
     def __init__(self, color):
         super().__init__(color)
+        # self.enpassant = False
 
     def get_piece(self):
         return("Pawn")
 
+
 class Rook(Piece):
-    def __init__(self, color, num=3, moved = 0,):
+    def __init__(self, color, num=3, moved = 0):
         super().__init__(color)
         self.moved = moved
         self.num = num
