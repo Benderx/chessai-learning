@@ -24,9 +24,9 @@ class Pawn(Piece):
         return("Pawn")
 
 class Rook(Piece):
-    def __init__(self, color, num=3):
+    def __init__(self, color, num=3, moved = 0,):
         super().__init__(color)
-        self.moved = 0
+        self.moved = moved
         self.num = num
 
     def get_moved(self):
@@ -59,9 +59,9 @@ class Bishop(Piece):
         return("Bishop")
 
 class King(Piece):
-    def __init__(self, color):
+    def __init__(self, color, moved = 0):
         super().__init__(color)
-        self.moved = 0
+        self.moved = moved
 
     def get_piece(self):
         return("King")
