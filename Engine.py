@@ -565,11 +565,15 @@ class Engine():
 
     def promotions(self, color, pos, to_pos):
         promos = []
-        promos.append((pos, to_pos, Piece.Knight(color)))
-        promos.append((pos, to_pos, Piece.Rook(color)))
-        promos.append((pos, to_pos, Piece.Queen(color)))
-        promos.append((pos, to_pos, Piece.Bishop(color)))
+        promos += self.create_move(pos, to_pos, Piece.Knight(color))
+        promos += self.create_move(pos, to_pos, Piece.Rook(color))
+        promos += self.create_move(pos, to_pos, Piece.Queen(color))
+        promos += self.create_move(pos, to_pos, Piece.Bishop(color))
         return promos
+
+
+    def create_move(self, pos1, pos2, extra):
+        return tuple(pos1, pos2, extra)
 
 
     def get_possible_squares(self, piece, pos):
@@ -589,7 +593,7 @@ class Engine():
                         if y_1 == 0:
                             moves += self.promotions(piece.get_color(), (init_x, init_y), (x_1, y_1))
                         else:
-                            moves.append(((init_x, init_y), (x_1, y_1)))
+                            moves += self.create_move((init_x, init_y), (x_1, y_1), None)
 
                 x_2 = init_x + 1
                 y_2 = init_y - 1
@@ -597,12 +601,12 @@ class Engine():
                     space = self.board[y_2][x_2]
                     if not space:
                         if y_2 == 2 and self.enpassant[x_2]:
-                            moves.append(((init_x, init_y), (x_2, y_2), 'yoo', 'yaboy'))
+                            moves += self.create_move((init_x, init_y), (x_2, y_2), 'enpassant')
                     elif space.get_color() != piece.get_color():
                         if y_2 == 0:
                             moves += self.promotions(piece.get_color(), (init_x, init_y), (x_2, y_2))
                         else:
-                            moves.append(((init_x, init_y), (x_2, y_2)))
+                            moves += self.create_move((init_x, init_y), (x_2, y_2), None)
 
                 x_3 = init_x - 1
                 y_3 = init_y - 1
@@ -610,12 +614,12 @@ class Engine():
                     space = self.board[y_3][x_3]
                     if not space:
                         if y_3 == 2 and self.enpassant[x_3]:
-                            moves.append(((init_x, init_y), (x_3, y_3), 'yoo', 'yaboy'))
+                            moves += self.create_move((init_x, init_y), (x_3, y_3), 'enpassant')
                     elif space and space.get_color() != piece.get_color():
                         if y_3 == 0:
                             moves += self.promotions(piece.get_color(), (init_x, init_y), (x_3, y_3))
                         else:
-                            moves.append(((init_x, init_y), (x_3, y_3)))
+                            moves += self.create_move((init_x, init_y), (x_3, y_3), None)
 
                 if init_y == 6:
                     x_4 = init_x
@@ -623,7 +627,8 @@ class Engine():
                     space = self.board[y_4][x_4]
                     inter_space = self.board[y_4+1][x_4]
                     if not space and not inter_space:
-                        moves.append(((init_x, init_y), (x_4, y_4)))
+                        moves += self.create_move((init_x, init_y), (x_4, y_4), None)
+
             else:
                 x_1 = init_x
                 y_1 = init_y + 1
@@ -633,7 +638,7 @@ class Engine():
                         if y_1 == 7:
                             moves += self.promotions(piece.get_color(), (init_x, init_y), (x_1, y_1))
                         else:
-                            moves.append(((init_x, init_y), (x_1, y_1)))
+                            moves += self.create_move((init_x, init_y), (x_1, y_1), None)
 
                 x_2 = init_x + 1
                 y_2 = init_y + 1
@@ -641,12 +646,12 @@ class Engine():
                     space = self.board[y_2][x_2]
                     if not space:
                         if y_2 == 5 and self.enpassant[x_2]:
-                            moves.append(((init_x, init_y), (x_2, y_2), 'yoo', 'yaboy'))
+                            moves += self.create_move((init_x, init_y), (x_2, y_2), 'enpassant')
                     elif space.get_color() != piece.get_color():
                         if y_2 == 7:
                             moves += self.promotions(piece.get_color(), (init_x, init_y), (x_2, y_2))
                         else:
-                            moves.append(((init_x, init_y), (x_2, y_2)))
+                            moves += self.create_move((init_x, init_y), (x_2, y_2), None)
 
                 x_3 = init_x - 1
                 y_3 = init_y + 1
@@ -654,12 +659,12 @@ class Engine():
                     space = self.board[y_3][x_3]
                     if not space:
                         if y_3 == 5 and self.enpassant[x_3]:
-                            moves.append(((init_x, init_y), (x_3, y_3), 'yoo', 'yaboy'))
+                            moves += self.create_move((init_x, init_y), (x_3, y_3), 'enpassant')
                     elif space.get_color() != piece.get_color():
                         if y_3 == 7:
                             moves += self.promotions(piece.get_color(), (init_x, init_y), (x_3, y_3))
                         else:
-                            moves.append(((init_x, init_y), (x_3, y_3)))
+                            moves += self.create_move((init_x, init_y), (x_3, y_3), None)
 
                 if init_y == 1:
                     x_4 = init_x
@@ -667,7 +672,7 @@ class Engine():
                     space = self.board[y_4][x_4]
                     inter_space = self.board[y_4-1][x_4]
                     if not space and not inter_space:
-                        moves.append(((init_x, init_y), (x_4, y_4)))
+                        moves += self.create_move((init_x, init_y), (x_4, y_4), None)
 
         elif piece_name == 'Rook':
             for y in range(1, 8):
@@ -676,11 +681,11 @@ class Engine():
                 space = self.board[init_y + y][init_x]
 
                 if space is None:
-                    moves.append(((init_x, init_y), (init_x, init_y + y)))
+                    moves += self.create_move((init_x, init_y), (init_x, init_y + y), None)
                 elif space.get_color() == piece.get_color():
                     break
                 else:
-                    moves.append(((init_x, init_y), (init_x, init_y + y)))
+                    moves += self.create_move((init_x, init_y), (init_x, init_y + y), None)
                     break
 
             for y in range(1, 8):
@@ -689,11 +694,11 @@ class Engine():
                 space = self.board[init_y - y][init_x]
 
                 if space is None:
-                    moves.append(((init_x, init_y), (init_x, init_y - y)))
+                    moves += self.create_move((init_x, init_y), (init_x, init_y - y), None)
                 elif space.get_color() == piece.get_color():
                     break
                 else:
-                    moves.append(((init_x, init_y), (init_x, init_y - y)))
+                    moves += self.create_move((init_x, init_y), (init_x, init_y - y), None)
                     break
 
             for x in range(1, 8):
@@ -702,11 +707,11 @@ class Engine():
                 space = self.board[init_y][init_x + x]
 
                 if space is None:
-                    moves.append(((init_x, init_y), (init_x + x, init_y)))
+                    moves += self.create_move((init_x, init_y), (init_x + x, init_y), None)
                 elif space.get_color() == piece.get_color():
                     break
                 else:
-                    moves.append(((init_x, init_y), (init_x + x, init_y)))
+                    moves += self.create_move((init_x, init_y), (init_x + x, init_y), None)
                     break
 
             for x in range(1, 8):
@@ -715,11 +720,11 @@ class Engine():
                 space = self.board[init_y][init_x - x]
 
                 if space is None:
-                    moves.append(((init_x, init_y), (init_x - x, init_y)))
+                    moves += self.create_move((init_x, init_y), (init_x - x, init_y), None)
                 elif space.get_color() == piece.get_color():
                     break
                 else:
-                    moves.append(((init_x, init_y), (init_x - x, init_y)))
+                    moves += self.create_move((init_x, init_y), (init_x - x, init_y), None)
                     break
 
         elif piece_name == 'Night':
@@ -728,56 +733,56 @@ class Engine():
             if x_1 < 8 and y_1 > -1:
                 space = self.board[y_1][x_1]
                 if not space or space.get_color() != piece.get_color():
-                    moves.append(((init_x, init_y), (x_1, y_1)))
+                    moves += self.create_move((init_x, init_y), (x_1, y_1), None)
 
             x_2 = init_x + 2
             y_2 = init_y - 1
             if x_2 < 8 and y_2 > -1:
                 space = self.board[y_2][x_2]
                 if not space or space.get_color() != piece.get_color():
-                    moves.append(((init_x, init_y), (x_2, y_2)))
+                    moves += self.create_move((init_x, init_y), (x_2, y_2), None)
 
             x_3 = init_x + 2
             y_3 = init_y + 1
             if x_3 < 8 and y_3 < 8:
                 space = self.board[y_3][x_3]
                 if not space or space.get_color() != piece.get_color():
-                    moves.append(((init_x, init_y), (x_3, y_3)))
+                    moves += self.create_move((init_x, init_y), (x_3, y_3), None)
 
             x_4 = init_x + 1
             y_4 = init_y + 2
             if x_4 < 8 and y_4 < 8:
                 space = self.board[y_4][x_4]
                 if not space or space.get_color() != piece.get_color():
-                    moves.append(((init_x, init_y), (x_4, y_4)))
+                    moves += self.create_move((init_x, init_y), (x_4, y_4), None)
 
             x_5 = init_x - 1
             y_5 = init_y + 2
             if x_5 > -1 and y_5 < 8:
                 space = self.board[y_5][x_5]
                 if not space or space.get_color() != piece.get_color():
-                    moves.append(((init_x, init_y), (x_5, y_5)))
+                    moves += self.create_move((init_x, init_y), (x_5, y_5), None)
 
             x_6 = init_x - 2
             y_6 = init_y + 1
             if x_6 > -1 and y_6 < 8:
                 space = self.board[y_6][x_6]
                 if not space or space.get_color() != piece.get_color():
-                    moves.append(((init_x, init_y), (x_6, y_6)))
+                    moves += self.create_move((init_x, init_y), (x_6, y_6), None)
 
             x_7 = init_x - 2
             y_7 = init_y - 1
             if x_7 > -1 and y_7 > -1:
                 space = self.board[y_7][x_7]
                 if not space or space.get_color() != piece.get_color():
-                    moves.append(((init_x, init_y), (x_7, y_7)))
+                    moves += self.create_move((init_x, init_y), (x_7, y_7), None)
 
             x_8 = init_x - 1
             y_8 = init_y - 2
             if x_8 > -1 and y_8 > -1:
                 space = self.board[y_8][x_8]
                 if not space or space.get_color() != piece.get_color():
-                    moves.append(((init_x, init_y), (x_8, y_8)))
+                    moves += self.create_move((init_x, init_y), (x_8, y_8), None)
 
         elif piece_name == 'Bishop':
             for inc in range(1, 8):
@@ -786,11 +791,11 @@ class Engine():
                 space = self.board[init_y + inc][init_x + inc]
 
                 if space is None:
-                    moves.append(((init_x, init_y), (init_x + inc, init_y + inc)))
+                    moves += self.create_move((init_x, init_y), (init_x + inc, init_y + inc), None)
                 elif space.get_color() == piece.get_color():
                     break
                 else:
-                    moves.append(((init_x, init_y), (init_x + inc, init_y + inc)))
+                    moves += self.create_move((init_x, init_y), (init_x + inc, init_y + inc), None)
                     break
 
             for inc in range(1, 8):
@@ -799,11 +804,11 @@ class Engine():
                 space = self.board[init_y - inc][init_x + inc]
 
                 if space is None:
-                    moves.append(((init_x, init_y), (init_x + inc, init_y - inc)))
+                    moves += self.create_move((init_x, init_y), (init_x + inc, init_y - inc), None)
                 elif space.get_color() == piece.get_color():
                     break
                 else:
-                    moves.append(((init_x, init_y), (init_x + inc, init_y - inc)))
+                    moves += self.create_move((init_x, init_y), (init_x + inc, init_y - inc), None)
                     break
 
             for inc in range(1, 8):
@@ -812,11 +817,11 @@ class Engine():
                 space = self.board[init_y + inc][init_x - inc]
 
                 if space is None:
-                    moves.append(((init_x, init_y), (init_x - inc, init_y + inc)))
+                    moves += self.create_move((init_x, init_y), (init_x - inc, init_y + inc), None)
                 elif space.get_color() == piece.get_color():
                     break
                 else:
-                    moves.append(((init_x, init_y), (init_x - inc, init_y + inc)))
+                    moves += self.create_move((init_x, init_y), (init_x - inc, init_y + inc), None)
                     break
 
             for inc in range(1, 8):
@@ -825,11 +830,11 @@ class Engine():
                 space = self.board[init_y - inc][init_x - inc]
 
                 if space is None:
-                    moves.append(((init_x, init_y), (init_x - inc, init_y - inc)))
+                    moves += self.create_move((init_x, init_y), (init_x - inc, init_y - inc), None)
                 elif space.get_color() == piece.get_color():
                     break
                 else:
-                    moves.append(((init_x, init_y), (init_x - inc, init_y - inc)))
+                    moves += self.create_move((init_x, init_y), (init_x - inc, init_y - inc), None)
                     break
 
         elif piece_name == 'Queen':
@@ -839,11 +844,11 @@ class Engine():
                 space = self.board[init_y + y][init_x]
 
                 if space is None:
-                    moves.append(((init_x, init_y), (init_x, init_y + y)))
+                    moves += self.create_move((init_x, init_y), (init_x, init_y + y), None)
                 elif space.get_color() == piece.get_color():
                     break
                 else:
-                    moves.append(((init_x, init_y), (init_x, init_y + y)))
+                    moves += self.create_move((init_x, init_y), (init_x, init_y + y), None)
                     break
 
             for y in range(1, 8):
@@ -852,11 +857,11 @@ class Engine():
                 space = self.board[init_y - y][init_x]
 
                 if space is None:
-                    moves.append(((init_x, init_y), (init_x, init_y - y)))
+                    moves += self.create_move((init_x, init_y), (init_x, init_y - y), None)
                 elif space.get_color() == piece.get_color():
                     break
                 else:
-                    moves.append(((init_x, init_y), (init_x, init_y - y)))
+                    moves += self.create_move((init_x, init_y), (init_x, init_y - y), None)
                     break
 
             for x in range(1, 8):
@@ -865,11 +870,11 @@ class Engine():
                 space = self.board[init_y][init_x + x]
 
                 if space is None:
-                    moves.append(((init_x, init_y), (init_x + x, init_y)))
+                    moves += self.create_move((init_x, init_y), (init_x + x, init_y), None)
                 elif space.get_color() == piece.get_color():
                     break
                 else:
-                    moves.append(((init_x, init_y), (init_x + x, init_y)))
+                    moves += self.create_move((init_x, init_y), (init_x + x, init_y), None)
                     break
 
             for x in range(1, 8):
@@ -878,11 +883,11 @@ class Engine():
                 space = self.board[init_y][init_x - x]
 
                 if space is None:
-                    moves.append(((init_x, init_y), (init_x - x, init_y)))
+                    moves += self.create_move((init_x, init_y), (init_x - x, init_y), None)
                 elif space.get_color() == piece.get_color():
                     break
                 else:
-                    moves.append(((init_x, init_y), (init_x - x, init_y)))
+                    moves += self.create_move((init_x, init_y), (init_x - x, init_y), None)
                     break
 
 
@@ -892,11 +897,11 @@ class Engine():
                 space = self.board[init_y + inc][init_x + inc]
 
                 if space is None:
-                    moves.append(((init_x, init_y), (init_x + inc, init_y + inc)))
+                    moves += self.create_move((init_x, init_y), (init_x + inc, init_y + inc), None)
                 elif space.get_color() == piece.get_color():
                     break
                 else:
-                    moves.append(((init_x, init_y), (init_x + inc, init_y + inc)))
+                    moves += self.create_move((init_x, init_y), (init_x + inc, init_y + inc), None)
                     break
 
             for inc in range(1, 8):
@@ -905,11 +910,11 @@ class Engine():
                 space = self.board[init_y - inc][init_x + inc]
 
                 if space is None:
-                    moves.append(((init_x, init_y), (init_x + inc, init_y - inc)))
+                    moves += self.create_move((init_x, init_y), (init_x + inc, init_y - inc), None)
                 elif space.get_color() == piece.get_color():
                     break
                 else:
-                    moves.append(((init_x, init_y), (init_x + inc, init_y - inc)))
+                    moves += self.create_move((init_x, init_y), (init_x + inc, init_y - inc), None)
                     break
 
             for inc in range(1, 8):
@@ -918,11 +923,11 @@ class Engine():
                 space = self.board[init_y + inc][init_x - inc]
 
                 if space is None:
-                    moves.append(((init_x, init_y), (init_x - inc, init_y + inc)))
+                    moves += self.create_move((init_x, init_y), (init_x - inc, init_y + inc), None)
                 elif space.get_color() == piece.get_color():
                     break
                 else:
-                    moves.append(((init_x, init_y), (init_x - inc, init_y + inc)))
+                    moves += self.create_move((init_x, init_y), (init_x - inc, init_y + inc), None)
                     break
 
             for inc in range(1, 8):
@@ -931,112 +936,71 @@ class Engine():
                 space = self.board[init_y - inc][init_x - inc]
 
                 if space is None:
-                    moves.append(((init_x, init_y), (init_x - inc, init_y - inc)))
+                    moves += self.create_move((init_x, init_y), (init_x - inc, init_y - inc), None)
                 elif space.get_color() == piece.get_color():
                     break
                 else:
-                    moves.append(((init_x, init_y), (init_x - inc, init_y - inc)))
+                    moves += self.create_move((init_x, init_y), (init_x - inc, init_y - inc), None)
                     break
 
         elif piece_name == 'King':
-            # if not piece.has_moved:
-            #     square_right_1 = self.board[init_y][init_x + 1]
-            #     square_right_2 = self.board[init_y][init_x + 2]
-            #     square_right_3 = self.board[init_y][init_x + 3]
-
-            #     if not square_right_1 and not square_right_2 and square_right_3:
-            #         if square_right_3.get_piece() == 'Rook' and not square_right_3.has_moved():
-            #             moves.append('castle')
-
-            #     square_left_1 = self.board[init_y][init_x - 1]
-            #     square_left_2 = self.board[init_y][init_x - 2]
-            #     square_left_3 = self.board[init_y][init_x - 3]
-            #     square_left_4 = self.board[init_y][init_x - 4]
-
-            #     if not square_left_1 and not square_left_2 and not square_left_3 and square_left_4:
-            #         if square_left_4.get_piece() == 'Rook' and not square_left_4.has_moved():
-            #             moves.append('qastle')
-
-            if debug_king: print('I want to move')
             x_1 = init_x + 1
             y_1 = init_y - 1
             if x_1 < 8 and y_1 > -1:
                 space = self.board[y_1][x_1]
                 if not space or space.get_color() != piece.get_color():
-                    moves.append(((init_x, init_y), (x_1, y_1)))
-                elif debug_king:
-                    print("I cannot move UR")
+                    moves += self.create_move((init_x, init_y), (x_1, y_1), None)
 
             x_2 = init_x + 1
             y_2 = init_y
             if x_2 < 8:
                 space = self.board[y_2][x_2]
                 if not space or space.get_color() != piece.get_color():
-                    moves.append(((init_x, init_y), (x_2, y_2)))
-                elif debug_king:
-                    print("I cannot move R")
+                    moves += self.create_move((init_x, init_y), (x_2, y_2), None)
 
             x_3 = init_x + 1
             y_3 = init_y + 1
             if x_3 < 8 and y_3 < 8:
                 space = self.board[y_3][x_3]
                 if not space or space.get_color() != piece.get_color():
-                    moves.append(((init_x, init_y), (x_3, y_3)))
-                elif debug_king:
-                    print("I cannot move DR")
+                    moves += self.create_move((init_x, init_y), (x_3, y_3), None)
 
             x_4 = init_x
             y_4 = init_y + 1
             if y_4 < 8:
                 space = self.board[y_4][x_4]
                 if not space or space.get_color() != piece.get_color():
-                    moves.append(((init_x, init_y), (x_4, y_4)))
-                elif debug_king:
-                    print("I cannot move D")
+                    moves += self.create_move((init_x, init_y), (x_4, y_4), None)
 
             x_5 = init_x - 1
             y_5 = init_y + 1
             if x_5 > -1 and y_5 < 8:
                 space = self.board[y_5][x_5]
                 if not space or space.get_color() != piece.get_color():
-                    moves.append(((init_x, init_y), (x_5, y_5)))
-                elif debug_king:
-                    print("I cannot move DL")
+                    moves += self.create_move((init_x, init_y), (x_5, y_5), None)
 
             x_6 = init_x - 1
             y_6 = init_y
             if x_6 > -1:
                 space = self.board[y_6][x_6]
                 if not space or space.get_color() != piece.get_color():
-                    moves.append(((init_x, init_y), (x_6, y_6)))
-                elif debug_king:
-                    print("I cannot move L")
+                    moves += self.create_move((init_x, init_y), (x_6, y_6), None)
 
             x_7 = init_x - 1
             y_7 = init_y - 1
             if x_7 > -1 and y_7 > -1:
                 space = self.board[y_7][x_7]
                 if not space or space.get_color() != piece.get_color():
-                    moves.append(((init_x, init_y), (x_7, y_7)))
-                elif debug_king:
-                    print("I cannot move UL")
+                    moves += self.create_move((init_x, init_y), (x_7, y_7), None)
 
             x_8 = init_x
             y_8 = init_y - 1
             if y_8 > -1:
                 space = self.board[y_8][x_8]
                 if not space or space.get_color() != piece.get_color():
-                    moves.append(((init_x, init_y), (x_8, y_8)))
-                elif debug_king:
-                    print("I cannot move U")
+                    moves += self.create_move((init_x, init_y), (x_8, y_8), None)
 
         return moves
-
-
-    # KNOWN ISSUES:
-    #       En passant has no implementation
-    #       Castling does not check if it castles through check
-    #       Difference between qastle and castle not well defined for color
 
 
     def get_legal_moves(self, color):
@@ -1045,37 +1009,35 @@ class Engine():
             for col in range(8):
                 piece = self.board[row][col]
                 if piece is not None and piece.get_color() == color:
-                    # RETURNS A LIST OF POSSIBLE MOVES
-                    # PAWN PROMOTION WILL RETURN AS (pawn_pos, promotion_pos, Piece)
-                    # CASTLING WILL RETURN AS ("castle") or ("qastle")
-                    # EVERYTHING ELSE RETURNS AS (piece_pos, to_piece_pos)
+                    # RETURNS A LIST OF POSSIBLE MOVES TUPLES DEFINED AS (pos1, pos2, extra)
+                    # PAWN PROMOTION WILL RETURN AS (pos1, pos2, Piece())
+                    # ENAPSSANT WILL RETURN AS (pos1, pos2, 'enpassant')
+                    # EVERYTHING ELSE RETURNS AS (pos1, pos2, None)
                     moves += self.get_possible_squares(piece, (col, row))
 
         # checking if move puts you in check
-        final_moves = []
+        check_filtered_moves = []
         for move in moves:
-            if move[0] == type(""): # castling edge case
-                pass
-            else:
-                self.push_move(move)
-                if not self.in_check(color):
-                    final_moves.append(move)
-                self.pop_move()
+            self.push_move(move)
+            if not self.in_check(color):
+                check_filtered_moves.append(move)
+            self.pop_move()
         
         # Add castles 
+        # CASTLING WILL RETURN AS ("castle") or ("qastle")
         castle_possibles = self.can_castle(color)
         if castle_possibles[0]:
             if color == 1:
-                final_moves.append(tuple(["wcastle"]))
+                check_filtered_moves.append(tuple(["wcastle"]))
             else:
-                final_moves.append(tuple(["bcastle"]))
+                check_filtered_moves.append(tuple(["bcastle"]))
         if castle_possibles[1]:
             if color == 1:
-                final_moves.append(tuple(["wqastle"]))
+                check_filtered_moves.append(tuple(["wqastle"]))
             else:
-                final_moves.append(tuple(["bqastle"]))
+                check_filtered_moves.append(tuple(["bqastle"]))
 
-        return final_moves
+        return check_filtered_moves
 
     def is_terminal(self,color,moves):
         #Takes in moves and turn takers color
