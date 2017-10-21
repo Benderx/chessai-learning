@@ -41,7 +41,7 @@ class Rook(Piece):
     def sub_move(self):
         self.moved -= 1
 
-    def rook_num(self):
+    def get_rook_num(self):
         return(self.num)
 
 class Knight(Piece):
