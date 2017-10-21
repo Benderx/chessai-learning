@@ -1050,7 +1050,7 @@ class Engine():
     def is_terminal(self, color, moves):
         #Takes in moves and turn takers color
         #Returns None if ongoing, zero if draw, or color of winner
-        if self.get_game_length() > 500:
+        if self.get_game_length() > 250:
             return(0)
         elif len(moves) != 0:
             return(None)
