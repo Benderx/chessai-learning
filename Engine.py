@@ -50,13 +50,13 @@ class Engine():
             self.board[1][6] = black_pawn_7
             self.board[1][7] = black_pawn_8
 
-            self.white_rook_1 = Piece.Rook(1)
-            self.white_rook_2 = Piece.Rook(1)
+            self.white_rook_1 = Piece.Rook(1,0)
+            self.white_rook_2 = Piece.Rook(1,1)
             self.board[7][0] = self.white_rook_1
             self.board[7][7] = self.white_rook_2
 
-            self.black_rook_1 = Piece.Rook(-1)
-            self.black_rook_2 = Piece.Rook(-1)
+            self.black_rook_1 = Piece.Rook(-1,0)
+            self.black_rook_2 = Piece.Rook(-1,1)
             self.board[0][0] = self.black_rook_1
             self.board[0][7] = self.black_rook_2
 
