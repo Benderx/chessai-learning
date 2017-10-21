@@ -186,8 +186,8 @@ class Engine():
 
 
         #Check knights
-        up1,down1,left1,right1 = (False,False,False,False)
-        up2,down2,left2,right2 = (False,False,False,False)
+        up1,down1,left1,right1 = (False, False, False, False)
+        up2,down2,left2,right2 = (False, False, False, False)
         if pos_x + 1 <= 7: 
             right1 = True
             if pos_x + 2 <= 7: 
@@ -205,7 +205,7 @@ class Engine():
 
         if pos_y + 1 <= 7:
             down1 = True
-            if pos_y + 2 <= 7: 
+            if pos_y + 2 <= 7:
                 down2 = True
 
         if up2 and right1:
@@ -376,11 +376,11 @@ class Engine():
 
 
     def push_move(self, move):
-        extra = move[3]
-        if len(move) == 1: # castling
-            self.stack.append((move))
-        else:
+        identity = move[3]
+        if identity == 'normal' or identity == 'enpassant': # Normal moves and enpassant
             self.stack.append((move, self.board[move[1][1]][move[1][0]]))
+        else:
+            self.stack.append((move)) # Castling moves
         self.perform_move(move)
 
 
@@ -397,7 +397,12 @@ class Engine():
 
     def perform_move(self, move):
         self.moves_made += 1
-        if len(move) == 1: # castling
+        pos1 = move[0]
+        pos2 = move[1]
+        piece = move[2]
+        identity = move[3]
+
+        if identity[2:] == 'astle': # castling
             if move[0][0] == 'w':
                 y = 7
                 self.white_king.add_move()
@@ -476,7 +481,6 @@ class Engine():
         
         self.board[y2][x2] = square1
         self.board[y1][x1] = None
-
 
 
     def undo_move(self, move, old_piece):
@@ -559,7 +563,6 @@ class Engine():
         self.board[y2][x2] = old_piece
 
 
-
     def invert_color(self, color):
         return(-color)
 
@@ -573,13 +576,17 @@ class Engine():
         return promos
 
 
-    def create_move(self, pos1, pos2, extra):
-        if extra == None:  # the move is a normal move (pos1, pos2, None)
-            pass
-        if extra == type(Piece.Piece):  # the move is a promotion move (pos1, pos2, Piece)
-            pass
-        if extra == type(""): # the move is an enpassant promotion move (pos1, pos2, Piece)
-        return tuple(pos1, pos2, extra)
+    def create_move(self, pos1, pos2, identity):
+        if identity == None:  # the move is a normal move (pos1, pos2, None)
+            return tuple(pos1, pos2, None, 'normal')
+        if identity == type(Piece.Piece):  # the move is a promotion move (pos1, pos2, Piece)
+            return tuple(pos1, pos2, identity, 'promotion')
+        if identity == type(""): # the move is an enpassant promotion move (pos1, pos2, Piece)
+            if identity == 'enpasant':
+                return tuple(pos1, pos2, None, identity)
+            else:
+                return tuple(None, None, None, identity)
+        raise Exception('Not well formed move in create_move()')
 
 
     def get_possible_squares(self, piece, pos):
@@ -1015,7 +1022,7 @@ class Engine():
             for col in range(8):
                 piece = self.board[row][col]
                 if piece is not None and piece.get_color() == color:
-                    # RETURNS A LIST OF POSSIBLE MOVES TUPLES DEFINED AS (pos1, pos2, extra)
+                    # RETURNS A LIST OF POSSIBLE MOVES TUPLES DEFINED AS (pos1, pos2, identity)
                     # PAWN PROMOTION WILL RETURN AS (pos1, pos2, Piece())
                     # ENAPSSANT WILL RETURN AS (pos1, pos2, 'enpassant')
                     # EVERYTHING ELSE RETURNS AS (pos1, pos2, None)
@@ -1044,6 +1051,7 @@ class Engine():
                 check_filtered_moves.append(tuple(["bqastle"]))
 
         return check_filtered_moves
+
 
     def is_terminal(self,color,moves):
         #Takes in moves and turn takers color
