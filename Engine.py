@@ -16,6 +16,8 @@ class Engine():
         self.board = [[None for x in range(8)] for y in range(8)]
         self.stack = []
         self.moves_made = -1
+        self.enpassant = {0: False, 1: False, 2: False, 3: False,
+                          4: False, 5: False, 6: False, 7: False}
 
 
     def init_board(self, board = None):
@@ -378,8 +380,6 @@ class Engine():
     def push_move(self, move):
         if len(move) == 1: # castling
             self.stack.append((move))
-        # elif len(move) == 3: # pawn promotion
-        #     self.stack.append((move, self.board[move[1][1]][move[1][0]]))
         else:
             self.stack.append((move, self.board[move[1][1]][move[1][0]]))
         self.update_board(move)
@@ -387,14 +387,10 @@ class Engine():
 
     def pop_move(self):
         info = self.stack.pop()
-        if len(info) == 1: # castling
-            move = info[0]
+        move = info[0]
+        if len(move) == 1: # castling
             piece = None
-        # elif len(info) == 3: # pawn promotion
-        #     move = info[0]
-        #     piece = info[1]
         else:
-            move = info[0]
             piece = info[1]
 
         self.undo_board(move, piece)
@@ -432,6 +428,7 @@ class Engine():
             self.board[y][x2_rook] = self.board[y][x1_rook]
             self.board[y][x1_king] = None
             self.board[y][x1_rook] = None
+            return
 
         elif len(move) == 3: # pawn promotion
             x1 = move[0][0]
@@ -445,28 +442,42 @@ class Engine():
 
             self.board[y1][x1] = None
             self.board[y2][x2] = new_piece
-        else: # normal move
-            x1 = move[0][0]
-            y1 = move[0][1]
-            x2 = move[1][0]
-            y2 = move[1][1]
+            return
 
-            square1 = self.board[y1][x1]
-            square2 = self.board[y2][x2]
 
-            if debug_square1: print("x and y value of square is:", (x1, y1))
-            if square1.get_piece() == 'King': # if moving king
-                square1.add_move()
-                if square1.get_color() == 1:
-                    self.white_king_pos = move[1]
-                else:
-                    self.black_king_pos = move[1]
+        # normal move
+        x1 = move[0][0]
+        y1 = move[0][1]
+        x2 = move[1][0]
+        y2 = move[1][1]
 
-            if square1.get_piece() == 'Rook': # if moving rook
-                square1.add_move()
-            
-            self.board[y2][x2] = square1
-            self.board[y1][x1] = None
+        square1 = self.board[y1][x1]
+        square2 = self.board[y2][x2]
+
+        if len(move) == 4: # enpassant
+            diff = y1 - y2
+            self.board[y1][x2] = None
+
+        if debug_square1: print("x and y value of square is:", (x1, y1))
+        if square1.get_piece() == 'King': # if moving king
+            square1.add_move()
+            if square1.get_color() == 1:
+                self.white_king_pos = move[1]
+            else:
+                self.black_king_pos = move[1]
+
+        if square1.get_piece() == 'Rook': # if moving rook
+            square1.add_move()
+
+        for key in self.enpassant:
+            self.enpassant[key] = False
+        if square1.get_piece() == 'Pawn':
+            if abs(y2 - y1) == 2:
+                self.enpassant[x2] = True
+                # square1.enpassant = True
+        
+        self.board[y2][x2] = square1
+        self.board[y1][x1] = None
 
 
     def undo_board(self, move, old_piece):
@@ -501,6 +512,7 @@ class Engine():
             self.board[y][x2_rook] = self.board[y][x1_rook]
             self.board[y][x1_king] = None
             self.board[y][x1_rook] = None
+            return
 
         elif len(move) == 3: # pawn promotion
             x1 = move[0][0]
@@ -514,27 +526,44 @@ class Engine():
 
             self.board[y1][x1] = Piece.Pawn(color)
             self.board[y2][x2] = old_piece
-        else: # normal move
-            x1 = move[0][0]
-            y1 = move[0][1]
-            x2 = move[1][0]
-            y2 = move[1][1]
+            return
 
-            square1 = self.board[y1][x1]
-            square2 = self.board[y2][x2]
+        # normal move
+        x1 = move[0][0]
+        y1 = move[0][1]
+        x2 = move[1][0]
+        y2 = move[1][1]
 
-            if square2.get_piece() == 'King': # if moving king
-                if square2.get_color() == 1:
-                    self.white_king_pos = move[0]
-                else:
-                    self.black_king_pos = move[0]
-                square2.sub_move()
+        square1 = self.board[y1][x1]
+        square2 = self.board[y2][x2]
 
-            if square2.get_piece() == 'Rook':
-                square2.sub_move()
+        if len(move) == 4: # enpassant
+            self.print_board()
+            diff = y1 - y2
+            self.board[y1][x2] = Piece.Pawn(square2.get_color())
+            self.enpassant[x2] = True
 
-            self.board[y1][x1] = square2
-            self.board[y2][x2] = old_piece
+        if square2.get_piece() == 'King': # if moving king
+            if square2.get_color() == 1:
+                self.white_king_pos = move[0]
+            else:
+                self.black_king_pos = move[0]
+            square2.sub_move()
+
+        if square2.get_piece() == 'Rook':
+            square2.sub_move()
+
+        if square2.get_piece() == 'Pawn':
+            if abs(y2 - y1) == 2:
+                self.enpassant[x2] = False
+
+        self.board[y1][x1] = square2
+        self.board[y2][x2] = old_piece
+
+        if len(move) == 4:
+            print()
+            self.print_board()
+            exit()
 
 
     def invert_color(self, color):
@@ -573,7 +602,10 @@ class Engine():
                 y_2 = init_y - 1
                 if x_2 < 8 and y_2 > -1:
                     space = self.board[y_2][x_2]
-                    if space and space.get_color() != piece.get_color():
+                    if not space:
+                        if y_2 == 2 and self.enpassant[x_2]:
+                            moves.append(((init_x, init_y), (x_2, y_2), 'yoo', 'yaboy'))
+                    elif space.get_color() != piece.get_color():
                         if y_2 == 0:
                             moves += self.promotions(piece.get_color(), (init_x, init_y), (x_2, y_2))
                         else:
@@ -583,7 +615,10 @@ class Engine():
                 y_3 = init_y - 1
                 if x_3 > -1 and y_3 > -1:
                     space = self.board[y_3][x_3]
-                    if space and space.get_color() != piece.get_color():
+                    if not space:
+                        if y_3 == 2 and self.enpassant[x_3]:
+                            moves.append(((init_x, init_y), (x_3, y_3), 'yoo', 'yaboy'))
+                    elif space and space.get_color() != piece.get_color():
                         if y_3 == 0:
                             moves += self.promotions(piece.get_color(), (init_x, init_y), (x_3, y_3))
                         else:
@@ -611,7 +646,10 @@ class Engine():
                 y_2 = init_y + 1
                 if x_2 < 8 and y_2 < 8:
                     space = self.board[y_2][x_2]
-                    if space and space.get_color() != piece.get_color():
+                    if not space:
+                        if y_2 == 5 and self.enpassant[x_2]:
+                            moves.append(((init_x, init_y), (x_2, y_2), 'yoo', 'yaboy'))
+                    elif space.get_color() != piece.get_color():
                         if y_2 == 7:
                             moves += self.promotions(piece.get_color(), (init_x, init_y), (x_2, y_2))
                         else:
@@ -621,7 +659,10 @@ class Engine():
                 y_3 = init_y + 1
                 if x_3 > -1 and y_3 < 8:
                     space = self.board[y_3][x_3]
-                    if space and space.get_color() != piece.get_color():
+                    if not space:
+                        if y_3 == 5 and self.enpassant[x_3]:
+                            moves.append(((init_x, init_y), (x_3, y_3), 'yoo', 'yaboy'))
+                    elif space.get_color() != piece.get_color():
                         if y_3 == 7:
                             moves += self.promotions(piece.get_color(), (init_x, init_y), (x_3, y_3))
                         else:
