@@ -14,7 +14,7 @@ while games > 0:
     engine.init_board()
 
     PLAYER_ONE = Player.AiRand(1,engine)
-    PLAYER_TWO = Player.AiMonte(-1,engine, 500)
+    PLAYER_TWO = Player.AiMonte(-1,engine, 1000)
 
     players = [PLAYER_ONE,PLAYER_TWO]
 
@@ -36,6 +36,7 @@ while games > 0:
             break
         move = players[turn].get_move(possible_moves)
         engine.perform_move(move)
+        print('move')
         turn = 1-turn
     games-=1
 print("White won:",ww)

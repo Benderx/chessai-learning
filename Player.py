@@ -72,6 +72,7 @@ class AiMonte(Player):
         while samples_per_child == 0:
             curr_samples += 1
             samples_per_child = curr_samples//children
+        print(samples_per_child, 'per child. total children:', children)
 
         child_index = 0
         for child in moves:
