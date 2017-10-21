@@ -1,7 +1,7 @@
 import Engine
 import Piece
 
-# import h5pi
+import h5py as h5
 import numpy as np
 
 engine = Engine.Engine()
@@ -10,7 +10,7 @@ engine.init_board()
 board = engine.get_board()
 
 class BoardConverter():
-	def __init__(self,engine,color):
+	def __init__(self,engine,color=1):
 		self.engine = engine
 		self.con = np.zeros(72, dtype=np.int8)
 		#0-63 are pieces
@@ -22,6 +22,7 @@ class BoardConverter():
 		#71 is last move
 		self.con[71] = color
 		self.encode_board()
+		self.write_to_file()
 
 
 	def encode_board(self):
@@ -31,10 +32,15 @@ class BoardConverter():
 			for x in range(len(board[0])):
 				local_piece = board[y][x]
 				if local_piece:
-					self.con = self.piece_to_val(local_piece)
+					self.con[i] = self.piece_to_val(local_piece)
 				else:
-					arr[i] = 0
+					self.con[i] = 0
 				i += 1
+		print(self.con)
+
+	def write_to_file(self):
+		file = h5.File('Game','w')
+
 
 
 	def piece_to_val(self,piece_obj):
@@ -70,4 +76,4 @@ class BoardConverter():
 			self.con[index] = 0
 
 
-driver = Convert(engine)
+driver = BoardConverter(engine)
