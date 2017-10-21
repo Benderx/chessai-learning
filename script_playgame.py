@@ -19,8 +19,12 @@ print("Inital Boardstate:")
 engine.print_board()
 
 while True:
+    if play_by_play:
+        input("")
+
     possible_moves = engine.get_legal_moves(players[turn].get_color())
     winner = engine.is_terminal(players[turn].get_color(), possible_moves)
+    print('It is move:', engine.get_game_length())
     print("Current players turn:", players[turn].get_color())
     # print("All moves:\n",possible_moves)
     if winner != None:
@@ -43,7 +47,3 @@ while True:
     print('\n')
 
     turn = 1-turn
-    print(engine.get_game_length())
-    if play_by_play:
-        input("")
-    # time.sleep(1)

@@ -14,7 +14,7 @@ while games > 0:
     engine.init_board()
 
     PLAYER_ONE = Player.AiRand(1,engine)
-    PLAYER_TWO = Player.AiRand(-1,engine)
+    PLAYER_TWO = Player.AiMonte(-1,engine)
 
     players = [PLAYER_ONE,PLAYER_TWO]
 
