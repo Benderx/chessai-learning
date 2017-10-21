@@ -16,8 +16,7 @@ class Engine():
         self.board = [[None for x in range(8)] for y in range(8)]
         self.stack = []
         self.moves_made = -1
-        self.enpassant = {0: False, 1: False, 2: False, 3: False,
-                          4: False, 5: False, 6: False, 7: False}
+        self.enpassant = {}
 
 
     def init_board(self, board = None):
@@ -392,7 +391,6 @@ class Engine():
             piece = info[1]
         else: # castling
             piece = None
-
         self.undo_move(move, piece)
 
 
@@ -453,18 +451,28 @@ class Engine():
             self.board[y1][x2] = None
 
         if debug_square1: print("x and y value of square is:", (x1, y1))
-        if square1.get_piece() == 'King': # if moving king
-            square1.add_move()
-            if square1.get_color() == 1:
-                self.white_king_pos = pos2
-            else:
-                self.black_king_pos = pos2
+        # self.print_board()
+        # print(move)
+        try:
+            if square1.get_piece() == 'King': # if moving king
+                square1.add_move()
+                if square1.get_color() == 1:
+                    self.white_king_pos = pos2
+                else:
+                    self.black_king_pos = pos2
+        except:
+            self.print_board()
+            print(move)
+            print('white', self.white_king_pos)
+            print('black', self.black_king_pos)
+            print(self.stack)
+            exit()
 
         if square1.get_piece() == 'Rook': # if moving rook
             square1.add_move()
 
-        for key in self.enpassant:
-            self.enpassant[key] = False
+        if len(self.enpassant) > 0:
+            self.enpassant = {}
         if square1.get_piece() == 'Pawn':
             if abs(y2 - y1) == 2:
                 self.enpassant[x2] = True
@@ -543,7 +551,8 @@ class Engine():
 
         if square2.get_piece() == 'Pawn':
             if abs(y2 - y1) == 2:
-                self.enpassant[x2] = False
+                # self.enpassant[x2] = False
+                self.enpassant.pop(x2, None)
 
         self.board[y1][x1] = square2
         self.board[y2][x2] = old_piece
@@ -574,7 +583,7 @@ class Engine():
                 return tuple([pos1, pos2, None, extra])
             else:
                 return tuple([None, None, None, extra])
-        print(extra)
+
         raise Exception('Not well formed move in create_move()')
 
 
@@ -602,7 +611,7 @@ class Engine():
                 if x_2 < 8 and y_2 > -1:
                     space = self.board[y_2][x_2]
                     if not space:
-                        if y_2 == 2 and self.enpassant[x_2]:
+                        if y_2 == 2 and x_2 in self.enpassant:
                             moves.append(self.create_move((init_x, init_y), (x_2, y_2), 'enpassant'))
                     elif space.get_color() != piece.get_color():
                         if y_2 == 0:
@@ -615,7 +624,7 @@ class Engine():
                 if x_3 > -1 and y_3 > -1:
                     space = self.board[y_3][x_3]
                     if not space:
-                        if y_3 == 2 and self.enpassant[x_3]:
+                        if y_3 == 2 and x_3 in self.enpassant:
                             moves.append(self.create_move((init_x, init_y), (x_3, y_3), 'enpassant'))
                     elif space and space.get_color() != piece.get_color():
                         if y_3 == 0:
@@ -647,7 +656,7 @@ class Engine():
                 if x_2 < 8 and y_2 < 8:
                     space = self.board[y_2][x_2]
                     if not space:
-                        if y_2 == 5 and self.enpassant[x_2]:
+                        if y_2 == 5 and x_2 in self.enpassant:
                             moves.append(self.create_move((init_x, init_y), (x_2, y_2), 'enpassant'))
                     elif space.get_color() != piece.get_color():
                         if y_2 == 7:
@@ -660,7 +669,7 @@ class Engine():
                 if x_3 > -1 and y_3 < 8:
                     space = self.board[y_3][x_3]
                     if not space:
-                        if y_3 == 5 and self.enpassant[x_3]:
+                        if y_3 == 5 and x_3 in self.enpassant:
                             moves.append(self.create_move((init_x, init_y), (x_3, y_3), 'enpassant'))
                     elif space.get_color() != piece.get_color():
                         if y_3 == 7:
@@ -1031,7 +1040,7 @@ class Engine():
                 moves.append(self.create_move(None, None, 'bcastle'))
         if castle_possibles[1]:
             if color == 1:
-                moves.append(self.create_move(None, None, 'wcastle'))
+                moves.append(self.create_move(None, None, 'wqastle'))
             else:
                 moves.append(self.create_move(None, None, 'bqastle'))
 
