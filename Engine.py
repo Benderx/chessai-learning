@@ -380,7 +380,7 @@ class Engine():
             self.stack.append((move))
         else:
             self.stack.append((move, self.board[move[1][1]][move[1][0]]))
-        self.update_board(move)
+        self.perform_move(move)
 
 
     def pop_move(self):
@@ -391,10 +391,10 @@ class Engine():
         else:
             piece = info[1]
 
-        self.undo_board(move, piece)
+        self.undo_move(move, piece)
 
 
-    def update_board(self, move):
+    def perform_move(self, move):
         self.moves_made += 1
         if len(move) == 1: # castling
             if move[0][0] == 'w':
@@ -453,7 +453,6 @@ class Engine():
         square2 = self.board[y2][x2]
 
         if len(move) == 4: # enpassant
-            # self.print_board()
             self.board[y1][x2] = None
 
         if debug_square1: print("x and y value of square is:", (x1, y1))
@@ -477,13 +476,9 @@ class Engine():
         self.board[y2][x2] = square1
         self.board[y1][x1] = None
 
-        # if len(move) == 4:
-        #     print()
-        #     self.print_board()
-        #     exit()
 
 
-    def undo_board(self, move, old_piece):
+    def undo_move(self, move, old_piece):
         self.moves_made -= 1
         if len(move) == 1: # castling
             if move[0][0] == 'w':
@@ -562,10 +557,6 @@ class Engine():
         self.board[y1][x1] = square2
         self.board[y2][x2] = old_piece
 
-        if len(move) == 4:
-            print()
-            self.print_board()
-            exit()
 
 
     def invert_color(self, color):

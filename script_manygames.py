@@ -35,7 +35,7 @@ while games > 0:
                 d +=1
             break
         move = players[turn].get_move(possible_moves)
-        engine.update_board(move)
+        engine.perform_move(move)
         turn = 1-turn
     games-=1
 print("White won:",ww)

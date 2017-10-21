@@ -32,7 +32,7 @@ while True:
         break
     move = players[turn].get_move(possible_moves)
     print("Move:", move)
-    engine.update_board(move)
+    engine.perform_move(move)
     turn = 1-turn
     print(engine.get_game_length())
     if play_by_play:
