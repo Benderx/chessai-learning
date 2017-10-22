@@ -2,13 +2,9 @@ import Engine
 import Player
 import BoardConverter
 
-
-play_by_play = True
-
 winner = None
 engine = Engine.Engine()
 engine.init_board()
-convert = BoardConverter.BoardConverter()
 
 PLAYER_ONE = Player.AiRand(1, engine)
 PLAYER_TWO = Player.AiRand(-1, engine)
@@ -20,9 +16,6 @@ print("Inital Boardstate:")
 engine.print_board()
 
 while True:
-    if play_by_play:
-        input("")
-
     possible_moves = engine.get_legal_moves(players[turn].get_color())
     winner = engine.is_terminal(players[turn].get_color(), possible_moves)
     print('It is move:', engine.get_game_length())
@@ -43,6 +36,7 @@ while True:
     else:
         print('Piece moved:', 'castle or something')
     engine.perform_move(move)
+    BoardConverter.BoardConverter(engine,0,engine.get_game_length(),players[turn].get_color())
     print("Boardstate:")
     engine.print_board()
     print('\n')
