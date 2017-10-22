@@ -126,8 +126,6 @@ class Engine():
             pos = self.white_king_pos
             pos_enemy = self.black_king_pos
 
-        if debug_check: print("I am color:", color, "I am at:", pos)
-
         pos_x = pos[0]
         pos_y = pos[1]
 
@@ -186,8 +184,17 @@ class Engine():
 
 
         #Check knights
-        up1,down1,left1,right1 = (False, False, False, False)
-        up2,down2,left2,right2 = (False, False, False, False)
+        # up1,down1,left1,right1 = (False, False, False, False)
+        # up2,down2,left2,right2 = (False, False, False, False)
+        up1 = False
+        up2 = False
+        down1 = False
+        down2 = False
+        left1 = False
+        left2 = False
+        right1 = False
+        right2 = False
+
         if pos_x + 1 <= 7: 
             right1 = True
             if pos_x + 2 <= 7: 
@@ -1058,12 +1065,31 @@ class Engine():
 
 
         # checking if move puts you in check
-        check_filtered_moves = []
-        for move in moves:
-            self.push_move(move)
-            if not self.in_check(color):
-                check_filtered_moves.append(move)
-            self.pop_move()
+        if timing:
+            i_time = time.clock()
+            num = 10000
+
+            for i in range(num):
+                check_filtered_moves = []
+                for move in moves:
+                    self.push_move(move)
+                    if not self.in_check(color):
+                        check_filtered_moves.append(move)
+                    self.pop_move()
+        else:
+            check_filtered_moves = []
+            for move in moves:
+                self.push_move(move)
+                if not self.in_check(color):
+                    check_filtered_moves.append(move)
+                self.pop_move()
+
+        if timing:
+            e_time = time.clock()
+            calc2 = (e_time-i_time)/float(num)
+            print('time taken to filter moves over {0} iterations on turn {1}: {2:.{3}e}'.format(num, self.get_game_length(), calc2, 4))
+
+
         
         if timing:
             print()
