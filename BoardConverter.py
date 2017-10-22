@@ -25,6 +25,8 @@ class BoardConverter():
         self.write_to_file()
         self.write_to_file(0,1)
         self.write_to_file(0,2)
+        self.write_to_file(2,2)
+        self.write_to_file(2,3)
         self.read_all()
         self.output = self.read_from_file()
 
@@ -43,25 +45,34 @@ class BoardConverter():
         # print(self.con)
 
     #Consider moving name slot to self.
+    #Consider using libver="latest" for preformence
     def write_to_file(self,game=0, move=0):
-        name = "Game"+str(game)
+        title = "Data"
+        game = "Game"+str(game)
         moveNum = "Move"+str(move)
-        file = h5.File(name,'a')
-        file.create_dataset(moveNum, data = self.con)
+        file = h5.File(title,'a')
+        file.require_group(game)
+        file[game].require_dataset(moveNum, data = self.con,shape=(72,),dtype=np.int8)
         file.close()
 
     def read_from_file(self, game=0, move=0):
+        title = "Data"
         name = "Game"+str(game)
         moveNum = "Move"+str(move)
-        read_file = h5.File(name,'r')
-        self.decoded_board = read_file[moveNum][:]
+        read_file = h5.File(title,'r')
+        self.decoded_board = read_file[name][moveNum][:]
         read_file.close()
 
     def read_all(self, game=0):
+        title = "Data"
         name = "Game"+str(game)
-        read_file = h5.File(name,'r')
-        for line in read_file:
-            print(read_file[line][:])
+        read_file = h5.File(title,'r')
+        for group in read_file:
+            print(read_file[group])
+            for move in read_file[group]:
+                print(move)
+                print(read_file[group][move][:])
+
 
     def piece_to_val(self,piece_obj):
         piece = piece_obj.get_piece()
