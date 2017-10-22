@@ -45,26 +45,6 @@ class BoardConverter():
         file[name].require_dataset(moveNum, data = self.con,shape=(72,),dtype=np.int8)
         file.close()
 
-    def read_from_file(self):
-        name = "Game"+str(self.game)
-        moveNum = "Move"+str(self.con[71])
-        read_file = h5.File(self.title,'r')
-        self.decoded_board = read_file[name][moveNum][:]
-        read_file.close()
-
-    def read_game(self,game):
-        read_file = h5.File(self.title,'r')
-
-
-
-    def read_all(self):
-        read_file = h5.File(self.title,'r')
-        for group in read_file:
-            print(read_file[group])
-            for move in read_file[group]:
-                print(move)
-                print(read_file[group][move][:])
-
 
     def piece_to_val(self,piece_obj):
         piece = piece_obj.get_piece()
@@ -97,3 +77,24 @@ class BoardConverter():
             self.con[index] = 1
         else:
             self.con[index] = 0
+
+class BoardDecoder():
+	def __init__(self,title="Data"):
+		self.title = title
+
+
+	def read_game(self,game):
+    	group = "Game"+str(game)
+        read_file = h5.File(self.title,'r')
+        for move in read_file[group]:
+        	print(type(read_file[group][move][:]))
+        	yield(read_file[group][move][:])
+
+
+    def read_all(self):
+        read_file = h5.File(self.title,'r')
+        for group in read_file:
+            print(read_file[group])
+            for move in read_file[group]:
+                print(move)
+                print(read_file[group][move][:])
