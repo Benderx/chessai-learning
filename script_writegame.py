@@ -20,7 +20,6 @@ while True:
     winner = engine.is_terminal(players[turn].get_color(), possible_moves)
     print('It is move:', engine.get_game_length())
     print("Current players turn:", players[turn].get_color())
-    # print("All moves:\n",possible_moves)
     if winner != None:
         if winner == 1:
             print("Results are in: White wins")
@@ -29,6 +28,7 @@ while True:
         else:
             print("Results are in: Draw")
         break
+    BoardConverter.BoardConverter(engine,0,engine.get_game_length(),players[turn].get_color())
     move = players[turn].get_move(possible_moves)
     print("Move:", move)
     if move[0] != None:
@@ -36,7 +36,6 @@ while True:
     else:
         print('Piece moved:', 'castle or something')
     engine.perform_move(move)
-    BoardConverter.BoardConverter(engine,0,engine.get_game_length(),players[turn].get_color())
     print("Boardstate:")
     engine.print_board()
     print('\n')
