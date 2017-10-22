@@ -34,12 +34,12 @@ class BoardConverter():
                 else:
                     self.con[i] = 0
                 i += 1
-        # print(self.con)
 
     #Consider using libver="latest" for preformence
     def write_to_file(self):
         group = "Game"+str(self.game)
-        moveNum = "Move"+str(self.con[71])
+        moveNum = "Move"+"%03d" % self.con[71]
+        print("BoardConverter Move:",moveNum)
         file = h5.File(self.title,'a')
         file.require_group(group)
         file[group].require_dataset(moveNum, data = self.con,shape=(72,),dtype=np.int16)
@@ -96,4 +96,4 @@ class BoardDecoder():
             print(read_file[group])
             for move in read_file[group]:
                 print(move)
-                print(read_file[group][move][:])
+                # print(read_file[group][move][:])
