@@ -4,16 +4,12 @@ import Piece
 import h5py as h5
 import numpy as np
 
-engine = Engine.Engine()
-
-engine.init_board()
-board = engine.get_board()
-
 class BoardConverter():
-    def __init__(self,engine,game,move,color=1):
+    def __init__(self,engine,game,move,title = "Data",color=1):
         self.engine = engine
         self.game = game
         self.con = np.zeros(72, dtype=np.int8)
+        self.title = title
         #0-63 are pieces
         #64-69 are who moved
             #White king, white rook 1, white rook 2
@@ -25,8 +21,6 @@ class BoardConverter():
         self.con[71] = move
         self.encode_board()
         self.write_to_file()
-        self.read_all()
-        self.output = self.read_from_file()
 
 
     def encode_board(self):
@@ -42,29 +36,28 @@ class BoardConverter():
                 i += 1
         # print(self.con)
 
-    #Consider moving name slot to self.
     #Consider using libver="latest" for preformence
     def write_to_file(self):
-        title = "Data"
         name = "Game"+str(self.game)
         moveNum = "Move"+str(self.con[71])
-        file = h5.File(title,'a')
+        file = h5.File(self.title,'a')
         file.require_group(name)
         file[name].require_dataset(moveNum, data = self.con,shape=(72,),dtype=np.int8)
         file.close()
 
     def read_from_file(self):
-        title = "Data"
         name = "Game"+str(self.game)
         moveNum = "Move"+str(self.con[71])
-        read_file = h5.File(title,'r')
+        read_file = h5.File(self.title,'r')
         self.decoded_board = read_file[name][moveNum][:]
         read_file.close()
 
+    def read_game(self):
+
+
     def read_all(self):
-        title = "Data"
         name = "Game"+str(self.game)
-        read_file = h5.File(title,'r')
+        read_file = h5.File(self.title,'r')
         for group in read_file:
             print(read_file[group])
             for move in read_file[group]:
@@ -103,6 +96,3 @@ class BoardConverter():
             self.con[index] = 1
         else:
             self.con[index] = 0
-
-
-driver = BoardConverter(engine)
