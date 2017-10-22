@@ -10,8 +10,9 @@ engine.init_board()
 board = engine.get_board()
 
 class BoardConverter():
-    def __init__(self,engine,color=1):
+    def __init__(self,engine,game,move,color=1):
         self.engine = engine
+        self.game = game
         self.con = np.zeros(72, dtype=np.int8)
         #0-63 are pieces
         #64-69 are who moved
@@ -20,13 +21,10 @@ class BoardConverter():
             #1 if moved and 0 if have not moved
         #70 is color to move
         #71 is last move
-        self.con[71] = color
+        self.con[70] = color
+        self.con[71] = move
         self.encode_board()
         self.write_to_file()
-        self.write_to_file(0,1)
-        self.write_to_file(0,2)
-        self.write_to_file(2,2)
-        self.write_to_file(2,3)
         self.read_all()
         self.output = self.read_from_file()
 
@@ -46,26 +44,26 @@ class BoardConverter():
 
     #Consider moving name slot to self.
     #Consider using libver="latest" for preformence
-    def write_to_file(self,game=0, move=0):
+    def write_to_file(self):
         title = "Data"
-        game = "Game"+str(game)
-        moveNum = "Move"+str(move)
+        name = "Game"+str(self.game)
+        moveNum = "Move"+str(self.con[71])
         file = h5.File(title,'a')
-        file.require_group(game)
-        file[game].require_dataset(moveNum, data = self.con,shape=(72,),dtype=np.int8)
+        file.require_group(name)
+        file[name].require_dataset(moveNum, data = self.con,shape=(72,),dtype=np.int8)
         file.close()
 
-    def read_from_file(self, game=0, move=0):
+    def read_from_file(self):
         title = "Data"
-        name = "Game"+str(game)
-        moveNum = "Move"+str(move)
+        name = "Game"+str(self.game)
+        moveNum = "Move"+str(self.con[71])
         read_file = h5.File(title,'r')
         self.decoded_board = read_file[name][moveNum][:]
         read_file.close()
 
-    def read_all(self, game=0):
+    def read_all(self):
         title = "Data"
-        name = "Game"+str(game)
+        name = "Game"+str(self.game)
         read_file = h5.File(title,'r')
         for group in read_file:
             print(read_file[group])
