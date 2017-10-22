@@ -79,16 +79,15 @@ class BoardConverter():
             self.con[index] = 0
 
 class BoardDecoder():
-	def __init__(self,title="Data"):
-		self.title = title
+    def __init__(self,title="Data"):
+        self.title = title
 
 
-	def read_game(self,game):
-    	group = "Game"+str(game)
+    def read_game(self,game):
+        group = "Game"+str(game)
         read_file = h5.File(self.title,'r')
         for move in read_file[group]:
-        	print(type(read_file[group][move][:]))
-        	yield(read_file[group][move][:])
+            yield(read_file[group][move][:])
 
 
     def read_all(self):
