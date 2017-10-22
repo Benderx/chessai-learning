@@ -52,11 +52,12 @@ class BoardConverter():
         self.decoded_board = read_file[name][moveNum][:]
         read_file.close()
 
-    def read_game(self):
+    def read_game(self,game):
+        read_file = h5.File(self.title,'r')
+
 
 
     def read_all(self):
-        name = "Game"+str(self.game)
         read_file = h5.File(self.title,'r')
         for group in read_file:
             print(read_file[group])
