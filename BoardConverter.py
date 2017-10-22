@@ -5,10 +5,10 @@ import h5py as h5
 import numpy as np
 
 class BoardConverter():
-    def __init__(self,engine,game,move,title = "Data",color=1):
+    def __init__(self,engine,game,move,color=1,title = "Data"):
         self.engine = engine
         self.game = game
-        self.con = np.zeros(72, dtype=np.int8)
+        self.con = np.zeros(72, dtype=np.int16)
         self.title = title
         #0-63 are pieces
         #64-69 are who moved
@@ -38,11 +38,11 @@ class BoardConverter():
 
     #Consider using libver="latest" for preformence
     def write_to_file(self):
-        name = "Game"+str(self.game)
+        group = "Game"+str(self.game)
         moveNum = "Move"+str(self.con[71])
         file = h5.File(self.title,'a')
-        file.require_group(name)
-        file[name].require_dataset(moveNum, data = self.con,shape=(72,),dtype=np.int8)
+        file.require_group(group)
+        file[group].require_dataset(moveNum, data = self.con,shape=(72,),dtype=np.int16)
         file.close()
 
 
