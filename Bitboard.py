@@ -31,6 +31,7 @@ class BitboardEngine():
 
         self.diag_left_mask = np.zeros((15,), dtype='uint64')
         self.fill_diag_left_mask_arr()
+        
 
     def make_col_mask(self, mask):
         for i in range(8):
@@ -58,16 +59,18 @@ class BitboardEngine():
         return(mask)
 
     def fill_diag_left_mask_arr(self):
-        start = np.uint64(1) << np.uint64(7)
+        start = np.uint64(1)
         
         for i in range(8):
+            self.print_chess_rep(start)
             self.diag_left_mask[i] = self.make_diag_left_mask(start)
-            start = start << np.uint64(8)
-        start = start >> np.uint64(1)
+            if i!= 7: start = start << np.uint64(8)
+        start = start << np.uint64(1)
 
         for j in range(8,15):
+            self.print_chess_rep(start)
             self.diag_left_mask[j] = self.make_diag_left_mask(start)
-            start = start >> np.uint64(1)
+            start = start << np.uint64(1)
 
     def get_all_white(self):
         all_white = self.white_pawns | self.white_rooks | self.white_knights | self.white_bishops | self.white_kings | self.white_queens
@@ -190,3 +193,4 @@ driver = BitboardEngine()
 # driver.print_chess_rep(driver.white_kings)
 # print('white king legal moves')
 # driver.print_chess_rep(driver.get_king_moves(-1))
+
