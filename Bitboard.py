@@ -29,6 +29,9 @@ class Bitboard():
         self.row_mask = np.zeros((8,),dtype='uint64')
         self.fill_row_mask_arr()
 
+        self.diag_left_mask = np.zeros((15,),dtype='uint64')
+        # self.fill_diag_left_mask_arr()
+
     def make_col_mask(self,mask):
         for i in range(8):
             mask = mask | mask << np.uint64(8)
@@ -46,6 +49,12 @@ class Bitboard():
     def fill_row_mask_arr(self):
         for i in range(8):
             self.row_mask[i] = self.make_row_mask(np.uint64(1) << np.uint64(8*i))
+
+    def make_diag_left_mask(self,mask):
+        BR_mask = (~self.row_mask[0]) and (~self.col_mask[7])
+        for i in range(8):
+            mask = mask | (mask and BR_mask) >> np.uint64(9)
+        return(mask)
 
     def get_all_white(self):
         all_white = self.white_pawn | self.white_rook | self.white_knight | self.white_bishop | self.white_king | self.white_queen
@@ -82,4 +91,5 @@ class Bitboard():
 
 
 driver = Bitboard()
-driver.print_chess_rep(driver.white_pawn | driver.black_pawn)
+# driver.print_chess_rep(driver.white_pawn | driver.black_pawn)
+driver.print_chess_rep(driver.make_diag_left_mask(np.uint64(0b0000000000000000000000000000000000000000000000010000000000000000)))
