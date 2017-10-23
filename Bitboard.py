@@ -75,13 +75,11 @@ class BitboardEngine():
         start = np.uint64(1)
         
         for i in range(8):
-            self.print_chess_rep(start)
             self.diag_left_mask[i] = self.make_diag_left_mask(start)
             if i!= 7: start = start << np.uint64(8)
         start = start << np.uint64(1)
 
         for j in range(8,15):
-            self.print_chess_rep(start)
             self.diag_left_mask[j] = self.make_diag_left_mask(start)
             start = start << np.uint64(1)
 
@@ -90,23 +88,29 @@ class BitboardEngine():
         TR_mask = ~((self.row_mask[7]) | (self.col_mask[7]))
 
         for i in range(8):
-            mask = mask | ((mask & BR_mask) << np.uint64(9))
+            mask = mask | ((mask & TR_mask) << np.uint64(9))
+        print('Complete Mask')
         self.print_chess_rep(mask)
+        print("\n")
         return(mask)
 
     def fill_diag_right_mask_arr(self):
-        start = np.uint64(8)
+        start = np.uint64(1) << np.uint64(7)
         # UPTOHERE
         for i in range(8):
+            print('Start',i)
             self.print_chess_rep(start)
-            self.diag_left_mask[i] = self.make_diag_left_mask(start)
-            if i!= 7: start = start << np.uint64(8)
-        start = start << np.uint64(1)
+            print('\n')
+            self.diag_right_mask[i] = self.make_diag_right_mask(start)
+            if i!= 7: start = start >> np.uint64(1)
+        start = start << np.uint64(8)
 
         for j in range(8,15):
+            print('Start',j)
             self.print_chess_rep(start)
-            self.diag_left_mask[j] = self.make_diag_left_mask(start)
-            start = start << np.uint64(1)
+            print('\n')            
+            self.diag_right_mask[j] = self.make_diag_right_mask(start)
+            start = start << np.uint64(8)
 
     def get_all_white(self):
         all_white = self.white_pawns | self.white_rooks | self.white_knights | self.white_bishops | self.white_kings | self.white_queens
