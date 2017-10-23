@@ -7,7 +7,6 @@ class Bitboard():
 
 
     def __init_board__(self):
-        #Check king and queen, had confusion is this where we look in reverse?
         self.white_pawn = np.uint64(0b0000000000000000000000000000000000000000000000001111111100000000) #65280
         self.white_rook = np.uint64(0b0000000000000000000000000000000000000000000000000000000010000001) #129
         self.white_knight = np.uint64(0b0000000000000000000000000000000000000000000000000000000001000010) #66
@@ -24,7 +23,6 @@ class Bitboard():
 
 
     def __init_mask__(self):
-        #Confused about kings indian
         self.L1_mask = np.uint64(0b1111111011111110111111101111111011111110111111101111111011111110)
         self.L2_mask = np.uint64(0b1111110011111100111111001111110011111100111111001111110011111100)
 
