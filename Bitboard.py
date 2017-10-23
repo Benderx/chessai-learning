@@ -7,19 +7,19 @@ class Bitboard():
 
 
     def __init_board__(self):
-        self.white_pawn = np.uint64(0b0000000000000000000000000000000000000000000000001111111100000000) #65280
-        self.white_rook = np.uint64(0b0000000000000000000000000000000000000000000000000000000010000001) #129
-        self.white_knight = np.uint64(0b0000000000000000000000000000000000000000000000000000000001000010) #66
-        self.white_bishop = np.uint64(0b0000000000000000000000000000000000000000000000000000000000100100)
-        self.white_queen = np.uint64(0b0000000000000000000000000000000000000000000000000000000000001000)
-        self.white_king = np.uint64(0b0000000000000000000000000000000000000000000000000000000000010000)
+        self.white_pawns = np.uint64(0b0000000000000000000000000000000000000000000000001111111100000000) #65280
+        self.white_rooks = np.uint64(0b0000000000000000000000000000000000000000000000000000000010000001) #129
+        self.white_knights = np.uint64(0b0000000000000000000000000000000000000000000000000000000001000010) #66
+        self.white_bishops = np.uint64(0b0000000000000000000000000000000000000000000000000000000000100100)
+        self.white_queens = np.uint64(0b0000000000000000000000000000000000000000000000000000000000001000)
+        self.white_kings = np.uint64(0b0000000000000000000000000000000000000000000000000000000000010000)
 
-        self.black_pawn = np.uint64(0b0000000011111111000000000000000000000000000000000000000000000000) #71776119061217280
-        self.black_rook = np.uint64(0b1000000100000000000000000000000000000000000000000000000000000000) #9295429630892703744
-        self.black_knight = np.uint64(0b0100001000000000000000000000000000000000000000000000000000000000) #4755801206503243776
-        self.black_bishop = np.uint64(0b0010010000000000000000000000000000000000000000000000000000000000)
-        self.black_queen = np.uint64(0b0000100000000000000000000000000000000000000000000000000000000000)
-        self.black_king = np.uint64(0b0001000000000000000000000000000000000000000000000000000000000000)
+        self.black_pawns = np.uint64(0b0000000011111111000000000000000000000000000000000000000000000000) #71776119061217280
+        self.black_rooks = np.uint64(0b1000000100000000000000000000000000000000000000000000000000000000) #9295429630892703744
+        self.black_knights = np.uint64(0b0100001000000000000000000000000000000000000000000000000000000000) #4755801206503243776
+        self.black_bishops = np.uint64(0b0010010000000000000000000000000000000000000000000000000000000000)
+        self.black_queens = np.uint64(0b0000100000000000000000000000000000000000000000000000000000000000)
+        self.black_kings = np.uint64(0b0001000000000000000000000000000000000000000000000000000000000000)
 
 
     def __init_mask__(self):
@@ -57,12 +57,12 @@ class Bitboard():
         return(mask)
 
     def get_all_white(self):
-        all_white = self.white_pawn | self.white_rook | self.white_knight | self.white_bishop | self.white_king | self.white_queen
+        all_white = self.white_pawns | self.white_rooks | self.white_knights | self.white_bishops | self.white_kings | self.white_queens
         return(all_white)
 
 
     def get_all_black(self):
-        all_black = self.black_pawn | self.black_rook | self.black_knight | self.black_bishop | self.black_king | self.black_queen
+        all_black = self.black_pawns | self.black_rooks | self.black_knights | self.black_bishops | self.black_kings | self.black_queens
         return(all_black)
 
 
@@ -85,8 +85,38 @@ class Bitboard():
             row = (num & self.row_mask[i]) >> shifter
             print('{0:08b}'.format(row))
 
-    def psuedo_king(self, king_rep):
-        pass
+
+    # East:      >> 1
+    # Southeast: << 7
+    # South:     << 8
+    # Southwest: << 9
+    # West:      << 1
+    # Northwest: >> 7
+    # North:     >> 8
+    # Northeast: >> 9
+
+
+    # Takes in king_rep (bitboad representing that colors king locaiton)
+    # Takes in same_occupied (bitboard representing all pieces of that color)
+    # Returns bitboard representing all possible pre_check moves that the king can make
+    def pre_check_king(self, king_rep, same_occupied):
+        king_clip_file_0 = king_rep & self.col_mask[0]; 
+        king_clip_file_7 = king_rep & self.col_mask[7]; 
+
+        spot_0 = king_clip_file_7 << np.uint64(7) 
+        spot_1 = king_loc << np.uint64(8) # down one
+        spot_2 = king_clip_file_7 << np.uint64(9) # down left
+        spot_3 = king_clip_file_7 << np.uint64(1) # left one
+
+        spot_4 = king_clip_file_0 >> np.uint64(7)
+        spot_5 = king_loc >> np.uint64(8)
+        spot_6 = king_clip_file_0 >> np.uint64(9) 
+        spot_7 = king_clip_file_0 >> np.uint64(1) # right one
+
+        king_moves = spot_0 | spot_1 | spot_2 | spot_3 | 
+                     spot_4 | spot_5 | spot_6 | spot_7 
+
+        return king_moves & ~same_occupied;
 
 
 

@@ -78,6 +78,12 @@ class BoardConverter():
         else:
             self.con[index] = 0
 
+    def write_winner(self,winner):
+        group = "Game"+str(self.game)
+        file = h5.File(self.title,'a')
+        file[group].create_dataset("Winner",data=winner,shape=(1,),dtype=np.int8)
+        file.close()
+
 class BoardDecoder():
     def __init__(self,title="Data"):
         self.title = title
@@ -88,7 +94,7 @@ class BoardDecoder():
         read_file = h5.File(self.title,'r')
         for move in read_file[group]:
             yield(read_file[group][move][:])
-
+        read_file.close()
 
     def read_all(self):
         read_file = h5.File(self.title,'r')
@@ -97,3 +103,4 @@ class BoardDecoder():
             for move in read_file[group]:
                 print(move)
                 # print(read_file[group][move][:])
+        read_file.close()
