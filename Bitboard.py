@@ -40,7 +40,7 @@ class Bitboard():
         self.DL1_mask = np.uint64(0b1111111111111111111111111111111111111111111111111111111111111110)
         self.DL2_mask = np.uint64(0b1111111111111111111111111111111111111111111111111111111011111101)
         self.DL3_mask = np.uint64(0b1111111111111111111111111111111111111111111111101111110111111011)
-        self.DL4_mask = 
+        # self.DL4_mask = 
 
     def get_all_white(self):
         all_white = self.white_pawn | self.white_rook | self.white_knight | self.white_bishop | self.white_king | self.white_queen
@@ -60,9 +60,27 @@ class Bitboard():
 
 
     #Possibly unnesicarry once numbers are in correct format
-    def print_bin(self,num):
-        print(format(num,'64b'))
+    def print_bin(self, num):
+        print(format(num, '64b'))
+
+
+    # def print_row(self, num, row):
+    #     slide_forward = 0 << i * 8
+    #     slide_back = 56 >> i * 8
+    #     print('{0:08b}'.format((num << slide_forward) >> slide_back))
+
+
+    def print_chess_rep(self, num):
+        slide = 0
+        for i in range(8):
+            row = self.row_mask[i]
+            print('{0:08b}'.format(row))
+
+    def psuedo_king(self, king_rep):
+        pass
+
 
 
 driver = Bitboard()
-print(format(driver.get_all(),'64b'))
+# print(format(driver.get_all(),'64b')
+driver.print_chess_rep(driver.white_pawn)
