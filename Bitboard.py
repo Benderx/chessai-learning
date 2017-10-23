@@ -23,25 +23,25 @@ class Bitboard():
 
 
     def __init_mask__(self):
-        self.col_mask = np.zeros((8,),dtype='uint64')
+        self.col_mask = np.zeros((8,), dtype='uint64')
         self.fill_col_mask_arr()
         
-        self.row_mask = np.zeros((8,),dtype='uint64')
+        self.row_mask = np.zeros((8,), dtype='uint64')
         self.fill_row_mask_arr()
 
-        self.diag_left_mask = np.zeros((15,),dtype='uint64')
+        self.diag_left_mask = np.zeros((15,), dtype='uint64')
         # self.fill_diag_left_mask_arr()
 
-    def make_col_mask(self,mask):
+    def make_col_mask(self, mask):
         for i in range(8):
             mask = mask | mask << np.uint64(8)
         return(mask)
 
     def fill_col_mask_arr(self):
         for i in range(8):
-            self.col_mask[7-i] = self.make_col_mask(np.uint64(1) << np.uint64(i))
+            self.col_mask[i] = self.make_col_mask(np.uint64(1) << np.uint64(i))
 
-    def make_row_mask(self,mask):
+    def make_row_mask(self, mask):
         for i in range(7):
             mask = mask | mask << np.uint64(1)
         return(mask)
@@ -163,7 +163,7 @@ driver = Bitboard()
 
 
 
-# driver.print_chess_rep(driver.row_mask[0])
+driver.print_chess_rep(driver.col_mask[1])
 
 print('white king pos')
 driver.print_chess_rep(driver.white_kings)
