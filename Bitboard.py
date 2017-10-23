@@ -64,20 +64,44 @@ class Bitboard():
         return(all_pieces)
 
 
-    # def print_row(self, num, row):
-    #     slide_forward = 0 << i * 8
-    #     slide_back = 56 >> i * 8
-    #     print('{0:08b}'.format((num << slide_forward) >> slide_back))
-
-
     def print_chess_rep(self, num):
         for i in range(7, -1, -1):
             shifter = np.uint64(8 * i)
             row = (num & self.row_mask[i]) >> shifter
             print('{0:08b}'.format(row))
 
-    def psuedo_king(self, king_rep):
-        pass
+
+    # East:      >> 1
+    # Southeast: << 7
+    # South:     << 8
+    # Southwest: << 9
+    # West:      << 1
+    # Northwest: >> 7
+    # North:     >> 8
+    # Northeast: >> 9
+
+
+    # Takes in king_rep (bitboad representing that colors king locaiton)
+    # Takes in same_occupied (bitboard representing all pieces of that color)
+    # Returns bitboard representing all possible pre_check moves that the king can make
+    def pre_check_king(self, king_rep, same_occupied):
+        king_clip_file_0 = king_rep & self.col_mask[0]; 
+        king_clip_file_7 = king_rep & self.col_mask[7]; 
+
+        spot_0 = king_clip_file_7 << np.uint64(7) 
+        spot_1 = king_loc << np.uint64(8) # down one
+        spot_2 = king_clip_file_7 << np.uint64(9) # down left
+        spot_3 = king_clip_file_7 << np.uint64(1) # left one
+
+        spot_4 = king_clip_file_0 >> np.uint64(7)
+        spot_5 = king_loc >> np.uint64(8)
+        spot_6 = king_clip_file_0 >> np.uint64(9) 
+        spot_7 = king_clip_file_0 >> np.uint64(1) # right one
+
+        king_moves = spot_0 | spot_1 | spot_2 | spot_3 | 
+                     spot_4 | spot_5 | spot_6 | spot_7 
+
+        return king_moves & ~same_occupied;
 
 
 
