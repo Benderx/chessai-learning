@@ -51,10 +51,31 @@ class Bitboard():
             self.row_mask[i] = self.make_row_mask(np.uint64(1) << np.uint64(8*i))
 
     def make_diag_left_mask(self,mask):
-        BR_mask = (~self.row_mask[0]) and (~self.col_mask[7])
+        self.print_chess_rep(mask)
+        print('\n')
+
+        BR_mask = ~((self.row_mask[0]) | (self.col_mask[7]))
+        self.print_chess_rep(BR_mask)
+        print('\n')
+
+        self.print_chess_rep(mask & BR_mask)
+        print('\n')
+
         for i in range(8):
-            mask = mask | (mask and BR_mask) >> np.uint64(9)
+            mask = mask | ((mask & BR_mask) >> np.uint64(7))
         return(mask)
+
+    def fill_diag_left_mask_arr(self):
+        start = np.uint64(1) << np.uint64(7)
+        
+        for i in range(8):
+            self.diag_left_mask[i] = make_diag_left_mask(start)
+            start = start << np.uint64(8)
+        start = start >> np.uint64(1)
+
+        for j in range(8,16):
+            self.diag_left_mask[j] = make_diag_left_mask(start)
+            start = start >> np.uint64(1)
 
     def get_all_white(self):
         all_white = self.white_pawns | self.white_rooks | self.white_knights | self.white_bishops | self.white_kings | self.white_queens
