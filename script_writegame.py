@@ -27,8 +27,9 @@ while True:
             print("Results are in: Black wins")
         else:
             print("Results are in: Draw")
+        con.write_winner(winner)
         break
-    BoardConverter.BoardConverter(engine,0,engine.get_game_length(),players[turn].get_color())
+    con = BoardConverter.BoardConverter(engine,0,engine.get_game_length(),players[turn].get_color())
     move = players[turn].get_move(possible_moves)
     print("Move:", move)
     if move[0] != None:
