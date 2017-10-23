@@ -89,9 +89,9 @@ class Bitboard():
 
 
     def print_chess_rep(self, num):
-        slide = 0
-        for i in range(8):
-            row = self.row_mask[i]
+        for i in range(7, -1, -1):
+            shifter = np.uint64(8 * i)
+            row = (num & self.row_mask[i]) >> shifter
             print('{0:08b}'.format(row))
 
     def psuedo_king(self, king_rep):
@@ -100,4 +100,4 @@ class Bitboard():
 
 
 driver = Bitboard()
-driver.print_chess_rep()
+driver.print_chess_rep(driver.white_pawn | driver.black_pawn)
