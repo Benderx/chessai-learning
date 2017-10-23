@@ -43,7 +43,12 @@ class Bitboard():
         # self.DL4_mask = 
         self.col_mask = np.zeros((8,),dtype='uint64')
         self.fill_col_mask_arr()
-        print(self.col_mask)
+        
+        self.row_mask = np.zeros((8,),dtype='uint64')
+        self.fill_row_mask_arr()
+        for elm in self.row_mask:
+            # print(elm)
+            self.print_bin(elm)
 
     def make_col_mask(self,mask):
         for i in range(8):
@@ -53,6 +58,15 @@ class Bitboard():
     def fill_col_mask_arr(self):
         for i in range(8):
             self.col_mask[7-i] = self.make_col_mask(np.uint64(1) << np.uint64(i))
+
+    def make_row_mask(self,mask):
+        for i in range(7):
+            mask = mask | mask << np.uint64(1)
+        return(mask)
+
+    def fill_row_mask_arr(self):
+        for i in range(8):
+            self.row_mask[i] = self.make_row_mask(np.uint64(1) << np.uint64(8*i))
 
     def get_all_white(self):
         all_white = self.white_pawn | self.white_rook | self.white_knight | self.white_bishop | self.white_king | self.white_queen
@@ -77,4 +91,3 @@ class Bitboard():
 
 
 driver = Bitboard()
-print(format(driver.get_all(),'64b'))
