@@ -113,4 +113,5 @@ class Bitboard():
 
 driver = Bitboard()
 # driver.print_chess_rep(driver.white_pawn | driver.black_pawn)
-driver.print_chess_rep(driver.make_diag_left_mask(np.uint64(0b0000000000000000000000000000000000000000000000010000000000000000)))
+# driver.print_chess_rep(driver.make_diag_left_mask(np.uint64(0b0000000000000000000000000000000000000000000000010000000000000000)))
+driver.print_chess_rep(driver.row_mask[0])
