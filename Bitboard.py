@@ -105,8 +105,7 @@ class Bitboard():
         spot_6 = king_clip_file_0 >> np.uint64(9) 
         spot_7 = king_clip_file_0 >> np.uint64(1) # right one
 
-        king_moves = spot_0 | spot_1 | spot_2 | spot_3 | 
-                     spot_4 | spot_5 | spot_6 | spot_7 
+        king_moves = spot_0 | spot_1 | spot_2 | spot_3 | spot_4 | spot_5 | spot_6 | spot_7 
 
         return king_moves & ~same_occupied;
 
@@ -114,4 +113,5 @@ class Bitboard():
 
 driver = Bitboard()
 # driver.print_chess_rep(driver.white_pawn | driver.black_pawn)
-driver.print_chess_rep(driver.make_diag_left_mask(np.uint64(0b0000000000000000000000000000000000000000000000010000000000000000)))
+# driver.print_chess_rep(driver.make_diag_left_mask(np.uint64(0b0000000000000000000000000000000000000000000000010000000000000000)))
+driver.print_chess_rep(driver.row_mask[0])
