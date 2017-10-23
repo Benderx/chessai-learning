@@ -73,45 +73,97 @@ class Bitboard():
         return(all_pieces)
 
 
+    def reverse_8_bit(self, row):
+        num = np.uint8(row)
+        reverse_num = np.uint8(row)
+        one_8 = np.uint8(1)
+        count = np.uint8(8 - 1);
+         
+        num = num >> one_8
+        while(num):
+            # print('iter_num', np.binary_repr(num))
+            # print('iter_rev', np.binary_repr(reverse_num))
+            # print('iter_count', count)
+            # print()
+            reverse_num = reverse_num << one_8    
+            reverse_num = reverse_num | (num & one_8)
+            num = num >> one_8
+            count -= one_8
+
+        # print('iter_num', np.binary_repr(num))
+        # print('final_rev', np.binary_repr(reverse_num))
+        # print('final_count', count)
+
+        # print(count)
+        reverse_num = reverse_num << count
+        return reverse_num
+
+
+    # def test_lol(self):
+    #     rev = self.reverse_8_bit(0b00000110)
+    #     print(np.binary_repr(rev))
+
+
     def print_chess_rep(self, num):
         for i in range(7, -1, -1):
             shifter = np.uint64(8 * i)
             row = (num & self.row_mask[i]) >> shifter
-            print('{0:08b}'.format(row))
+            rev = self.reverse_8_bit(row)
+            print('{0:08b}'.format(rev))
+            # print(rev.dtype)
+            # print(np.binary_repr(rev))
 
-    # East:      >> 1
-    # Southeast: << 7
-    # South:     << 8
-    # Southwest: << 9
-    # West:      << 1
-    # Northwest: >> 7
-    # North:     >> 8
-    # Northeast: >> 9
+
+    # East:      << 1
+    # Southeast: >> 7
+    # South:     >> 8
+    # Southwest: >> 9
+    # West:      >> 1
+    # Northwest: << 7
+    # North:     << 8
+    # Northeast: << 9
 
     # Takes in king_rep (bitboad representing that colors king locaiton)
     # Takes in same_occupied (bitboard representing all pieces of that color)
     # Returns bitboard representing all possible pre_check moves that the king can make
     def pre_check_king(self, king_rep, same_occupied):
-        king_clip_file_0 = king_rep & self.col_mask[0]
-        king_clip_file_7 = king_rep & self.col_mask[7] 
+        king_mask_file_0 = king_rep & ~self.col_mask[0]
+        king_mask_file_7 = king_rep & ~self.col_mask[7] 
 
-        spot_0 = king_clip_file_7 << np.uint64(7) # Southeast
-        spot_1 = king_loc << np.uint64(8) # South
-        spot_2 = king_clip_file_7 << np.uint64(9) # Southwest
-        spot_3 = king_clip_file_7 << np.uint64(1) # West
+        spot_0 = king_mask_file_7 >> np.uint64(7) # Southeast
+        spot_1 = king_rep >> np.uint64(8) # South
+        spot_2 = king_mask_file_7 >> np.uint64(9) # Southwest
+        spot_3 = king_mask_file_7 >> np.uint64(1) # West
 
-        spot_4 = king_clip_file_0 >> np.uint64(7) # Northwest
-        spot_5 = king_loc >> np.uint64(8) # North
-        spot_6 = king_clip_file_0 >> np.uint64(9) # Northeast
-        spot_7 = king_clip_file_0 >> np.uint64(1) # East
+        spot_4 = king_mask_file_0 << np.uint64(7) # Northwest
+        spot_5 = king_rep << np.uint64(8) # North
+        spot_6 = king_mask_file_0 << np.uint64(9) # Northeast
+        spot_7 = king_rep << np.uint64(1) # East
 
         king_moves = spot_0 | spot_1 | spot_2 | spot_3 | spot_4 | spot_5 | spot_6 | spot_7 
 
-        return king_moves & ~same_occupied;
+
+        return king_moves
+        # return king_moves & ~same_occupied;
+
+
+    def get_king_moves(self, color):
+        if color == 1:
+            return self.pre_check_king(self.white_kings, self.get_all_white())
+        else:
+            return self.pre_check_king(self.black_kings, self.get_all_black())
 
 
 
 driver = Bitboard()
 # driver.print_chess_rep(driver.white_pawn | driver.black_pawn)
 # driver.print_chess_rep(driver.make_diag_left_mask(np.uint64(0b0000000000000000000000000000000000000000000000010000000000000000)))
-driver.print_chess_rep(driver.row_mask[0])
+
+
+
+# driver.print_chess_rep(driver.row_mask[0])
+
+print('white king pos')
+driver.print_chess_rep(driver.white_kings)
+print('white king legal moves')
+driver.print_chess_rep(driver.get_king_moves(1))
