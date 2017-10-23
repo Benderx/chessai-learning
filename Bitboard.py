@@ -70,7 +70,6 @@ class Bitboard():
             row = (num & self.row_mask[i]) >> shifter
             print('{0:08b}'.format(row))
 
-
     # East:      >> 1
     # Southeast: << 7
     # South:     << 8
@@ -79,7 +78,6 @@ class Bitboard():
     # Northwest: >> 7
     # North:     >> 8
     # Northeast: >> 9
-
 
     # Takes in king_rep (bitboad representing that colors king locaiton)
     # Takes in same_occupied (bitboard representing all pieces of that color)
