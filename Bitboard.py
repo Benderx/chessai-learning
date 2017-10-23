@@ -73,12 +73,6 @@ class Bitboard():
         return(all_pieces)
 
 
-    # def print_row(self, num, row):
-    #     slide_forward = 0 << i * 8
-    #     slide_back = 56 >> i * 8
-    #     print('{0:08b}'.format((num << slide_forward) >> slide_back))
-
-
     def print_chess_rep(self, num):
         for i in range(7, -1, -1):
             shifter = np.uint64(8 * i)
