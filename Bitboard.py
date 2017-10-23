@@ -85,11 +85,6 @@ class Bitboard():
         return(all_pieces)
 
 
-    #Possibly unnesicarry once numbers are in correct format
-    def print_bin(self, num):
-        print(format(num, '64b'))
-
-
     # def print_row(self, num, row):
     #     slide_forward = 0 << i * 8
     #     slide_back = 56 >> i * 8
@@ -108,4 +103,4 @@ class Bitboard():
 
 
 driver = Bitboard()
-print(format(driver.get_all(),'64b'))
+driver.print_chess_rep()
