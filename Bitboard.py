@@ -98,31 +98,16 @@ class Bitboard():
         num = np.uint8(row)
         reverse_num = np.uint8(row)
         one_8 = np.uint8(1)
-        count = np.uint8(8 - 1);
+        count = np.uint8(7);
          
         num = num >> one_8
         while(num):
-            # print('iter_num', np.binary_repr(num))
-            # print('iter_rev', np.binary_repr(reverse_num))
-            # print('iter_count', count)
-            # print()
             reverse_num = reverse_num << one_8    
             reverse_num = reverse_num | (num & one_8)
             num = num >> one_8
             count -= one_8
-
-        # print('iter_num', np.binary_repr(num))
-        # print('final_rev', np.binary_repr(reverse_num))
-        # print('final_count', count)
-
-        # print(count)
         reverse_num = reverse_num << count
         return reverse_num
-
-
-    # def test_lol(self):
-    #     rev = self.reverse_8_bit(0b00000110)
-    #     print(np.binary_repr(rev))
 
 
     def print_chess_rep(self, num):
@@ -131,8 +116,6 @@ class Bitboard():
             row = (num & self.row_mask[i]) >> shifter
             rev = self.reverse_8_bit(row)
             print('{0:08b}'.format(rev))
-            # print(rev.dtype)
-            # print(np.binary_repr(rev))
 
 
     # East:      << 1
@@ -163,9 +146,7 @@ class Bitboard():
 
         king_moves = spot_0 | spot_1 | spot_2 | spot_3 | spot_4 | spot_5 | spot_6 | spot_7 
 
-
-        return king_moves
-        # return king_moves & ~same_occupied;
+        return king_moves & ~same_occupied;
 
 
     def get_king_moves(self, color):
@@ -187,4 +168,4 @@ driver = Bitboard()
 print('white king pos')
 driver.print_chess_rep(driver.white_kings)
 print('white king legal moves')
-driver.print_chess_rep(driver.get_king_moves(1))
+driver.print_chess_rep(driver.get_king_moves(-1))
