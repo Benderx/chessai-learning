@@ -82,9 +82,22 @@ class Bitboard():
         return(all_pieces)
 
 
-    #Possibly unnesicarry once numbers are in correct format
-    def print_bin(self,num):
-        print(format(num,'64b'))
+    # def print_row(self, num, row):
+    #     slide_forward = 0 << i * 8
+    #     slide_back = 56 >> i * 8
+    #     print('{0:08b}'.format((num << slide_forward) >> slide_back))
+
+
+    def print_chess_rep(self, num):
+        slide = 0
+        for i in range(8):
+            row = self.row_mask[i]
+            print('{0:08b}'.format(row))
+
+    def psuedo_king(self, king_rep):
+        pass
+
 
 
 driver = Bitboard()
+driver.print_chess_rep()
