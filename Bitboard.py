@@ -30,7 +30,7 @@ class BitboardEngine():
         self.fill_row_mask_arr()
 
         self.diag_left_mask = np.zeros((15,), dtype='uint64')
-        # self.fill_diag_left_mask_arr()
+        self.fill_diag_left_mask_arr()
 
     def make_col_mask(self, mask):
         for i in range(8):
@@ -51,15 +51,7 @@ class BitboardEngine():
             self.row_mask[i] = self.make_row_mask(np.uint64(1) << np.uint64(8*i))
 
     def make_diag_left_mask(self,mask):
-        self.print_chess_rep(mask)
-        print('\n')
-
         BR_mask = ~((self.row_mask[0]) | (self.col_mask[7]))
-        self.print_chess_rep(BR_mask)
-        print('\n')
-
-        self.print_chess_rep(mask & BR_mask)
-        print('\n')
 
         for i in range(8):
             mask = mask | ((mask & BR_mask) >> np.uint64(7))
@@ -69,12 +61,12 @@ class BitboardEngine():
         start = np.uint64(1) << np.uint64(7)
         
         for i in range(8):
-            self.diag_left_mask[i] = make_diag_left_mask(start)
+            self.diag_left_mask[i] = self.make_diag_left_mask(start)
             start = start << np.uint64(8)
         start = start >> np.uint64(1)
 
-        for j in range(8,16):
-            self.diag_left_mask[j] = make_diag_left_mask(start)
+        for j in range(8,15):
+            self.diag_left_mask[j] = self.make_diag_left_mask(start)
             start = start >> np.uint64(1)
 
     def get_all_white(self):
@@ -161,7 +153,7 @@ class BitboardEngine():
     # Takes in same_occupied (bitboard representing all pieces of that color)
     # Returns bitboard representing all possible pre_check moves that that knight can make
     def pre_check_knight(self, king_rep, same_occupied):
-        spot_1_clip = tbls->ClearFile[FILE_A] & tbls->ClearFile[FILE_B];
+        '''spot_1_clip = tbls->ClearFile[FILE_A] & tbls->ClearFile[FILE_B];
         spot_2_clip = tbls->ClearFile[FILE_A];
         spot_3_clip = tbls->ClearFile[FILE_H];
         spot_4_clip = tbls->ClearFile[FILE_H] & tbls->ClearFile[FILE_G];
@@ -187,17 +179,14 @@ class BitboardEngine():
         /* compute only the places where the knight can move and attack. The
             caller will determine if this is a white or black night. */
         return KnightValid & ~own_side;
+        '''
 
 
 driver = BitboardEngine()
 # driver.print_chess_rep(driver.white_pawn | driver.black_pawn)
-# driver.print_chess_rep(driver.make_diag_left_mask(np.uint64(0b0000000000000000000000000000000000000000000000010000000000000000)))
 
 
-
-driver.print_chess_rep(driver.col_mask[1])
-
-print('white king pos')
-driver.print_chess_rep(driver.white_kings)
-print('white king legal moves')
-driver.print_chess_rep(driver.get_king_moves(-1))
+# print('white king pos')
+# driver.print_chess_rep(driver.white_kings)
+# print('white king legal moves')
+# driver.print_chess_rep(driver.get_king_moves(-1))
