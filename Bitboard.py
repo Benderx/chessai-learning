@@ -1,6 +1,6 @@
 import numpy as np
 
-class Bitboard():
+class BitboardEngine():
     def __init__(self):
         self.__init_board__()
         self.__init_mask__()
@@ -127,7 +127,7 @@ class Bitboard():
     # North:     << 8
     # Northeast: << 9
 
-    # Takes in king_rep (bitboad representing that colors king locaiton)
+    # Takes in king_rep (bitboad representing that colors king location)
     # Takes in same_occupied (bitboard representing all pieces of that color)
     # Returns bitboard representing all possible pre_check moves that the king can make
     def pre_check_king(self, king_rep, same_occupied):
@@ -157,7 +157,39 @@ class Bitboard():
 
 
 
-driver = Bitboard()
+    # Takes in knight_rep (bitboad representing that colors knight location)
+    # Takes in same_occupied (bitboard representing all pieces of that color)
+    # Returns bitboard representing all possible pre_check moves that that knight can make
+    def pre_check_knight(self, king_rep, same_occupied):
+        spot_1_clip = tbls->ClearFile[FILE_A] & tbls->ClearFile[FILE_B];
+        spot_2_clip = tbls->ClearFile[FILE_A];
+        spot_3_clip = tbls->ClearFile[FILE_H];
+        spot_4_clip = tbls->ClearFile[FILE_H] & tbls->ClearFile[FILE_G];
+
+        spot_5_clip = tbls->ClearFile[FILE_H] & tbls->ClearFile[FILE_G];
+        spot_6_clip = tbls->ClearFile[FILE_H];
+        spot_7_clip = tbls->ClearFile[FILE_A];
+        spot_8_clip = tbls->ClearFile[FILE_A] & tbls->ClearFile[FILE_B];
+
+        spot_1 = (knight_loc & spot_1_clip) << 6;
+        spot_2 = (knight_loc & spot_2_clip) << 15;
+        spot_3 = (knight_loc & spot_3_clip) << 17;
+        spot_4 = (knight_loc & spot_4_clip) << 10;
+
+        spot_5 = (knight_loc & spot_5_clip) >> 6;
+        spot_6 = (knight_loc & spot_6_clip) >> 15;
+        spot_7 = (knight_loc & spot_7_clip) >> 17;
+        spot_8 = (knight_loc & spot_8_clip) >> 10;
+
+        KnightValid = spot_1 | spot_2 | spot_3 | spot_4 | spot_5 | spot_6 |
+                        spot_7 | spot_8;
+
+        /* compute only the places where the knight can move and attack. The
+            caller will determine if this is a white or black night. */
+        return KnightValid & ~own_side;
+
+
+driver = BitboardEngine()
 # driver.print_chess_rep(driver.white_pawn | driver.black_pawn)
 # driver.print_chess_rep(driver.make_diag_left_mask(np.uint64(0b0000000000000000000000000000000000000000000000010000000000000000)))
 
