@@ -31,25 +31,37 @@ class BitboardEngine():
 
         self.diag_left_mask = np.zeros((15,), dtype='uint64')
         self.fill_diag_left_mask_arr()
-        
+        #Diag left masks start on left side and move from left to right, top to bottom
+        #[0] corresponds to bottom left corner
+        #[0]-[7] moves up y axis along x=0
+        #[7] is top left corner
+        #[7]-[14] moves across x-axis along y=7
+        #[14] is top right corner
+        self.diag_right_mask = np.zeros((15,), dtype='uint64')
+        self.fill_diag_right_mask_arr()
+
 
     def make_col_mask(self, mask):
         for i in range(8):
             mask = mask | mask << np.uint64(8)
         return(mask)
 
+
     def fill_col_mask_arr(self):
         for i in range(8):
             self.col_mask[i] = self.make_col_mask(np.uint64(1) << np.uint64(i))
+
 
     def make_row_mask(self, mask):
         for i in range(7):
             mask = mask | mask << np.uint64(1)
         return(mask)
 
+
     def fill_row_mask_arr(self):
         for i in range(8):
             self.row_mask[i] = self.make_row_mask(np.uint64(1) << np.uint64(8*i))
+
 
     def make_diag_left_mask(self,mask):
         BR_mask = ~((self.row_mask[0]) | (self.col_mask[7]))
@@ -58,9 +70,33 @@ class BitboardEngine():
             mask = mask | ((mask & BR_mask) >> np.uint64(7))
         return(mask)
 
+
     def fill_diag_left_mask_arr(self):
         start = np.uint64(1)
         
+        for i in range(8):
+            self.print_chess_rep(start)
+            self.diag_left_mask[i] = self.make_diag_left_mask(start)
+            if i!= 7: start = start << np.uint64(8)
+        start = start << np.uint64(1)
+
+        for j in range(8,15):
+            self.print_chess_rep(start)
+            self.diag_left_mask[j] = self.make_diag_left_mask(start)
+            start = start << np.uint64(1)
+
+
+    def make_diag_right_mask(self,mask):
+        TR_mask = ~((self.row_mask[7]) | (self.col_mask[7]))
+
+        for i in range(8):
+            mask = mask | ((mask & BR_mask) << np.uint64(9))
+        self.print_chess_rep(mask)
+        return(mask)
+
+    def fill_diag_right_mask_arr(self):
+        start = np.uint64(8)
+        # UPTOHERE
         for i in range(8):
             self.print_chess_rep(start)
             self.diag_left_mask[i] = self.make_diag_left_mask(start)
@@ -156,7 +192,8 @@ class BitboardEngine():
     # Takes in same_occupied (bitboard representing all pieces of that color)
     # Returns bitboard representing all possible pre_check moves that that knight can make
     def pre_check_knight(self, king_rep, same_occupied):
-        '''spot_1_clip = tbls->ClearFile[FILE_A] & tbls->ClearFile[FILE_B];
+        '''
+        spot_1_clip = tbls->ClearFile[FILE_A] & tbls->ClearFile[FILE_B];
         spot_2_clip = tbls->ClearFile[FILE_A];
         spot_3_clip = tbls->ClearFile[FILE_H];
         spot_4_clip = tbls->ClearFile[FILE_H] & tbls->ClearFile[FILE_G];
@@ -193,4 +230,3 @@ driver = BitboardEngine()
 # driver.print_chess_rep(driver.white_kings)
 # print('white king legal moves')
 # driver.print_chess_rep(driver.get_king_moves(-1))
-
