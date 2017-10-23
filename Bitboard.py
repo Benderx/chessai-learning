@@ -92,21 +92,20 @@ class Bitboard():
     # Takes in same_occupied (bitboard representing all pieces of that color)
     # Returns bitboard representing all possible pre_check moves that the king can make
     def pre_check_king(self, king_rep, same_occupied):
-        king_clip_file_0 = king_rep & self.col_mask[0]; 
-        king_clip_file_7 = king_rep & self.col_mask[7]; 
+        king_clip_file_0 = king_rep & self.col_mask[0]
+        king_clip_file_7 = king_rep & self.col_mask[7] 
 
-        spot_0 = king_clip_file_7 << np.uint64(7) 
-        spot_1 = king_loc << np.uint64(8) # down one
-        spot_2 = king_clip_file_7 << np.uint64(9) # down left
-        spot_3 = king_clip_file_7 << np.uint64(1) # left one
+        spot_0 = king_clip_file_7 << np.uint64(7) # Southeast
+        spot_1 = king_loc << np.uint64(8) # South
+        spot_2 = king_clip_file_7 << np.uint64(9) # Southwest
+        spot_3 = king_clip_file_7 << np.uint64(1) # West
 
-        spot_4 = king_clip_file_0 >> np.uint64(7)
-        spot_5 = king_loc >> np.uint64(8)
-        spot_6 = king_clip_file_0 >> np.uint64(9) 
-        spot_7 = king_clip_file_0 >> np.uint64(1) # right one
+        spot_4 = king_clip_file_0 >> np.uint64(7) # Northwest
+        spot_5 = king_loc >> np.uint64(8) # North
+        spot_6 = king_clip_file_0 >> np.uint64(9) # Northeast
+        spot_7 = king_clip_file_0 >> np.uint64(1) # East
 
-        king_moves = spot_0 | spot_1 | spot_2 | spot_3 | 
-                     spot_4 | spot_5 | spot_6 | spot_7 
+        king_moves = spot_0 | spot_1 | spot_2 | spot_3 | spot_4 | spot_5 | spot_6 | spot_7 
 
         return king_moves & ~same_occupied;
 
