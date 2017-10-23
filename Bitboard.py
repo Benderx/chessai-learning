@@ -31,14 +31,21 @@ class BitboardEngine():
 
         self.diag_left_mask = np.zeros((15,), dtype='uint64')
         self.fill_diag_left_mask_arr()
-        #Diag left masks start on left side and move from left to right, top to bottom
+        #Diag left masks start on left side and moves from left to right, top to bottom
         #[0] corresponds to bottom left corner
         #[0]-[7] moves up y axis along x=0
         #[7] is top left corner
         #[7]-[14] moves across x-axis along y=7
         #[14] is top right corner
+
         self.diag_right_mask = np.zeros((15,), dtype='uint64')
         self.fill_diag_right_mask_arr()
+        #Diag right masks start on bottom side and moves from left to right, bottom to top
+        #[0] corresponds to bottom right corner
+        #[0]-[7] moves down the x axis along y=0
+        #[7] is bottom left corner
+        #[7]-[14] moves up the y-axis along x=0
+        #[14] is top left corner
 
 
     def make_col_mask(self, mask):
@@ -91,6 +98,7 @@ class BitboardEngine():
             mask = mask | ((mask & TR_mask) << np.uint64(9))
         return(mask)
 
+
     def fill_diag_right_mask_arr(self):
         start = np.uint64(1) << np.uint64(7)
         # UPTOHERE
@@ -102,6 +110,7 @@ class BitboardEngine():
         for j in range(8,15):          
             self.diag_right_mask[j] = self.make_diag_right_mask(start)
             start = start << np.uint64(8)
+
 
     def get_all_white(self):
         all_white = self.white_pawns | self.white_rooks | self.white_knights | self.white_bishops | self.white_kings | self.white_queens
