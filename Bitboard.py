@@ -46,9 +46,6 @@ class Bitboard():
         
         self.row_mask = np.zeros((8,),dtype='uint64')
         self.fill_row_mask_arr()
-        for elm in self.row_mask:
-            # print(elm)
-            self.print_bin(elm)
 
     def make_col_mask(self,mask):
         for i in range(8):
