@@ -285,14 +285,16 @@ class BitboardEngine():
         king_square = self.get_square(Piece.KING, color)
 
         if self.in_check:
+            pass
             # generate<EVASIONS>(pos, moveList)      last_move_index returned
         else:
+            pass
             # generate<NON_EVASIONS>(pos, moveList)     last_move_index returned
 
         move_iter = 0
         while move_iter < last_move_index:
             move = all_legal_moves[move_iter]
-            if (pinned || self.decode_from(move) == king_square || self.decode_type(move) == MoveType.ENPASSANT) && not self.legal(move):
+            if (pinned or self.decode_from(move) == king_square or self.decode_type(move) == MoveType.ENPASSANT) and not self.legal(move):
                 last_move_index -= 1
                 all_legal_moves[move_iter] = all_legal_moves[last_move_index]
 
