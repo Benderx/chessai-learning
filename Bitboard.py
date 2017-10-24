@@ -1,8 +1,19 @@
 import numpy as np
+from enum import Enum
+
+class Piece(Enum):
+    NONE = 0
+    PAWN = 1
+    NIGHT = 2
+    BISHOP = 3
+    QUEEN = 4
+    KING = 5
+
 
 class BitboardEngine():
     def __init__(self):
         self.max_move_length = 500 # This assumes there are only 500 possible legal moves at any one time (affects move array intilization)
+        self.in_check = np.uint8(0)
         self.__init_board__()
         self.__init_mask__()
 
@@ -176,13 +187,37 @@ class BitboardEngine():
 
     # Generates and returns a list of moves for a color before checking checks
     def generate_pre_check_moves(self, color):
-        all_pre_check_moves = np.zeros((self.max_move_length,), dtype='uint64')
+        all_pre_check_moves = np.zeros((self.max_move_length,), dtype='uint32')
+        king_loc = self.pre_check_king_bitboard()
+        return all_pre_check_moves
+
+
+    def generate_legal_moves(self, color):
+        pass
+        # Bitboard pinned = pos.pinned_pieces(pos.side_to_move());
+        # king_square = get_square(Piece.KING, color)
+        # # .square<KING>(pos.side_to_move());
+        # # ExtMove* cur = moveList;
+
+        # # moveList = pos.checkers() ? generate<EVASIONS>(pos, moveList) : generate<NON_EVASIONS>(pos, moveList);
+        # if self.in_check:
+        #     pass
+        # else:
+        #     pass
+
+        # while (cur != moveList)
+        #   if ((pinned || from_sq(*cur) == ksq || type_of(*cur) == ENPASSANT) && !pos.legal(*cur))
+        #       *cur = (--moveList)->move;
+        #   else
+        #       ++cur;
+
+        # return moveList;
 
 
     # Takes in king_rep (bitboad representing that colors king location)
     # Takes in same_occupied (bitboard representing all pieces of that color)
     # Returns bitboard representing all possible pre_check moves that the king can make
-    def pre_check_king(self, king_rep, same_occupied):
+    def pre_check_king_bitboard(self, king_rep, same_occupied):
         king_mask_file_0 = king_rep & ~self.col_mask[0]
         king_mask_file_7 = king_rep & ~self.col_mask[7] 
 
