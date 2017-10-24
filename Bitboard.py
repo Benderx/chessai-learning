@@ -130,14 +130,25 @@ class BitboardEngine():
         return(all_pieces)
 
 
-    def encode_move(self,start,end,flags):
+    def encode_move(self,start,end,type, piece, promotion):
         encode_start = np.uint8(start)
         encode_end = np.uint16(end) << np.uint16(6)
         encode_flags = np.uint32() << 12
 
-    def decode_move(self,move):
+    def decode_from(self,move):
         pass
 
+    def decode_to(self,move):
+        pass
+
+    def decode_type(self,move):
+        pass
+
+    def decode_piece(self,move):
+        pass
+
+    def decode_promo(self,move):
+        pass
 
     def reverse_8_bit(self, row):
         num = np.uint8(row)
