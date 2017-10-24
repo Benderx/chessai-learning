@@ -197,6 +197,21 @@ class BitboardEngine():
         return((move >> np.uint8(17)) & np.uint8(3))
 
 
+    # Takes in a bitboard and will return the bitboard representing only the least significant bit.
+    # Example: the initial white_knights bitboard, the least significant 1 occurs at index 1 (...00001000010)
+    # therefore simply return ((lots of zeros)00000000000010)
+    # YOU MAY ASSUME A 1 EXISTS, (0000000000000000000) will not be given
+    def lsb(self):
+        pass
+
+
+    # See above, except return the move_list significant bit bitboard
+    def msb(self):
+        pass
+
+
+    # Reverses a uint8 number, like this (00110000 -> 00001100)
+    # To improve, possibly just not(11111111 - num)??? 
     def reverse_8_bit(self, row):
         num = np.uint8(row)
         reverse_num = np.uint8(row)
@@ -241,33 +256,54 @@ class BitboardEngine():
         pass
 
 
-    # Generates and returns a list of moves for a color before checking checks
-    def generate_pre_check_moves(self, color):
-        all_pre_check_moves = np.zeros((self.max_move_length,), dtype='uint32')
+    def get_square(self, piece, color):
+        if color: # white
+            if piece == Piece.KING:
+                return self.white_kings
+            else:
+                pass
+        else: # black
+            if piece == Piece.KING:
+                return self.black_kings
+            else:
+                pass
+
+
+    # Returns a bitboard of pieces that are pinned against their king 
+    def pinned_pieces(self, color):
+        pass
+
+
+    # Generates and fills move_list for a color before checking checks
+    def generate_pre_check_moves(self, color, move_list):
+        
         king_loc = self.pre_check_king_bitboard()
         return all_pre_check_moves
 
 
+    # Generates and returns a list of legal moves for a color
     def generate_legal_moves(self, color):
-        pass
-        # Bitboard pinned = pos.pinned_pieces(pos.side_to_move());
-        # king_square = get_square(Piece.KING, color)
-        # # .square<KING>(pos.side_to_move());
-        # # ExtMove* cur = moveList;
+        all_legal_moves = np.zeros((self.max_move_length,), dtype='uint32')
+        last_move_index = 0
 
-        # # moveList = pos.checkers() ? generate<EVASIONS>(pos, moveList) : generate<NON_EVASIONS>(pos, moveList);
-        # if self.in_check:
-        #     pass
-        # else:
-        #     pass
+        pinned = self.pinned_pieces(color);
+        king_square = self.get_square(Piece.KING, color)
 
-        # while (cur != moveList)
-        #   if ((pinned || from_sq(*cur) == ksq || type_of(*cur) == ENPASSANT) && !pos.legal(*cur))
-        #       *cur = (--moveList)->move;
-        #   else
-        #       ++cur;
+        if self.in_check:
+            pass
+            # generate<EVASIONS>(pos, moveList)      last_move_index returned
+        else:
+            pass
+            # generate<NON_EVASIONS>(pos, moveList)     last_move_index returned
 
-        # return moveList;
+        move_iter = 0
+        while move_iter < last_move_index:
+            move = all_legal_moves[move_iter]
+            if (pinned or self.decode_from(move) == king_square or self.decode_type(move) == MoveType.ENPASSANT) and not self.legal(move):
+                last_move_index -= 1
+                all_legal_moves[move_iter] = all_legal_moves[last_move_index]
+
+        return all_legal_moves
 
 
     # Takes in king_rep (bitboad representing that colors king location)
