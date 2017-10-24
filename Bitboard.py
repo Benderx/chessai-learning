@@ -184,6 +184,21 @@ class BitboardEngine():
         return((move >> np.uint8(17)) & np.uint8(3))
 
 
+    # Takes in a bitboard and will return the bitboard representing only the least significant bit.
+    # Example: the initial white_knights bitboard, the least significant 1 occurs at index 1 (...00001000010)
+    # therefore simply return ((lots of zeros)00000000000010)
+    # YOU MAY ASSUME A 1 EXISTS, (0000000000000000000) will not be given
+    def lsb(self):
+        pass
+
+
+    # See above, except return the move_list significant bit bitboard
+    def msb(self):
+        pass
+
+
+    # Reverses a uint8 number, like this (00110000 -> 00001100)
+    # To improve, possibly just not(11111111 - num)??? 
     def reverse_8_bit(self, row):
         num = np.uint8(row)
         reverse_num = np.uint8(row)
@@ -269,7 +284,7 @@ class BitboardEngine():
         move_iter = 0
         while move_iter < last_move_index:
             move = all_legal_moves[move_iter]
-            if (pinned || self.decode_from(move) == ksq || type_of(*cur) == ENPASSANT) && !pos.legal(*cur):
+            if (pinned || self.decode_from(move) == king_square || self.decode_type(move) == MoveType.ENPASSANT) && not self.legal(move):
                 last_move_index -= 1
                 all_legal_moves[move_iter] = all_legal_moves[last_move_index]
 
