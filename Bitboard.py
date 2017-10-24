@@ -2,6 +2,7 @@ import numpy as np
 
 class BitboardEngine():
     def __init__(self):
+        self.max_move_length = 500 # This assumes there are only 500 possible legal moves at any one time (affects move array intilization)
         self.__init_board__()
         self.__init_mask__()
 
@@ -171,6 +172,22 @@ class BitboardEngine():
     # North:     << 8
     # Northeast: << 9
 
+
+    # Takes in a move, alters the BitboardEngine's representation to the NEXT state based on the CURRENT move action
+    def push_move(self, move):
+        pass
+
+
+    # Takes in a move, alters the BitboardEngine's representation to the PREVIOUS state based on the LAST move action
+    def push_move(self, move):
+        pass
+
+
+    # Generates and returns a list of moves for a color before checking checks
+    def generate_pre_check_moves(self, color):
+        all_pre_check_moves = np.zeros((self.max_move_length,), dtype='uint64')
+
+
     # Takes in king_rep (bitboad representing that colors king location)
     # Takes in same_occupied (bitboard representing all pieces of that color)
     # Returns bitboard representing all possible pre_check moves that the king can make
@@ -233,6 +250,9 @@ class BitboardEngine():
             caller will determine if this is a white or black night. */
         return KnightValid & ~own_side;
         '''
+
+
+
 
 
 driver = BitboardEngine()
