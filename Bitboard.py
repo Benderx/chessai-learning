@@ -140,6 +140,49 @@ class BitboardEngine():
         all_pieces = white | black
         return(all_pieces)
 
+    def encode_move(self,start,end,type, piece, promotion):
+        encode_start = np.uint8(start)
+        encode_end = np.uint16(end) << np.uint16(6)
+        encode_flags = np.uint32() << 12
+
+
+    #Takes in a np.uint32 move
+    #Returns square number moved piece originated from
+    #Alters nothing
+    def decode_from(self,move):
+        return(move & np.uint8(63))
+
+
+    #Takes in a np.uint32 move
+    #Returns square number moved piece travels to
+    #Alters nothing
+    def decode_to(self,move):
+        return((move >> np.uint8(6)) & np.uint8(63))
+
+
+    #Takes in a np.uint32 move
+    #Returns type of move made
+        # 0 = Nothing special
+        # 1 = Castle
+        # 2 = Enpassant
+        # 3 = Promotion
+    #Alters nothing
+    def decode_type(self,move):
+        return((move >> np.uint8(12)) & np.uint8(3))
+
+
+    #Takes in a np.uint32 move
+    #Returns any piece taken by move
+    #Alters nothing
+    def decode_piece(self,move):
+        return((move >> np.uint8(14)) & np.uint8(7))
+
+    #Takes in a np.uint32 move
+    #Returns new piece pawn promoted to
+    #Alters nothing
+    def decode_promo(self,move):
+        return((move >> np.uint8(17)) & np.uint8(3))
+
 
     def reverse_8_bit(self, row):
         num = np.uint8(row)
