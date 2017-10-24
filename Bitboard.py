@@ -185,33 +185,52 @@ class BitboardEngine():
         pass
 
 
-    # Generates and returns a list of moves for a color before checking checks
-    def generate_pre_check_moves(self, color):
-        all_pre_check_moves = np.zeros((self.max_move_length,), dtype='uint32')
+    def get_square(self, piece, color):
+        if color: # white
+            if piece == Piece.KING:
+                return self.white_kings
+            else:
+                pass
+        else: # black
+            if piece == Piece.KING:
+                return self.black_kings
+            else:
+                pass
+
+
+    # Returns a bitboard of pieces that are pinned against their king 
+    def pinned_pieces(self, color):
+        pass
+
+
+    # Generates and fills move_list for a color before checking checks
+    def generate_pre_check_moves(self, color, move_list):
+        
         king_loc = self.pre_check_king_bitboard()
         return all_pre_check_moves
 
 
+    # Generates and returns a list of legal moves for a color
     def generate_legal_moves(self, color):
-        pass
-        # Bitboard pinned = pos.pinned_pieces(pos.side_to_move());
-        # king_square = get_square(Piece.KING, color)
-        # # .square<KING>(pos.side_to_move());
-        # # ExtMove* cur = moveList;
+        all_legal_moves = np.zeros((self.max_move_length,), dtype='uint32')
+        last_move_index = 0
 
-        # # moveList = pos.checkers() ? generate<EVASIONS>(pos, moveList) : generate<NON_EVASIONS>(pos, moveList);
-        # if self.in_check:
-        #     pass
-        # else:
-        #     pass
+        pinned = self.pinned_pieces(color);
+        king_square = self.get_square(Piece.KING, color)
 
-        # while (cur != moveList)
-        #   if ((pinned || from_sq(*cur) == ksq || type_of(*cur) == ENPASSANT) && !pos.legal(*cur))
-        #       *cur = (--moveList)->move;
-        #   else
-        #       ++cur;
+        if self.in_check:
+            # generate<EVASIONS>(pos, moveList)      last_move_index returned
+        else:
+            # generate<NON_EVASIONS>(pos, moveList)     last_move_index returned
 
-        # return moveList;
+        move_iter = 0
+        while move_iter < last_move_index:
+            move = all_legal_moves[move_iter]
+            if (pinned || self.decode_from(move) == ksq || type_of(*cur) == ENPASSANT) && !pos.legal(*cur):
+                last_move_index -= 1
+                all_legal_moves[move_iter] = all_legal_moves[last_move_index]
+
+        return all_legal_moves
 
 
     # Takes in king_rep (bitboad representing that colors king location)
