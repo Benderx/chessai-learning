@@ -9,6 +9,12 @@ class Piece(Enum):
     QUEEN = 4
     KING = 5
 
+class MoveType(Enum):
+    REGULAR = 0
+    CASTLE = 1
+    ENPASSANT = 2
+    PROMOTION = 3
+
 
 class BitboardEngine():
     def __init__(self):
@@ -140,6 +146,12 @@ class BitboardEngine():
         all_pieces = white | black
         return(all_pieces)
 
+    '''
+    Takes in move information
+        Start : int 0-63 : Square moved piece started on
+        End : int 0-63 : Square moved piece ended on
+
+    '''
     def encode_move(self,start,end,type, piece, promotion):
         encode_start = np.uint8(start)
         encode_end = np.uint16(end) << np.uint16(6)
@@ -162,10 +174,6 @@ class BitboardEngine():
 
     #Takes in a np.uint32 move
     #Returns type of move made
-        # 0 = Nothing special
-        # 1 = Castle
-        # 2 = Enpassant
-        # 3 = Promotion
     #Alters nothing
     def decode_type(self,move):
         return((move >> np.uint8(12)) & np.uint8(3))
