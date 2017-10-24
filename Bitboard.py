@@ -162,6 +162,17 @@ class BitboardEngine():
     # North:     << 8
     # Northeast: << 9
 
+
+    # Takes in a move, alters the BitboardEngine's representation to the NEXT state based on the CURRENT move action
+    def push_move(move):
+        pass
+
+
+    # Takes in a move, alters the BitboardEngine's representation to the PREVIOUS state based on the LAST move action
+    def push_move(move):
+        pass
+
+
     # Takes in king_rep (bitboad representing that colors king location)
     # Takes in same_occupied (bitboard representing all pieces of that color)
     # Returns bitboard representing all possible pre_check moves that the king can make
@@ -224,6 +235,9 @@ class BitboardEngine():
             caller will determine if this is a white or black night. */
         return KnightValid & ~own_side;
         '''
+
+
+
 
 
 driver = BitboardEngine()
