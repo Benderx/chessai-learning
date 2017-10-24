@@ -264,6 +264,11 @@ class BitboardEngine():
                 pass
 
 
+    # Some hueristics have been met, the only way to check if a move is legal or not, we must make it.
+    def check_legal(self, move):
+        pass
+
+
     # Returns a bitboard of pieces that are pinned against their king 
     def pinned_pieces(self, color):
         pass
@@ -294,7 +299,7 @@ class BitboardEngine():
         move_iter = 0
         while move_iter < last_move_index:
             move = all_legal_moves[move_iter]
-            if (pinned or self.decode_from(move) == king_square or self.decode_type(move) == MoveType.ENPASSANT) and not self.legal(move):
+            if (pinned or self.decode_from(move) == king_square or self.decode_type(move) == MoveType.ENPASSANT) and not self.check_legal(move):
                 last_move_index -= 1
                 all_legal_moves[move_iter] = all_legal_moves[last_move_index]
 
