@@ -4,10 +4,11 @@ from enum import Enum
 class Piece(Enum):
     NONE = 0
     PAWN = 1
-    NIGHT = 2
-    BISHOP = 3
-    QUEEN = 4
-    KING = 5
+    ROOK = 2
+    NIGHT = 3
+    BISHOP = 4
+    QUEEN = 5
+    KING = 6
 
 class MoveType(Enum):
     REGULAR = 0
@@ -119,7 +120,6 @@ class BitboardEngine():
 
     def fill_diag_right_mask_arr(self):
         start = np.uint64(1) << np.uint64(7)
-        # UPTOHERE
         for i in range(8):
             self.diag_right_mask[i] = self.make_diag_right_mask(start)
             if i!= 7: start = start >> np.uint64(1)
@@ -146,18 +146,23 @@ class BitboardEngine():
         all_pieces = white | black
         return(all_pieces)
 
-    '''
-    Takes in move information
-        Start : int 0-63 : Square moved piece started on
-        End : int 0-63 : Square moved piece ended on
 
+ '''Takes in move information
+        start : int 0-63 : Square moved piece started on
+        end : int 0-63 : Square moved piece ended on
+        m_type: int 0-3 : Type of move made
+        piece: int 0-4 : Piece taken in move
+        promotion: int 2-5 : Piece to promote pawn to
+    Return a np.uint32 representing all above info
+    Alters nothing
     '''
-    def encode_move(self,start,end,type, piece, promotion):
+    def encode_move(self, start, end, m_type, piece, promotion):
         encode_start = np.uint8(start)
-        encode_end = np.uint16(end) << np.uint16(6)
-        encode_flags = np.uint32() << 12
-
-
+        encode_end = np.uint16(end) << np.uint8(6)
+        encode_type = np.uint32(m_type) << np.uint8(12)
+        encode_piece = np.uint32(piece) << np.uint8(14)
+        encode_promotion = np.uint32(promotion) << np.uint(17)
+        return(encode_start & encode_end & encode_type & encode_piece & encode_promotion)
     #Takes in a np.uint32 move
     #Returns square number moved piece originated from
     #Alters nothing
