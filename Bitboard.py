@@ -147,15 +147,15 @@ class BitboardEngine():
         return(all_pieces)
 
 
- '''Takes in move information
-        start : int 0-63 : Square moved piece started on
-        end : int 0-63 : Square moved piece ended on
-        m_type: int 0-3 : Type of move made
-        piece: int 0-4 : Piece taken in move
-        promotion: int 2-5 : Piece to promote pawn to
-    Return a np.uint32 representing all above info
-    Alters nothing
-    '''
+    # Takes in move information
+    #     start : int 0-63 : Square moved piece started on
+    #     end : int 0-63 : Square moved piece ended on
+    #     m_type: int 0-3 : Type of move made
+    #     piece: int 0-4 : Piece taken in move
+    #     promotion: int 2-5 : Piece to promote pawn to
+    # Return a np.uint32 representing all above info
+    # Alters nothing
+
     def encode_move(self, start, end, m_type, piece, promotion):
         encode_start = np.uint8(start)
         encode_end = np.uint16(end) << np.uint8(6)
@@ -226,6 +226,7 @@ class BitboardEngine():
             count -= one_8
         reverse_num = reverse_num << count
         return reverse_num
+        # return ~(np.uint8(255) - np.uint8(row))
 
 
     def print_chess_rep(self, num):
@@ -382,7 +383,7 @@ driver = BitboardEngine()
 # driver.print_chess_rep(driver.white_pawn | driver.black_pawn)
 
 
-# print('white king pos')
-# driver.print_chess_rep(driver.white_kings)
-# print('white king legal moves')
-# driver.print_chess_rep(driver.get_king_moves(-1))
+print('white king pos')
+driver.print_chess_rep(driver.white_kings)
+print('white king legal moves')
+driver.print_chess_rep(driver.get_king_moves(-1))
