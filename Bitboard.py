@@ -282,7 +282,6 @@ class BitboardEngine():
 
     # Generates and fills move_list for a color before checking checks
     def generate_pre_check_moves(self, color, move_list):
-        
         king_loc = self.pre_check_king_bitboard()
         return all_pre_check_moves
 
@@ -297,7 +296,7 @@ class BitboardEngine():
 
         if self.in_check:
             pass
-            # generate<EVASIONS>(pos, moveList)      last_move_index returned
+            # generate<EVASIONS>(pos, moveList)         last_move_index returned
         else:
             pass
             # generate<NON_EVASIONS>(pos, moveList)     last_move_index returned
@@ -336,9 +335,9 @@ class BitboardEngine():
 
     def get_king_moves(self, color):
         if color == 1:
-            return self.pre_check_king(self.white_kings, self.get_all_white())
+            return self.pre_check_king_bitboard(self.white_kings, self.get_all_white())
         else:
-            return self.pre_check_king(self.black_kings, self.get_all_black())
+            return self.pre_check_king_bitboard(self.black_kings, self.get_all_black())
 
 
 
@@ -346,34 +345,33 @@ class BitboardEngine():
     # Takes in same_occupied (bitboard representing all pieces of that color)
     # Returns bitboard representing all possible pre_check moves that that knight can make
     def pre_check_knight(self, king_rep, same_occupied):
-        '''
-        spot_1_clip = tbls->ClearFile[FILE_A] & tbls->ClearFile[FILE_B];
-        spot_2_clip = tbls->ClearFile[FILE_A];
-        spot_3_clip = tbls->ClearFile[FILE_H];
-        spot_4_clip = tbls->ClearFile[FILE_H] & tbls->ClearFile[FILE_G];
+        pass
+        # spot_1_clip = tbls->ClearFile[FILE_A] & tbls->ClearFile[FILE_B];
+        # spot_2_clip = tbls->ClearFile[FILE_A];
+        # spot_3_clip = tbls->ClearFile[FILE_H];
+        # spot_4_clip = tbls->ClearFile[FILE_H] & tbls->ClearFile[FILE_G];
 
-        spot_5_clip = tbls->ClearFile[FILE_H] & tbls->ClearFile[FILE_G];
-        spot_6_clip = tbls->ClearFile[FILE_H];
-        spot_7_clip = tbls->ClearFile[FILE_A];
-        spot_8_clip = tbls->ClearFile[FILE_A] & tbls->ClearFile[FILE_B];
+        # spot_5_clip = tbls->ClearFile[FILE_H] & tbls->ClearFile[FILE_G];
+        # spot_6_clip = tbls->ClearFile[FILE_H];
+        # spot_7_clip = tbls->ClearFile[FILE_A];
+        # spot_8_clip = tbls->ClearFile[FILE_A] & tbls->ClearFile[FILE_B];
 
-        spot_1 = (knight_loc & spot_1_clip) << 6;
-        spot_2 = (knight_loc & spot_2_clip) << 15;
-        spot_3 = (knight_loc & spot_3_clip) << 17;
-        spot_4 = (knight_loc & spot_4_clip) << 10;
+        # spot_1 = (knight_loc & spot_1_clip) << 6;
+        # spot_2 = (knight_loc & spot_2_clip) << 15;
+        # spot_3 = (knight_loc & spot_3_clip) << 17;
+        # spot_4 = (knight_loc & spot_4_clip) << 10;
 
-        spot_5 = (knight_loc & spot_5_clip) >> 6;
-        spot_6 = (knight_loc & spot_6_clip) >> 15;
-        spot_7 = (knight_loc & spot_7_clip) >> 17;
-        spot_8 = (knight_loc & spot_8_clip) >> 10;
+        # spot_5 = (knight_loc & spot_5_clip) >> 6;
+        # spot_6 = (knight_loc & spot_6_clip) >> 15;
+        # spot_7 = (knight_loc & spot_7_clip) >> 17;
+        # spot_8 = (knight_loc & spot_8_clip) >> 10;
 
-        KnightValid = spot_1 | spot_2 | spot_3 | spot_4 | spot_5 | spot_6 |
-                        spot_7 | spot_8;
+        # KnightValid = spot_1 | spot_2 | spot_3 | spot_4 | spot_5 | spot_6 |
+        #                 spot_7 | spot_8;
 
-        /* compute only the places where the knight can move and attack. The
-            caller will determine if this is a white or black night. */
-        return KnightValid & ~own_side;
-        '''
+        # /* compute only the places where the knight can move and attack. The
+        #     caller will determine if this is a white or black night. */
+        # return KnightValid & ~own_side;
 
 
 
