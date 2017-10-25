@@ -1,5 +1,5 @@
 import Engine
-
+import math
 import random
 import os
 
@@ -32,6 +32,110 @@ class AiRand(Player):
     def get_type(self): #could just inherit with self.type
         return('Random AI')
 
+
+class AiMinimax(Player):
+    def __init__(self, color, engine):
+        super().__init__(color, engine)
+        print (self.color)
+
+    def get_move(self, moves):
+        #return(random.choice(moves))
+        m_arr = moves
+        moves_arr = []
+        #print("m_arr: " + str(m_arr))
+        for x in m_arr:
+            self.engine.push_move(x)
+            #print(self.move_stack)
+            #print('')
+            #self.engine.print_board()
+            value = self.minimax(2, self.color, float("-inf"), float("inf"))
+            if value != 0:
+                print ("move " + str(x) + " eval " + str(value))
+            #print(self.move_stack)
+            self.engine.pop_move()
+            moves_arr.append((self.color * value, x))
+        #print ("moves_arr: " + str(moves_arr))
+        best_move = moves_arr[0]
+        b_arr = [best_move]
+        for x in moves_arr:
+            #print("x = "+str(x))
+            #print("best_move = " + str(best_move))
+            if x[0] > best_move[0]:
+                #print("x is better")
+                b_arr = [x]
+                best_move = x
+            elif x[0] == best_move[0]:
+                b_arr.append(x)
+            #print("best_move = " + str(best_move))
+        #print(moves_arr)
+        #print(b_arr)
+        
+        best_move = random.choice(b_arr)
+        if len(b_arr) < 10:
+            print ("best moves " + str(b_arr))
+        return best_move[1]
+
+    def get_type(self): #could just inherit with self.type
+        return('Minimax AI')
+
+    def evaluate(self, color): #Returns a score for the current board state
+        score = 0.0
+        w = self.engine.is_terminal(color,self.engine.get_legal_moves(color)) #check for win 
+        if w != None:
+            if w == 0:
+                score = 0
+                return score
+            else:
+                score = math.inf * w #return math.inf on white win, -inf on black win
+                return score
+        board = self.engine.get_board()
+        for row in board:
+            for square in row:
+                if square != None:
+                    if square.get_piece() == "Pawn":
+                        score += 1 * square.get_color()
+                    elif square.get_piece() == "Night":
+                        score += 3 * square.get_color()
+                    elif square.get_piece() == "Bishop":
+                        score += 3 * square.get_color()
+                    elif square.get_piece() == "Rook":
+                        score += 4 * square.get_color()
+                    elif square.get_piece() == "Queen":
+                        score += 9 * square.get_color()
+        return score
+
+    def minimax(self, depth, color, min, max):
+        val = self.evaluate(color)
+
+        if depth == 0 or val == math.inf or val == (-1 * math.inf):            
+            return val
+        
+        if color == self.color:
+            a = self.engine.get_legal_moves(color)
+            v = min
+            for x in a:
+                print ("testing move ", x)
+                self.engine.push_move(x)
+                v1 = self.minimax(depth - 1, -1 * self.color, v, max)
+                self.engine.pop_move()  
+                if v1 > v:
+                    v = v1
+                if v > max:
+                    return max
+            return v
+            
+        else: #not computer's turn
+            b = self.engine.get_legal_moves(color)
+            w = max 
+            for x in b:
+                self.engine.push_move(x)
+                w1 = self.minimax(depth - 1, self.color, min, w)
+                self.engine.pop_move()
+                if w1 < w:
+                    w = w1
+                if w < min:
+                    return min
+            return w
 
 class Human(Player):
     def __init__(self, color, engine, renderer):

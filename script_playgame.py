@@ -9,7 +9,7 @@ engine = Engine.Engine()
 engine.init_board()
 
 PLAYER_ONE = Player.AiRand(1,engine)
-PLAYER_TWO = Player.AiRand(-1,engine)
+PLAYER_TWO = Player.AiMinimax(-1,engine)
 
 players = [PLAYER_ONE,PLAYER_TWO]
 
@@ -21,7 +21,7 @@ while True:
     print("\n\nBoardstate:")
     engine.print_board()
     print("Current players turn:", players[turn].get_color())
-    print("All moves:\n",possible_moves)
+    #print("All moves:\n",possible_moves)
     if winner != None:
         if winner == 1:
             print("Results are in: White wins")
