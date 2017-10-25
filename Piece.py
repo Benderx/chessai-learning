@@ -19,14 +19,17 @@ class Piece():
 class Pawn(Piece):
     def __init__(self, color):
         super().__init__(color)
+        # self.enpassant = False
 
     def get_piece(self):
         return("Pawn")
 
+
 class Rook(Piece):
-    def __init__(self, color):
+    def __init__(self, color, num=3, moved = 0):
         super().__init__(color)
-        self.moved = 0
+        self.moved = moved
+        self.num = num
 
     def get_moved(self):
         return(self.moved)
@@ -39,6 +42,9 @@ class Rook(Piece):
 
     def sub_move(self):
         self.moved -= 1
+
+    def get_rook_num(self):
+        return(self.num)
 
 class Knight(Piece):
     def __init__(self, color):
@@ -55,9 +61,9 @@ class Bishop(Piece):
         return("Bishop")
 
 class King(Piece):
-    def __init__(self, color):
+    def __init__(self, color, moved = 0):
         super().__init__(color)
-        self.moved = 0
+        self.moved = moved
 
     def get_piece(self):
         return("King")
