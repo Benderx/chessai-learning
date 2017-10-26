@@ -110,7 +110,7 @@ class AiMinimax(Player):
                         score += 9 * square.get_color()
         return score
 
-    def minimax(self, depth, color, min, max):
+    def minimax(self, depth, color, minimum, imum):
         val = self.evaluate(color)
 
         if depth == 0 or val == math.inf or val == (-1 * math.inf):            
@@ -118,29 +118,29 @@ class AiMinimax(Player):
         
         if color == self.color:
             a = self.engine.get_legal_moves(color)
-            v = min
+            v = minimum
             for x in a:
                 #print ("testing move ", x)
                 self.engine.push_move(x)
-                v1 = self.minimax(depth - 1, -1 * self.color, v, max)
+                v1 = self.minimax(depth - 1, -1 * self.color, v, maximum)
                 self.engine.pop_move()  
                 if v1 > v:
                     v = v1
-                if v > max:
-                    return max
+                if v > maximum:
+                    return maximum
             return v
             
         else: #not computer's turn
             b = self.engine.get_legal_moves(color)
-            w = max 
+            w = maximum 
             for x in b:
                 self.engine.push_move(x)
-                w1 = self.minimax(depth - 1, self.color, min, w)
+                w1 = self.minimax(depth - 1, self.color, minimum, w)
                 self.engine.pop_move()
                 if w1 < w:
                     w = w1
-                if w < min:
-                    return min
+                if w < minimum:
+                    return minimum
             return w
 
 class Human(Player):
