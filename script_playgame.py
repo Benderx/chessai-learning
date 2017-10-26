@@ -1,12 +1,32 @@
 import Engine
 import Player
 import time
+import Piece
+
+board = [[None for x in range(8)] for y in range(8)]
+
+
+
 
 play_by_play = False
 
 winner = None
 engine = Engine.Engine()
-engine.init_board()
+
+
+engine.white_king = Piece.King(1)
+engine.white_king_pos = (4, 7)
+white_queen = Piece.Queen(1)
+board[7][4] = engine.white_king
+board[7][3] = white_queen
+
+engine.black_king = Piece.King(-1)
+engine.black_king_pos = (4, 0)
+black_queen = Piece.Queen(-1)
+board[0][4] = engine.black_king
+board[0][3] = black_queen
+
+engine.init_board(board)
 
 PLAYER_ONE = Player.AiRand(1,engine)
 PLAYER_TWO = Player.AiMinimax(-1,engine)

@@ -21,8 +21,8 @@ class Engine():
 
     def init_board(self, board = None):
         if board:
+            self.board = board
             #Custom board state
-            pass
         else:
             #Initialize basic chess board
             self.board[6][0] = Piece.Pawn(1)

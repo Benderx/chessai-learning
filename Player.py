@@ -44,11 +44,12 @@ class AiMinimax(Player):
         moves_arr = []
         #print("m_arr: " + str(m_arr))
         for x in m_arr:
+            #print("testing move " + str(x))
             self.engine.push_move(x)
             #print(self.move_stack)
             #print('')
             #self.engine.print_board()
-            value = self.minimax(2, self.color, float("-inf"), float("inf"))
+            value = self.minimax(2, self.color * -1, math.inf * -1, math.inf)
             if value != 0:
                 print ("move " + str(x) + " eval " + str(value))
             #print(self.move_stack)
@@ -80,7 +81,7 @@ class AiMinimax(Player):
 
     def evaluate(self, color): #Returns a score for the current board state
         score = 0.0
-        w = self.engine.is_terminal(color,self.engine.get_legal_moves(color)) #check for win 
+        w = self.engine.is_terminal(color,self.engine.get_legal_moves(color)) #check if current color lost 
         if w != None:
             if w == 0:
                 score = 0
@@ -88,6 +89,11 @@ class AiMinimax(Player):
             else:
                 score = math.inf * w #return math.inf on white win, -inf on black win
                 return score
+        if self.engine.in_check(-1*color):
+            score += 0.51
+            print("CHECK")
+            self.engine.print_board()
+
         board = self.engine.get_board()
         for row in board:
             for square in row:
@@ -114,7 +120,7 @@ class AiMinimax(Player):
             a = self.engine.get_legal_moves(color)
             v = min
             for x in a:
-                print ("testing move ", x)
+                #print ("testing move ", x)
                 self.engine.push_move(x)
                 v1 = self.minimax(depth - 1, -1 * self.color, v, max)
                 self.engine.pop_move()  
