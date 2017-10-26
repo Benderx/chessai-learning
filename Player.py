@@ -2,6 +2,7 @@ import Engine
 import math
 import random
 import os
+import time
 
 class Player():
     def __init__(self, color, engine):
@@ -49,12 +50,14 @@ class AiMinimax(Player):
             #print(self.move_stack)
             #print('')
             #self.engine.print_board()
-            value = self.minimax(2, self.color * -1, math.inf * -1, math.inf)
+            value = self.minimax(1, self.color * -1, math.inf * -1, math.inf)
             if value != 0:
-                print ("move " + str(x) + " eval " + str(value))
+                print ("DIRECT CHILD move " + str(x) + " eval " + str(value))
+                time.sleep(5)
             #print(self.move_stack)
             self.engine.pop_move()
             moves_arr.append((self.color * value, x))
+            
         #print ("moves_arr: " + str(moves_arr))
         best_move = moves_arr[0]
         b_arr = [best_move]
@@ -81,7 +84,7 @@ class AiMinimax(Player):
 
     def evaluate(self, color): #Returns a score for the current board state
         score = 0.0
-        w = self.engine.is_terminal(color,self.engine.get_legal_moves(color)) #check if current color lost 
+        w = self.engine.is_terminal(color, self.engine.get_legal_moves(color)) #check if current color lost 
         if w != None:
             if w == 0:
                 score = 0
@@ -110,7 +113,7 @@ class AiMinimax(Player):
                         score += 9 * square.get_color()
         return score
 
-    def minimax(self, depth, color, minimum, imum):
+    def minimax(self, depth, color, minimum, maximum):
         val = self.evaluate(color)
 
         if depth == 0 or val == math.inf or val == (-1 * math.inf):            
