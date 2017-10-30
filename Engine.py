@@ -1090,9 +1090,9 @@ class Engine():
         if self.board[pos_y][1] or self.board[pos_y][2] or self.board[pos_y][3]:
             qastle = False
 
-        if castle and r1 and r1.get_piece() == 'Rook' and r1.get_moved() > 0:
+        if castle and (not r1 or r1.get_piece() != 'Rook' or r1.get_moved() > 0):
             castle = False
-        if qastle and r2 and r2.get_piece() == 'Rook' and r2.get_moved() > 0:
+        if qastle and (not r2 or r2.get_piece() != 'Rook' or r2.get_moved() > 0):
             qastle = False
 
         if castle:

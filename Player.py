@@ -2,6 +2,7 @@ import Engine
 import math
 import random
 import os
+import time
 
 class Player():
     def __init__(self, color, engine):
@@ -36,12 +37,15 @@ class AiRand(Player):
 class AiMinimax(Player):
     def __init__(self, color, engine):
         super().__init__(color, engine)
+        print (self.color)
 
     def get_move(self, moves):
         #return(random.choice(moves))
         m_arr = moves
         moves_arr = []
+        #print("m_arr: " + str(m_arr))
         for x in m_arr:
+            #print("testing move " + str(x))
             self.engine.push_move(x)
             value = self.minimax(1, math.inf * -1, math.inf, self.color * -1)
             #if value != 0:
