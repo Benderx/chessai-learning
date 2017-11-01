@@ -147,15 +147,15 @@ class BitboardEngine():
         return(all_pieces)
 
 
- '''Takes in move information
-        start : int 0-63 : Square moved piece started on
-        end : int 0-63 : Square moved piece ended on
-        m_type: int 0-3 : Type of move made
-        piece: int 0-4 : Piece taken in move
-        promotion: int 2-5 : Piece to promote pawn to
-    Return a np.uint32 representing all above info
-    Alters nothing
-    '''
+    # Takes in move information
+    #     start : int 0-63 : Square moved piece started on
+    #     end : int 0-63 : Square moved piece ended on
+    #     m_type: int 0-3 : Type of move made
+    #     piece: int 0-4 : Piece taken in move
+    #     promotion: int 2-5 : Piece to promote pawn to
+    # Return a np.uint32 representing all above info
+    # Alters nothing
+
     def encode_move(self, start, end, m_type, piece, promotion):
         encode_start = np.uint8(start)
         encode_end = np.uint16(end) << np.uint8(6)
@@ -228,6 +228,7 @@ class BitboardEngine():
             count -= one_8
         reverse_num = reverse_num << count
         return reverse_num
+        # return ~(np.uint8(255) - np.uint8(row))
 
 
     def print_chess_rep(self, num):
@@ -271,6 +272,11 @@ class BitboardEngine():
                 pass
 
 
+    # Some hueristics have been met, the only way to check if a move is legal or not, we must make it.
+    def check_legal(self, move):
+        pass
+
+
     # Returns a bitboard of pieces that are pinned against their king 
     def pinned_pieces(self, color):
         pass
@@ -278,7 +284,6 @@ class BitboardEngine():
 
     # Generates and fills move_list for a color before checking checks
     def generate_pre_check_moves(self, color, move_list):
-        
         king_loc = self.pre_check_king_bitboard()
         return all_pre_check_moves
 
@@ -293,7 +298,7 @@ class BitboardEngine():
 
         if self.in_check:
             pass
-            # generate<EVASIONS>(pos, moveList)      last_move_index returned
+            # generate<EVASIONS>(pos, moveList)         last_move_index returned
         else:
             pass
             # generate<NON_EVASIONS>(pos, moveList)     last_move_index returned
@@ -301,7 +306,7 @@ class BitboardEngine():
         move_iter = 0
         while move_iter < last_move_index:
             move = all_legal_moves[move_iter]
-            if (pinned or self.decode_from(move) == king_square or self.decode_type(move) == MoveType.ENPASSANT) and not self.legal(move):
+            if (pinned or self.decode_from(move) == king_square or self.decode_type(move) == MoveType.ENPASSANT) and not self.check_legal(move):
                 last_move_index -= 1
                 all_legal_moves[move_iter] = all_legal_moves[last_move_index]
 
@@ -332,9 +337,9 @@ class BitboardEngine():
 
     def get_king_moves(self, color):
         if color == 1:
-            return self.pre_check_king(self.white_kings, self.get_all_white())
+            return self.pre_check_king_bitboard(self.white_kings, self.get_all_white())
         else:
-            return self.pre_check_king(self.black_kings, self.get_all_black())
+            return self.pre_check_king_bitboard(self.black_kings, self.get_all_black())
 
 
 
@@ -342,34 +347,33 @@ class BitboardEngine():
     # Takes in same_occupied (bitboard representing all pieces of that color)
     # Returns bitboard representing all possible pre_check moves that that knight can make
     def pre_check_knight(self, king_rep, same_occupied):
-        '''
-        spot_1_clip = tbls->ClearFile[FILE_A] & tbls->ClearFile[FILE_B];
-        spot_2_clip = tbls->ClearFile[FILE_A];
-        spot_3_clip = tbls->ClearFile[FILE_H];
-        spot_4_clip = tbls->ClearFile[FILE_H] & tbls->ClearFile[FILE_G];
+        pass
+        # spot_1_clip = tbls->ClearFile[FILE_A] & tbls->ClearFile[FILE_B];
+        # spot_2_clip = tbls->ClearFile[FILE_A];
+        # spot_3_clip = tbls->ClearFile[FILE_H];
+        # spot_4_clip = tbls->ClearFile[FILE_H] & tbls->ClearFile[FILE_G];
 
-        spot_5_clip = tbls->ClearFile[FILE_H] & tbls->ClearFile[FILE_G];
-        spot_6_clip = tbls->ClearFile[FILE_H];
-        spot_7_clip = tbls->ClearFile[FILE_A];
-        spot_8_clip = tbls->ClearFile[FILE_A] & tbls->ClearFile[FILE_B];
+        # spot_5_clip = tbls->ClearFile[FILE_H] & tbls->ClearFile[FILE_G];
+        # spot_6_clip = tbls->ClearFile[FILE_H];
+        # spot_7_clip = tbls->ClearFile[FILE_A];
+        # spot_8_clip = tbls->ClearFile[FILE_A] & tbls->ClearFile[FILE_B];
 
-        spot_1 = (knight_loc & spot_1_clip) << 6;
-        spot_2 = (knight_loc & spot_2_clip) << 15;
-        spot_3 = (knight_loc & spot_3_clip) << 17;
-        spot_4 = (knight_loc & spot_4_clip) << 10;
+        # spot_1 = (knight_loc & spot_1_clip) << 6;
+        # spot_2 = (knight_loc & spot_2_clip) << 15;
+        # spot_3 = (knight_loc & spot_3_clip) << 17;
+        # spot_4 = (knight_loc & spot_4_clip) << 10;
 
-        spot_5 = (knight_loc & spot_5_clip) >> 6;
-        spot_6 = (knight_loc & spot_6_clip) >> 15;
-        spot_7 = (knight_loc & spot_7_clip) >> 17;
-        spot_8 = (knight_loc & spot_8_clip) >> 10;
+        # spot_5 = (knight_loc & spot_5_clip) >> 6;
+        # spot_6 = (knight_loc & spot_6_clip) >> 15;
+        # spot_7 = (knight_loc & spot_7_clip) >> 17;
+        # spot_8 = (knight_loc & spot_8_clip) >> 10;
 
-        KnightValid = spot_1 | spot_2 | spot_3 | spot_4 | spot_5 | spot_6 |
-                        spot_7 | spot_8;
+        # KnightValid = spot_1 | spot_2 | spot_3 | spot_4 | spot_5 | spot_6 |
+        #                 spot_7 | spot_8;
 
-        /* compute only the places where the knight can move and attack. The
-            caller will determine if this is a white or black night. */
-        return KnightValid & ~own_side;
-        '''
+        # /* compute only the places where the knight can move and attack. The
+        #     caller will determine if this is a white or black night. */
+        # return KnightValid & ~own_side;
 
 
 
@@ -379,7 +383,7 @@ driver = BitboardEngine()
 # driver.print_chess_rep(driver.white_pawn | driver.black_pawn)
 
 
-# print('white king pos')
-# driver.print_chess_rep(driver.white_kings)
-# print('white king legal moves')
-# driver.print_chess_rep(driver.get_king_moves(-1))
+print('white king pos')
+driver.print_chess_rep(driver.white_kings)
+print('white king legal moves')
+driver.print_chess_rep(driver.get_king_moves(-1))
