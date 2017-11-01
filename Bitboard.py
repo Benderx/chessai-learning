@@ -204,6 +204,8 @@ class BitboardEngine():
     def lsb(self):
         pass
 
+    def naive_lsb(self):
+        pass
 
     # See above, except return the move_list significant bit bitboard
     def msb(self):
