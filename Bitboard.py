@@ -204,6 +204,10 @@ class BitboardEngine():
     def lsb_digit(self):
         return((num & -num).bit_length()-1)
 
+    #Takes in a bitboard
+    #Returns a bitboard with soley the least significant bit = 1
+    #All other bits = 0
+    #Alters nothing
     def lsb_board(self):
         return(num & -num)
 
