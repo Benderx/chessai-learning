@@ -201,11 +201,11 @@ class BitboardEngine():
     # Example: the initial white_knights bitboard, the least significant 1 occurs at index 1 (...00001000010)
     # therefore simply return ((lots of zeros)00000000000010)
     # YOU MAY ASSUME A 1 EXISTS, (0000000000000000000) will not be given
-    def lsb(self):
-        pass
+    def lsb_digit(self):
+        return((num & -num).bit_length()-1)
 
-    def naive_lsb(self):
-        pass
+    def lsb_board(self):
+        return(num & -num)
 
     # See above, except return the move_list significant bit bitboard
     def msb(self):
