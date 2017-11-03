@@ -163,36 +163,36 @@ class BitboardEngine():
         encode_piece = np.uint32(piece) << np.uint8(14)
         encode_promotion = np.uint32(promotion) << np.uint(17)
         return(encode_start & encode_end & encode_type & encode_piece & encode_promotion)
-    #Takes in a np.uint32 move
-    #Returns square number moved piece originated from
-    #Alters nothing
+    # Takes in a np.uint32 move
+    # Returns square number moved piece originated from
+    # Alters nothing
     def decode_from(self,move):
         return(move & np.uint8(63))
 
 
-    #Takes in a np.uint32 move
-    #Returns square number moved piece travels to
-    #Alters nothing
+    # Takes in a np.uint32 move
+    # Returns square number moved piece travels to
+    # Alters nothing
     def decode_to(self,move):
         return((move >> np.uint8(6)) & np.uint8(63))
 
 
-    #Takes in a np.uint32 move
-    #Returns type of move made
-    #Alters nothing
+    # Takes in a np.uint32 move
+    # Returns type of move made
+    # Alters nothing
     def decode_type(self,move):
-        return((move >> np.uint8(12)) & np.uint8(3))
+        return((move >> np.uint8(12)) & np.uint8(3)) 
 
 
-    #Takes in a np.uint32 move
-    #Returns any piece taken by move
-    #Alters nothing
+    # Takes in a np.uint32 move
+    # Returns any piece taken by move
+    # Alters nothing
     def decode_piece(self,move):
-        return((move >> np.uint8(14)) & np.uint8(7))
+        return((move >> np.uint8(14)) & np.uint8(7)) 
 
-    #Takes in a np.uint32 move
-    #Returns new piece pawn promoted to
-    #Alters nothing
+    # Takes in a np.uint32 move
+    # Returns new piece pawn promoted to
+    # Alters nothing
     def decode_promo(self,move):
         return((move >> np.uint8(17)) & np.uint8(3))
 
@@ -204,10 +204,10 @@ class BitboardEngine():
     def lsb_digit(self):
         return((num & -num).bit_length()-1)
 
-    #Takes in a bitboard
-    #Returns a bitboard with soley the least significant bit = 1
-    #All other bits = 0
-    #Alters nothing
+    # Takes in a bitboard
+    # Returns a bitboard with soley the least significant bit = 1
+    # All other bits = 0
+    # Alters nothing
     def lsb_board(self):
         return(num & -num)
 
@@ -315,6 +315,14 @@ class BitboardEngine():
                 all_legal_moves[move_iter] = all_legal_moves[last_move_index]
 
         return all_legal_moves
+
+
+    def pop_moves(self, moves, move_board, curr_pos, t, piece, promo):
+        while(board):
+            move = self.lsb_board(board):
+            self.encode_move(self.lsb_digit(curr_pos), self.lsb_digit(move_board), t, piece, promo)
+            board = board & (~move)
+
 
 
     # Takes in king_rep (bitboad representing that colors king location)
