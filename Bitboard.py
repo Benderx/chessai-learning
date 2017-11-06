@@ -359,6 +359,10 @@ class BitboardEngine():
         pass
 
 
+    def queen_attacks(self):
+        pass
+
+
     # Takes in king_rep (bitboad representing that colors king location)
     # Takes in same_occupied (bitboard representing all pieces of that color)
     # Returns bitboard representing all possible pre_check moves that the king can make
