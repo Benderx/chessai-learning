@@ -19,7 +19,7 @@ class MoveType(Enum):
 
 class BitboardEngine():
     def __init__(self):
-        self.fill_board()
+        self.init_board()
         self.init_engine()
 
 
