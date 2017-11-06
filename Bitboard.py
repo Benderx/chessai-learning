@@ -359,9 +359,13 @@ class BitboardEngine():
         pass
 
 
-    def queen_attacks(self):
-        pass
+    def queen_attacks(self, board, color):
+        return(self.rook_attacks(board,color) | self.bishop_attacks(board,color))
 
+    #Takes in the color of a king
+    #Returns a bitboard showing all pinned pieces
+    def get_pinned_squares(self, color):
+        pass
 
     # Takes in king_rep (bitboad representing that colors king location)
     # Takes in same_occupied (bitboard representing all pieces of that color)
