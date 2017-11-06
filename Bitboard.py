@@ -309,7 +309,26 @@ class BitboardEngine():
 
     # Returns a bitboard of pieces that are pinned against their king 
     def pinned_pieces(self, color):
-        pass
+        #Replace king with enemy queen
+        #Find kings defenders
+        #Declare enemy
+        if color: # white
+            defenders = self.queen_attacks(self.white_kings,0)
+            enemy_rook = self.black_rooks
+            enemy_bishop = self.black_bishops
+            enemy_queen = self.black_queens
+            enemy_color = 0
+        else: # black
+            defenders = self.queen_attacks(self.black_kings,1)
+            enemy_rook = self.white_rooks
+            enemy_bishop = self.white_bishops
+            enemy_queen = self.white_queens
+            enemy_color = 1
+
+        #Compile all squares under attack from enemy
+        attacker_squares = self.rook_attacks(enemy_rook,enemy_color) | self.bishop_attacks(enemy_bishop,enemy_color) | self.queen_attacks(enemy_queen,enemy_color)
+        #Defenders in attacker squares are pinned pieces
+        return(defenders & attacker_squares)
 
 
     # Generates and fills move_list for a color before checking checks
@@ -362,10 +381,6 @@ class BitboardEngine():
     def queen_attacks(self, board, color):
         return(self.rook_attacks(board,color) | self.bishop_attacks(board,color))
 
-    #Takes in the color of a king
-    #Returns a bitboard showing all pinned pieces
-    def get_pinned_squares(self, color):
-        pass
 
     # Takes in king_rep (bitboad representing that colors king location)
     # Takes in same_occupied (bitboard representing all pieces of that color)
