@@ -18,30 +18,34 @@ class MoveType(Enum):
 
 
 class BitboardEngine():
-    def __init__(self):
+    def __init__(self, board_data = None):
         self.max_move_length = 500 # This assumes there are only 500 possible legal moves at any one time (affects move array intilization)
         self.in_check = np.uint8(0)
-        self.__init_board__()
-        self.__init_mask__()
+        self.init_board(board_data)
+        self.init_mask()
 
 
-    def __init_board__(self):
-        self.white_pawns = np.uint64(0b0000000000000000000000000000000000000000000000001111111100000000) #65280
-        self.white_rooks = np.uint64(0b0000000000000000000000000000000000000000000000000000000010000001) #129
-        self.white_knights = np.uint64(0b0000000000000000000000000000000000000000000000000000000001000010) #66
-        self.white_bishops = np.uint64(0b0000000000000000000000000000000000000000000000000000000000100100)
-        self.white_queens = np.uint64(0b0000000000000000000000000000000000000000000000000000000000001000)
-        self.white_kings = np.uint64(0b0000000000000000000000000000000000000000000000000000000000010000)
+    def init_board(self, board_data):
+        if board_data == None:
+            self.white_pawns = np.uint64(0b0000000000000000000000000000000000000000000000001111111100000000) #65280
+            self.white_rooks = np.uint64(0b0000000000000000000000000000000000000000000000000000000010000001) #129
+            self.white_knights = np.uint64(0b0000000000000000000000000000000000000000000000000000000001000010) #66
+            self.white_bishops = np.uint64(0b0000000000000000000000000000000000000000000000000000000000100100)
+            self.white_queens = np.uint64(0b0000000000000000000000000000000000000000000000000000000000001000)
+            self.white_kings = np.uint64(0b0000000000000000000000000000000000000000000000000000000000010000)
 
-        self.black_pawns = np.uint64(0b0000000011111111000000000000000000000000000000000000000000000000) #71776119061217280
-        self.black_rooks = np.uint64(0b1000000100000000000000000000000000000000000000000000000000000000) #9295429630892703744
-        self.black_knights = np.uint64(0b0100001000000000000000000000000000000000000000000000000000000000) #4755801206503243776
-        self.black_bishops = np.uint64(0b0010010000000000000000000000000000000000000000000000000000000000)
-        self.black_queens = np.uint64(0b0000100000000000000000000000000000000000000000000000000000000000)
-        self.black_kings = np.uint64(0b0001000000000000000000000000000000000000000000000000000000000000)
+            self.black_pawns = np.uint64(0b0000000011111111000000000000000000000000000000000000000000000000) #71776119061217280
+            self.black_rooks = np.uint64(0b1000000100000000000000000000000000000000000000000000000000000000) #9295429630892703744
+            self.black_knights = np.uint64(0b0100001000000000000000000000000000000000000000000000000000000000) #4755801206503243776
+            self.black_bishops = np.uint64(0b0010010000000000000000000000000000000000000000000000000000000000)
+            self.black_queens = np.uint64(0b0000100000000000000000000000000000000000000000000000000000000000)
+            self.black_kings = np.uint64(0b0001000000000000000000000000000000000000000000000000000000000000)
+        else:
+            pass
 
 
-    def __init_mask__(self):
+
+    def init_mask(self):
         self.col_mask = np.zeros((8,), dtype='uint64')
         self.fill_col_mask_arr()
         
@@ -324,6 +328,14 @@ class BitboardEngine():
             board = board & (~move)
 
 
+    def rook_attacks(self):
+        # o^(o-2s)
+        pass
+
+
+    def bishop attacks(self):
+        pass
+
 
     # Takes in king_rep (bitboad representing that colors king location)
     # Takes in same_occupied (bitboard representing all pieces of that color)
@@ -386,16 +398,3 @@ class BitboardEngine():
         # /* compute only the places where the knight can move and attack. The
         #     caller will determine if this is a white or black night. */
         # return KnightValid & ~own_side;
-
-
-
-
-
-driver = BitboardEngine()
-# driver.print_chess_rep(driver.white_pawn | driver.black_pawn)
-
-
-print('white king pos')
-driver.print_chess_rep(driver.white_kings)
-print('white king legal moves')
-driver.print_chess_rep(driver.get_king_moves(-1))
