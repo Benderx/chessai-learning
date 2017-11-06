@@ -350,12 +350,12 @@ class BitboardEngine():
             board = board & (~move)
 
 
-    def rook_attacks(self):
+    def rook_attacks(self, board, color):
         # o^(o-2s)
         pass
 
 
-    def bishop_attacks(self):
+    def bishop_attacks(self, board, color):
         pass
 
 
