@@ -18,30 +18,52 @@ class MoveType(Enum):
 
 
 class BitboardEngine():
-    def __init__(self, board_data = None):
+    def __init__(self):
+        self.fill_board()
+        self.init_engine()
+
+
+    def __init__(self, board_data):
+        self.fill_board(board_data)
+        self.init_engine()
+
+
+    def init_engine(self):
         self.max_move_length = 500 # This assumes there are only 500 possible legal moves at any one time (affects move array intilization)
         self.in_check = np.uint8(0)
-        self.init_board(board_data)
         self.init_mask()
 
 
-    def init_board(self, board_data):
-        if board_data == None:
-            self.white_pawns = np.uint64(0b0000000000000000000000000000000000000000000000001111111100000000) #65280
-            self.white_rooks = np.uint64(0b0000000000000000000000000000000000000000000000000000000010000001) #129
-            self.white_knights = np.uint64(0b0000000000000000000000000000000000000000000000000000000001000010) #66
-            self.white_bishops = np.uint64(0b0000000000000000000000000000000000000000000000000000000000100100)
-            self.white_queens = np.uint64(0b0000000000000000000000000000000000000000000000000000000000001000)
-            self.white_kings = np.uint64(0b0000000000000000000000000000000000000000000000000000000000010000)
+    def init_board(self):
+        self.white_pawns = np.uint64(0b0000000000000000000000000000000000000000000000001111111100000000) #65280
+        self.white_rooks = np.uint64(0b0000000000000000000000000000000000000000000000000000000010000001) #129
+        self.white_nights = np.uint64(0b0000000000000000000000000000000000000000000000000000000001000010) #66
+        self.white_bishops = np.uint64(0b0000000000000000000000000000000000000000000000000000000000100100)
+        self.white_queens = np.uint64(0b0000000000000000000000000000000000000000000000000000000000001000)
+        self.white_kings = np.uint64(0b0000000000000000000000000000000000000000000000000000000000010000)
 
-            self.black_pawns = np.uint64(0b0000000011111111000000000000000000000000000000000000000000000000) #71776119061217280
-            self.black_rooks = np.uint64(0b1000000100000000000000000000000000000000000000000000000000000000) #9295429630892703744
-            self.black_knights = np.uint64(0b0100001000000000000000000000000000000000000000000000000000000000) #4755801206503243776
-            self.black_bishops = np.uint64(0b0010010000000000000000000000000000000000000000000000000000000000)
-            self.black_queens = np.uint64(0b0000100000000000000000000000000000000000000000000000000000000000)
-            self.black_kings = np.uint64(0b0001000000000000000000000000000000000000000000000000000000000000)
-        else:
-            pass
+        self.black_pawns = np.uint64(0b0000000011111111000000000000000000000000000000000000000000000000) #71776119061217280
+        self.black_rooks = np.uint64(0b1000000100000000000000000000000000000000000000000000000000000000) #9295429630892703744
+        self.black_nights = np.uint64(0b0100001000000000000000000000000000000000000000000000000000000000) #4755801206503243776
+        self.black_bishops = np.uint64(0b0010010000000000000000000000000000000000000000000000000000000000)
+        self.black_queens = np.uint64(0b0000100000000000000000000000000000000000000000000000000000000000)
+        self.black_kings = np.uint64(0b0001000000000000000000000000000000000000000000000000000000000000)
+
+
+    def fill_board(self, board_data):
+        self.white_pawns = board_data[0]
+        self.white_rooks = board_data[1]
+        self.white_nights = board_data[2]
+        self.white_bishops = board_data[3] 
+        self.white_queens = board_data[4] 
+        self.white_kings = board_data[5] 
+
+        self.black_pawns = board_data[6]
+        self.black_rooks = board_data[7]  
+        self.black_nights = board_data[8]  
+        self.black_bishops = board_data[9] 
+        self.black_queens = board_data[10] 
+        self.black_kings = board_data[11] 
 
 
 
@@ -135,12 +157,12 @@ class BitboardEngine():
 
 
     def get_all_white(self):
-        all_white = self.white_pawns | self.white_rooks | self.white_knights | self.white_bishops | self.white_kings | self.white_queens
+        all_white = self.white_pawns | self.white_rooks | self.white_nights | self.white_bishops | self.white_kings | self.white_queens
         return(all_white)
 
 
     def get_all_black(self):
-        all_black = self.black_pawns | self.black_rooks | self.black_knights | self.black_bishops | self.black_kings | self.black_queens
+        all_black = self.black_pawns | self.black_rooks | self.black_nights | self.black_bishops | self.black_kings | self.black_queens
         return(all_black)
 
 
@@ -202,7 +224,7 @@ class BitboardEngine():
 
 
     # Takes in a bitboard and will return the bitboard representing only the least significant bit.
-    # Example: the initial white_knights bitboard, the least significant 1 occurs at index 1 (...00001000010)
+    # Example: the initial white_nights bitboard, the least significant 1 occurs at index 1 (...00001000010)
     # therefore simply return ((lots of zeros)00000000000010)
     # YOU MAY ASSUME A 1 EXISTS, (0000000000000000000) will not be given
     def lsb_digit(self):
@@ -323,7 +345,7 @@ class BitboardEngine():
 
     def pop_moves(self, moves, move_board, curr_pos, t, piece, promo):
         while(board):
-            move = self.lsb_board(board):
+            move = self.lsb_board(board)
             self.encode_move(self.lsb_digit(curr_pos), self.lsb_digit(move_board), t, piece, promo)
             board = board & (~move)
 
@@ -333,7 +355,7 @@ class BitboardEngine():
         pass
 
 
-    def bishop attacks(self):
+    def bishop_attacks(self):
         pass
 
 
@@ -367,10 +389,10 @@ class BitboardEngine():
 
 
 
-    # Takes in knight_rep (bitboad representing that colors knight location)
+    # Takes in night_rep (bitboad representing that colors night location)
     # Takes in same_occupied (bitboard representing all pieces of that color)
-    # Returns bitboard representing all possible pre_check moves that that knight can make
-    def pre_check_knight(self, king_rep, same_occupied):
+    # Returns bitboard representing all possible pre_check moves that that night can make
+    def pre_check_night(self, king_rep, same_occupied):
         pass
         # spot_1_clip = tbls->ClearFile[FILE_A] & tbls->ClearFile[FILE_B];
         # spot_2_clip = tbls->ClearFile[FILE_A];
@@ -382,19 +404,19 @@ class BitboardEngine():
         # spot_7_clip = tbls->ClearFile[FILE_A];
         # spot_8_clip = tbls->ClearFile[FILE_A] & tbls->ClearFile[FILE_B];
 
-        # spot_1 = (knight_loc & spot_1_clip) << 6;
-        # spot_2 = (knight_loc & spot_2_clip) << 15;
-        # spot_3 = (knight_loc & spot_3_clip) << 17;
-        # spot_4 = (knight_loc & spot_4_clip) << 10;
+        # spot_1 = (night_loc & spot_1_clip) << 6;
+        # spot_2 = (night_loc & spot_2_clip) << 15;
+        # spot_3 = (night_loc & spot_3_clip) << 17;
+        # spot_4 = (night_loc & spot_4_clip) << 10;
 
-        # spot_5 = (knight_loc & spot_5_clip) >> 6;
-        # spot_6 = (knight_loc & spot_6_clip) >> 15;
-        # spot_7 = (knight_loc & spot_7_clip) >> 17;
-        # spot_8 = (knight_loc & spot_8_clip) >> 10;
+        # spot_5 = (night_loc & spot_5_clip) >> 6;
+        # spot_6 = (night_loc & spot_6_clip) >> 15;
+        # spot_7 = (night_loc & spot_7_clip) >> 17;
+        # spot_8 = (night_loc & spot_8_clip) >> 10;
 
-        # KnightValid = spot_1 | spot_2 | spot_3 | spot_4 | spot_5 | spot_6 |
+        # nightValid = spot_1 | spot_2 | spot_3 | spot_4 | spot_5 | spot_6 |
         #                 spot_7 | spot_8;
 
-        # /* compute only the places where the knight can move and attack. The
+        # /* compute only the places where the night can move and attack. The
         #     caller will determine if this is a white or black night. */
-        # return KnightValid & ~own_side;
+        # return nightValid & ~own_side;
