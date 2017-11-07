@@ -269,6 +269,12 @@ class BitboardEngine():
             print('{0:08b}'.format(rev))
 
 
+    def reverse_64_bits(self, x):
+        return x.byteswap()
+        # return (x * np.uint64(0x0202020202) & np.uint64(0x010884422010)) % np.uint64(1023);
+
+
+
     # East:      << 1
     # Southeast: >> 7
     # South:     >> 8
@@ -351,8 +357,12 @@ class BitboardEngine():
 
 
     def rook_attacks(self, board, color):
-        # o^(o-2s)
-        pass
+        new = np.uint64(0)
+        while board:
+            s = self.lsb_board(board)
+            p = o - s - s ^ self.reverse_64_bits((~o) - (~s) - (~s))
+            new = new | p
+            board = board - s
 
 
     def bishop_attacks(self, board, color):

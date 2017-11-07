@@ -39,11 +39,15 @@ def gen_scenario_1_board():
 
 board = gen_scenario_1_board()
 engine = bb.BitboardEngine(board)
-engine.print_chess_rep(engine.get_all())
+# engine.print_chess_rep(engine.get_all())
 # engine.print_chess_rep(engine.get_all())
 # engine.print_chess_rep(engine.white_pawn | engine.black_pawn)
 
-print('white king pos')
-engine.print_chess_rep(engine.white_kings)
-print('white king legal moves')
-engine.print_chess_rep(engine.get_king_moves(-1))
+# print('white king pos')
+# engine.print_chess_rep(engine.white_kings)
+# print('white king legal moves')
+# engine.print_chess_rep(engine.get_king_moves(-1))
+
+engine.print_chess_rep(engine.white_pawns)
+print('\nreversed\n')
+engine.print_chess_rep(engine.reverse_64_bits(engine.white_pawns))
