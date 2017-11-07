@@ -20,7 +20,7 @@ def form_board(wp, wr, wn, wb, wq, wk, bp, br, bn, bb, bq, bk):
 
 def gen_scenario_1_board():
       white_pawns = np.uint64(0b0000000000000000000000000000000000000000000000001111111100000000) #65280
-      white_rooks = np.uint64(0b0000000000000000000000000000000000000100000000000000000010000001) #129
+      white_rooks = np.uint64(0b0000000000000000000000000000000000000100000000000000000000000000) #129
       white_nights = np.uint64(0b0000000000000000000000000000000000000000000000000000000001000010) #66
       white_bishops = np.uint64(0b0000000000000000000000000000000000100000000000000000000000100100)
       white_queens = np.uint64(0b0000000000000000000000000000000000000000000000000000000000001000)
@@ -39,7 +39,10 @@ def gen_scenario_1_board():
 
 board = gen_scenario_1_board()
 engine = bb.BitboardEngine(board)
-# engine.print_chess_rep(engine.get_all())
+print("BOARD:")
+engine.print_chess_rep(engine.get_all())
+print('\n')
+
 # engine.print_chess_rep(engine.get_all())
 # engine.print_chess_rep(engine.white_pawn | engine.black_pawn)
 
@@ -48,6 +51,15 @@ engine = bb.BitboardEngine(board)
 # print('white king legal moves')
 # engine.print_chess_rep(engine.get_king_moves(-1))
 
-engine.print_chess_rep(engine.white_pawns)
-print('\nreversed\n')
-engine.print_chess_rep(engine.reverse_64_bits(engine.white_pawns))
+# engine.print_chess_rep(engine.white_pawns)
+# print('\nreversed\n')
+# engine.print_chess_rep(engine.reverse_64_bits(engine.white_pawns))
+
+
+print('white rooks:')
+engine.print_chess_rep(engine.white_rooks)
+print('\n')
+
+
+a = engine.one_rook_attack(engine.white_rooks, 1)
+engine.print_chess_rep(a)

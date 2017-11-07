@@ -189,6 +189,8 @@ class BitboardEngine():
         encode_piece = np.uint32(piece) << np.uint8(14)
         encode_promotion = np.uint32(promotion) << np.uint(17)
         return(encode_start & encode_end & encode_type & encode_piece & encode_promotion)
+
+        
     # Takes in a np.uint32 move
     # Returns square number moved piece originated from
     # Alters nothing
@@ -375,13 +377,20 @@ class BitboardEngine():
             board = board & (~move)
 
 
-    def rook_attacks(self, board, color):
-        new = np.uint64(0)
-        while board:
-            s = self.lsb_board(board)
-            p = o - s - s ^ self.reverse_64_bits((~o) - (~s) - (~s))
-            new = new | p
-            board = board - s
+    def one_rook_attack(self, board, color):
+        s = board
+        o = self.get_all()
+        return (o - s - s) ^ self.reverse_64_bits((~o) - (~s) - (~s))
+
+
+    # def rook_attacks(self, board, color):
+    #     new = np.uint64(0)
+    #     while board:
+    #         s = self.lsb_board(board)
+    #         p = (o - s - s) ^ self.reverse_64_bits((~o) - (~s) - (~s))
+    #         new = new | p
+    #         board = board - s
+    #     return new
 
 
     def bishop_attacks(self, board, color):
