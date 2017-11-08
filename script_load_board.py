@@ -7,8 +7,8 @@ def convert_lichess_2int(board_string):
     temp = np.zeros((12,), dtype='uint64')
     
     nums = set("12345678")
-    white = set("RNBQK")
-    black = set("rnbqk")
+    white = set("RNBQKP")
+    black = set("rnbqkp")
 
     power = 0
     rows = board_string.split('/')
@@ -49,7 +49,7 @@ def convert_lichess_2int(board_string):
 
                 temp[num] += np.uint64(2**power)
                 power += 1
-
+    print(temp)
     return(temp)
 
 load = "rnbqkbnr/p1pppppp/8/1p6/4P3/5P2/PPPP2PP/RNBQKBNR w KQkq -"

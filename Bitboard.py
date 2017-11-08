@@ -31,6 +31,7 @@ class BitboardEngine():
     def init_engine(self):
         self.max_move_length = 500 # This assumes there are only 500 possible legal moves at any one time (affects move array intilization)
         self.in_check = np.uint8(0)
+        self.move_stack = []
         self.init_mask()
 
 
@@ -234,7 +235,7 @@ class BitboardEngine():
     #Takes in a rank, file, and direction bool
     #Returns the left diagonal number if direction is true. Right otherwise
     #Alters nothing 
-    def get_diag(self, rank, file, direction):
+    def get_diag(self,rank,file,direction):
         total_val = rank + file
 
         #Left index
@@ -321,7 +322,6 @@ class BitboardEngine():
     def lsb_board(self):
         return(num & -num)
 
-
     # See above, except return the move_list significant bit bitboard
     def msb(self):
         pass
@@ -397,11 +397,13 @@ class BitboardEngine():
 
     # Takes in a move, alters the BitboardEngine's representation to the NEXT state based on the CURRENT move action
     def push_move(self, move):
+        self.move_stack.append(move)
         pass
 
 
     # Takes in a move, alters the BitboardEngine's representation to the PREVIOUS state based on the LAST move action
-    def push_move(self, move):
+    def pop_move(self, move):
+        move = self.move_stack.pop()
         pass
 
 
