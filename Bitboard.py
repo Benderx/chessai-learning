@@ -352,13 +352,13 @@ class BitboardEngine():
             rev = self.reverse_8_bit(row)
             print('{0:08b}'.format(rev))
 
+
     def print_chess_rep_byteswap(self, num):
         for i in range(7, -1, -1):
             shifter = np.uint64(8 * i)
             row = (num & self.row_mask[i]) >> shifter
             rev = (row.byteswap() >> np.uint64(56))
             print('{0:08b}'.format(rev))
-
 
 
     def reverse_8_bits(self, x):
@@ -550,7 +550,6 @@ class BitboardEngine():
             return self.pre_check_king_bitboard(self.white_kings, self.get_all_white())
         else:
             return self.pre_check_king_bitboard(self.black_kings, self.get_all_black())
-
 
 
     # Takes in night_rep (bitboad representing that colors night location)
