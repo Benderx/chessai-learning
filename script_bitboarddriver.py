@@ -41,6 +41,8 @@ board = gen_scenario_1_board()
 engine = bb.BitboardEngine(board)
 print("BOARD:")
 engine.print_chess_rep(engine.get_all())
+print('Testing byteswap board')
+engine.print_chess_rep_test(engine.get_all())
 print('\n')
 
 # engine.print_chess_rep(engine.get_all())
