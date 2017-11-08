@@ -279,10 +279,27 @@ class BitboardEngine():
 
 
 
+    def reverse_8_bits(self, x):
+        return (x * np.uint64(0x0202020202) & np.uint64(0x010884422010)) % np.uint64(1023)
+
+
     def reverse_64_bits(self, x):
-        return x.byteswap()
+        return self.vertical_flip(self.horizontal_flip(x))
         # return (x * np.uint64(0x0202020202) & np.uint64(0x010884422010)) % np.uint64(1023);
 
+
+    def horizontal_flip(self, x):
+        k1 = np.uint64(0x5555555555555555)
+        k2 = np.uint64(0x3333333333333333)
+        k4 = np.uint64(0x0f0f0f0f0f0f0f0f)
+        x = ((x >> np.uint64(1)) & k1) + np.uint64(2) * (x & k1);
+        x = ((x >> np.uint64(2)) & k2) + np.uint64(4) * (x & k2);
+        x = ((x >> np.uint64(4)) & k4) + np.uint64(16) * (x & k4);
+        return x;
+
+
+    def vertical_flip(self, x):
+        return x.byteswap()
 
 
     # East:      << 1
