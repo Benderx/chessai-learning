@@ -44,14 +44,53 @@ def reverse_64_bits(x):
     # time = 2313.27-201.76
 
 
+def create_my_swapped(x):
+    return vertical_flip(convert_np_int_64(x))
+
+
+k1 = np.uint64(0x5555555555555555)
+k2 = np.uint64(0x3333333333333333)
+k4 = np.uint64(0x0f0f0f0f0f0f0f0f)
+one = np.uint64(1)
+two = np.uint64(2)
+four = np.uint64(4)
+sixteen = np.uint64(16)
+
 def horizontal_flip(x):
-    k1 = np.uint64(0x5555555555555555)
-    k2 = np.uint64(0x3333333333333333)
-    k4 = np.uint64(0x0f0f0f0f0f0f0f0f)
-    x = ((x >> np.uint64(1)) & k1) + np.uint64(2) * (x & k1);
-    x = ((x >> np.uint64(2)) & k2) + np.uint64(4) * (x & k2);
-    x = ((x >> np.uint64(4)) & k4) + np.uint64(16) * (x & k4);
+    x = ((x >> one) & k1) + two * (x & k1)
+    x = ((x >> two) & k2) + four * (x & k2)
+    x = ((x >> four) & k4) + sixteen * (x & k4)
     return x;
+
+
+# h1 = np.uint64(0x5555555555555555)
+# h2 = np.uint64(0x3333333333333333)
+# h4 = np.uint64(0x0F0F0F0F0F0F0F0F)
+# v1 = np.uint64(0x00FF00FF00FF00FF)
+# v2 = np.uint64(0x0000FFFF0000FFFF)
+# one = np.uint64(1)
+# two = np.uint64(2)
+# four = np.uint64(4)
+# eight = np.uint64(8)
+# sixteen = np.uint64(16)
+# thirtytwo = np.uint64(32)
+
+
+# def horizontal_flip(x):
+#     x = ((x >>  one) & h1) | ((x & h1) << one);
+#     x = ((x >>  two) & h2) | ((x & h2) << two);
+#     x = ((x >>  four) & h4) | ((x & h4) << four);
+#     x = ((x >>  eight) & v1) | ((x & v1) << eight);
+#     x = ((x >> sixteen) & v2) | ((x & v2) << sixteen);
+#     x = ( x >> thirtytwo) | ( x       << thirtytwo);
+#     return x;
+
+
+# def horizontal_flip(x):
+#     x = ((x >> one) & k1) + two * (x & k1)
+#     x = ((x >> two) & k2) + four * (x & k2)
+#     x = ((x >> four) & k4) + sixteen * (x & k4)
+#     return x;
 
 
 def vertical_flip(x):
@@ -140,6 +179,17 @@ if lsb:
     assert(m1 == m2)
     assert(m2 == m3)
 
+
+lol = np.uint64(2)
+def bitshift_test(x):
+    return np.uint64(x) << lol
+
+m = np.zeros((100000,), dtype='uint64')
+for n in range(0, 100000): 
+    m[n] = np.uint64(n)
+def bitshift_test2(x):
+    return m[x] << lol
+
 if msb:
     # print("msb 1")
     # print(timeit.timeit('for n in range(1,100000): msb_1(n)', setup="from __main__ import msb_1",number = 1000))
@@ -181,10 +231,24 @@ if msb:
     # assert(m3 == m4)
 
 if misc:
+    # 3.57412335e-7
+    print("bitshift")
+    print(timeit.timeit('for n in range(1,100000): bitshift_test(n)', setup="from __main__ import bitshift_test", number = 100))
+    print("\n")
+
+    print("bitshift")
+    print(timeit.timeit('for n in range(1,100000): bitshift_test2(n)', setup="from __main__ import bitshift_test2", number = 100))
+    print("\n")
+
+
+    print("byteswap")
+    print(timeit.timeit('for n in range(1,100000): create_my_swapped(n)', setup="from __main__ import create_my_swapped", number = 100))
+    print("\n")
+
     print("convert_np_int_64")
-    print(timeit.timeit('for n in range(1,100000): convert_np_int_64(n)', setup="from __main__ import convert_np_int_64", number = 1000))
+    print(timeit.timeit('for n in range(1,100000): convert_np_int_64(n)', setup="from __main__ import convert_np_int_64", number = 100))
     print("\n")
 
     print("reverse_64_bits")
-    print(timeit.timeit('for n in range(1,100000): reverse_64_bits(n)', setup="from __main__ import reverse_64_bits", number = 1000))
+    print(timeit.timeit('for n in range(1,100000): reverse_64_bits(n)', setup="from __main__ import reverse_64_bits", number = 100))
     print("\n")
