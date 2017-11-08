@@ -4,7 +4,8 @@ import timeit
 import math
 
 lsb = False
-msb = True
+msb = False
+misc = True
 
 #num & -num  return least sig digits
 def lsb_1(num):
@@ -32,9 +33,13 @@ def lsb_3(num):
 # def lsb_5(num): #DOESNT WORK
 #   return(num % 2)
 
+def convert_np_int_64(x):
+    return(np.uint64(x))
+
 
 def reverse_64_bits(x):
-        return vertical_flip(horizontal_flip(x))
+    y = np.uint64(x)
+    return vertical_flip(horizontal_flip(y))
 
 
 def horizontal_flip(x):
@@ -172,3 +177,12 @@ if msb:
     # assert(m1 == m4)
     assert(m1 == m5)
     # assert(m3 == m4)
+
+if misc:
+    print("convert_np_int_64")
+    print(timeit.timeit('for n in range(1,100000): convert_np_int_64(n)', setup="from __main__ import convert_np_int_64", number = 1000))
+    print("\n")
+
+    print("reverse_64_bits")
+    print(timeit.timeit('for n in range(1,100000): reverse_64_bits(n)', setup="from __main__ import reverse_64_bits", number = 1000))
+    print("\n")
