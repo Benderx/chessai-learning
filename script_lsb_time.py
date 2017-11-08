@@ -35,11 +35,13 @@ def lsb_3(num):
 
 def convert_np_int_64(x):
     return(np.uint64(x))
-
+    # time = 201.76
 
 def reverse_64_bits(x):
     y = np.uint64(x)
     return vertical_flip(horizontal_flip(y))
+    # raw time = 
+    # time = 2313.27-201.76
 
 
 def horizontal_flip(x):
