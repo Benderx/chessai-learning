@@ -488,8 +488,8 @@ class BitboardEngine():
 
 
     def one_rook_attack(self, board, color):
-        row = np.uint64(2)
-        col = np.uint64(6)
+        row = self.get_rank(board)
+        col = self.get_file(board)
 
         s = board
         o = self.get_all()

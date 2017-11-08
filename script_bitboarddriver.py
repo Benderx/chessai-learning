@@ -62,17 +62,17 @@ engine.print_chess_rep(engine.get_all())
 print('\nwhite rooks:')
 engine.print_chess_rep(engine.white_rooks)
 
-# print('\nwhite rook attacks')
-# a = engine.one_rook_attack(engine.white_rooks, 1)
-# engine.print_chess_rep(a)
+print('\nwhite rook attacks')
+a = engine.one_rook_attack(engine.white_rooks, 1)
+engine.print_chess_rep(a)
 
+# x = 10000000
+# t1 = time.perf_counter()
+# for i in range(x):
+#       engine.one_rook_attack(engine.white_rooks, 1)
+# t2 = time.perf_counter()
+# print('time taken for {0} iterations: {1}, for a total time of {2} per iteration'.format(x, t2-t1, (t2 - t1) / x))
 
-x = 10000000
-t1 = time.perf_counter()
-for i in range(x):
-      engine.one_rook_attack(engine.white_rooks, 1)
-t2 = time.perf_counter()
-print('time taken for {0} iterations: {1}, for a total time of {2} per iteration'.format(x, t2-t1, (t2 - t1) / x))
 
 
 # print('\nwhite bishops:')
