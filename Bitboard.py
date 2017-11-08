@@ -235,7 +235,7 @@ class BitboardEngine():
     #Takes in a rank, file, and direction bool
     #Returns the left diagonal number if direction is true. Right otherwise
     #Alters nothing 
-    def get_diag(self,rank,file,direction):
+    def get_diag(self,rank,file):
         total_val = rank + file
 
         #Left index
@@ -247,14 +247,9 @@ class BitboardEngine():
         else: #below r = 7 line
             right = 7-(total_val-2*rank)
 
-        diag = [left,right]
+        diag = (left,right)
 
-        #Which diag to return, left or right, could be expanded for both
-        #Direction should probably just be an int and return diag[int] or ful diag
-        if direction:
-            return(diag[0])
-        else:
-            return(diag[1])
+        return(diag)
 
 
     # Takes in move information
@@ -531,8 +526,8 @@ class BitboardEngine():
     def one_bishop_attack(self, board, color):
         row = self.get_rank(board)
         col = self.get_file(board)
-        line1_mask = self.get_diag(row, col, 0)
-        line2_mask = self.get_diag(row, col, 1)
+        diag = self.get_diag(row,col)
+        line1_mask,line2_mask = diag
 
         s = board
         o = self.get_all()
