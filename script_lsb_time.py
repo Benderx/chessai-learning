@@ -3,8 +3,8 @@ import time
 import timeit
 import math
 
-lsb = True
-msb = False
+lsb = False
+msb = True
 
 #num & -num  return least sig digits
 def lsb_1(num):
@@ -31,6 +31,26 @@ def lsb_3(num):
 
 # def lsb_5(num): #DOESNT WORK
 #   return(num % 2)
+
+
+def reverse_64_bits(x):
+        return vertical_flip(horizontal_flip(x))
+
+
+def horizontal_flip(x):
+    k1 = np.uint64(0x5555555555555555)
+    k2 = np.uint64(0x3333333333333333)
+    k4 = np.uint64(0x0f0f0f0f0f0f0f0f)
+    x = ((x >> np.uint64(1)) & k1) + np.uint64(2) * (x & k1);
+    x = ((x >> np.uint64(2)) & k2) + np.uint64(4) * (x & k2);
+    x = ((x >> np.uint64(4)) & k4) + np.uint64(16) * (x & k4);
+    return x;
+
+
+def vertical_flip(x):
+    return x.byteswap()
+
+
 
 def get_lsb_board(board):
     return(num & -num)
@@ -66,7 +86,7 @@ def msb_3(num):
 
 def msb_4(num):
     num = np.uint64(num)
-    num2 = num.byteswap()
+    num2 = reverse_64_bits(num)
     print(np.binary_repr(num,width=64), ':', num)
     print(np.binary_repr(num2,width=64), ":", num2)
     return(64-int((num2 & -num2)).bit_length()-1)
@@ -114,25 +134,25 @@ if lsb:
     assert(m2 == m3)
 
 if msb:
-    print("msb 1")
-    print(timeit.timeit('for n in range(1,100000): msb_1(n)', setup="from __main__ import msb_1",number = 1000))
-    print("\n")
-
-    # print("msb 2")
-    # print(timeit.timeit('for n in range(1,100000): msb_2(n)', setup="from __main__ import msb_2",number = 1000))
+    # print("msb 1")
+    # print(timeit.timeit('for n in range(1,100000): msb_1(n)', setup="from __main__ import msb_1",number = 1000))
     # print("\n")
 
-    print("msb 3")
-    print(timeit.timeit('for n in range(1,100000): msb_3(n)', setup="from __main__ import msb_3",number = 1000))
-    print("\n")
+    # # print("msb 2")
+    # # print(timeit.timeit('for n in range(1,100000): msb_2(n)', setup="from __main__ import msb_2",number = 1000))
+    # # print("\n")
 
-    # print("msb 4")
-    # print(timeit.timeit('for n in range(1,100000): msb_4(n)', setup="from __main__ import msb_4",number = 1000))
+    # print("msb 3")
+    # print(timeit.timeit('for n in range(1,100000): msb_3(n)', setup="from __main__ import msb_3",number = 1000))
     # print("\n")
 
-    print("msb 5")
-    print(timeit.timeit('for n in range(1,100000): msb_5(n)', setup="from __main__ import msb_5",number = 1000))
-    print("\n")
+    # # print("msb 4")
+    # # print(timeit.timeit('for n in range(1,100000): msb_4(n)', setup="from __main__ import msb_4",number = 1000))
+    # # print("\n")
+
+    # print("msb 5")
+    # print(timeit.timeit('for n in range(1,100000): msb_5(n)', setup="from __main__ import msb_5",number = 1000))
+    # print("\n")
 
     m1 = []
     m2 = []
@@ -144,7 +164,7 @@ if msb:
         m1.append(msb_1(i))
         # m2.append(msb_2(i))
         m3.append(msb_3(i))
-        # m4.append(msb_4(i))
+        m4.append(msb_4(i))
         m5.append(msb_5(i))
     # assert(m1 == m2)
     # assert(m2 == m3)
