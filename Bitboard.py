@@ -31,6 +31,7 @@ class BitboardEngine():
     def init_engine(self):
         self.max_move_length = 500 # This assumes there are only 500 possible legal moves at any one time (affects move array intilization)
         self.in_check = np.uint8(0)
+        self.move_stack = []
         self.init_mask()
 
 
@@ -394,13 +395,23 @@ class BitboardEngine():
     # Northeast: << 9
 
 
+    def push_2_stack(self,move):
+        self.move_stack.append(move)
+
+
+    def pop_from_stack(self):
+        return(self.move_stack.pop())
+
+
     # Takes in a move, alters the BitboardEngine's representation to the NEXT state based on the CURRENT move action
     def push_move(self, move):
+        self.push_2_stack(move)
         pass
 
 
     # Takes in a move, alters the BitboardEngine's representation to the PREVIOUS state based on the LAST move action
-    def push_move(self, move):
+    def pop_move(self, move):
+        self.pop_from_stack()
         pass
 
 
