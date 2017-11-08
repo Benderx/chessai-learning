@@ -271,8 +271,12 @@ class BitboardEngine():
             print('{0:08b}'.format(rev))
 
 
+    def reverse_8_bits(self, x):
+        return (x * np.uint64(0x0202020202) & np.uint64(0x010884422010)) % np.uint64(1023)
+
+
     def reverse_64_bits(self, x):
-        return x.byteswap()
+        # return x.byteswap()
         # return (x * np.uint64(0x0202020202) & np.uint64(0x010884422010)) % np.uint64(1023);
 
 

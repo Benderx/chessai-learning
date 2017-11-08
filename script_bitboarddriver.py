@@ -51,15 +51,15 @@ print('\n')
 # print('white king legal moves')
 # engine.print_chess_rep(engine.get_king_moves(-1))
 
-# engine.print_chess_rep(engine.white_pawns)
-# print('\nreversed\n')
-# engine.print_chess_rep(engine.reverse_64_bits(engine.white_pawns))
+engine.print_chess_rep(engine.white_pawns)
+print('\nreversed\n')
+engine.print_chess_rep(engine.reverse_64_bits(engine.white_pawns))
 
 
-print('white rooks:')
-engine.print_chess_rep(engine.white_rooks)
-print('\n')
+# print('white rooks:')
+# engine.print_chess_rep(engine.white_rooks)
+# print('\n')
 
 
-a = engine.one_rook_attack(engine.white_rooks, 1)
-engine.print_chess_rep(a)
+# a = engine.one_rook_attack(engine.white_rooks, 1)
+# engine.print_chess_rep(a)
