@@ -172,6 +172,42 @@ class BitboardEngine():
         all_pieces = white | black
         return(all_pieces)
 
+#Rank and file should be 0-7 outputs
+#Diag should match diag mask
+
+    #Takes in a 64 bit number with single bit
+    #Returns the rank piece is on 0-7, bottom to top
+    #Alters nothing
+    def get_rank(self,num):
+        max0 = 128 #2^7
+        max1 = 32768 #2^15
+        max2 = 8388608 #2^23
+        max3 = 2147483648 #2^31
+        max4 = 549755813888 #2^39
+        max5 = 140737488355328 #2^47
+        max6 = 36028797018963968 #2^55
+        max7 = 9223372036854775808 #2^63
+
+        if num <= max0: return(0)
+        if num <= max1: return(1)
+        if num <= max2: return(2)
+        if num <= max3: return(3)
+        if num <= max4: return(4)
+        if num <= max5: return(5)
+        if num <= max6: return(6)
+        if num <= max7: return(7)
+
+    #Takes in a 64 bit number with single bit
+    #Returns the file piece is on 0-7, left to right
+    #Alters nothing 
+    def get_file(self,num):
+        pass
+
+    #Takes in a rank, file, and direction bool
+    #Returns the left diagonal number if direction is true. Right otherwise
+    #Alters nothing 
+    def get_diag(self,rank,file,direction):
+        pass
 
     # Takes in move information
     #     start : int 0-63 : Square moved piece started on
