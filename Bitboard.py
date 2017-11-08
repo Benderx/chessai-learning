@@ -270,6 +270,14 @@ class BitboardEngine():
             rev = self.reverse_8_bit(row)
             print('{0:08b}'.format(rev))
 
+    def print_chess_rep_byteswap(self, num):
+        for i in range(7, -1, -1):
+            shifter = np.uint64(8 * i)
+            row = (num & self.row_mask[i]) >> shifter
+            rev = (row.byteswap() >> np.uint64(56))
+            print('{0:08b}'.format(rev))
+
+
 
     def reverse_64_bits(self, x):
         return x.byteswap()
