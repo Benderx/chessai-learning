@@ -234,7 +234,7 @@ class BitboardEngine():
     #Takes in a rank, file, and direction bool
     #Returns the left diagonal number if direction is true. Right otherwise
     #Alters nothing 
-    def get_diag(self,rank,file,direction):
+    def get_diag(self, rank, file, direction):
         total_val = rank + file
 
         #Left index
@@ -320,6 +320,7 @@ class BitboardEngine():
     # Alters nothing
     def lsb_board(self):
         return(num & -num)
+
 
     # See above, except return the move_list significant bit bitboard
     def msb(self):
@@ -485,6 +486,9 @@ class BitboardEngine():
 
 
     def one_rook_attack(self, board, color):
+        row = np.uint64(2)
+        col = np.uint64(6)
+
         s = board
         o = self.get_all()
 
@@ -500,8 +504,15 @@ class BitboardEngine():
         two = np.uint64(2)
 
         hori = (o - two*s) ^ self.reverse_64_bits(o_rev - two*s_rev)
-        hori = hori & self.row_mask[]
+        hori = hori & self.row_mask[row]
 
+
+        o_mask = o & self.col_mask[col]
+        o_rev_mask = self.reverse_64_bits(o_mask)
+        vert = (o_mask - two*s) ^ self.reverse_64_bits(o_rev_mask - two*s_rev)
+        vert = vert & self.col_mask[col]
+
+        res = hori | vert
         return res & ~own
 
 
@@ -513,6 +524,41 @@ class BitboardEngine():
     #         new = new | p
     #         board = board - s
     #     return new
+
+
+    def one_bishop_attack(self, board, color):
+        row = self.get_rank(board)
+        col = self.get_file(board)
+        line1_mask = self.get_diag(row, col, 0)
+        line2_mask = self.get_diag(row, col, 1)
+
+        s = board
+        o = self.get_all()
+
+        # white
+        if color == 1:
+            own = self.get_all_white()
+        # black
+        else:
+            own = self.get_all_black()
+
+        forward = o & self.diag_left_mask[line1_mask]
+        reverse = self.reverse_64_bits(forward)
+        forward = forward - s
+        reverse = reverse - self.reverse_64_bits(s)
+        forward = forward ^ self.reverse_64_bits(reverse)
+
+        return forward & self.diag_left_mask[line1_mask] & ~own
+
+        # lineMask = diagonalMaskEx[sqOfSlider]; // excludes square of slider
+        # slider   = singleBitboard[sqOfSlider]; // single bit 1 << sq, 2^sq
+
+        # forward  = occ & lineMask; // also performs the first subtraction by clearing the s in o
+        # reverse  = byteswap( forward ); // o'-s'
+        # forward -=         ( slider  ); // o -2s
+        # reverse -= byteswap( slider  ); // o'-2s'
+        # forward ^= byteswap( reverse );
+        # return forward & lineMask;      // mask the line again
 
 
     def bishop_attacks(self, board, color):

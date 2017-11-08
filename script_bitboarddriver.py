@@ -1,5 +1,6 @@
 import Bitboard as bb
 import numpy as np
+import time
 
 
 def form_board(wp, wr, wn, wb, wq, wk, bp, br, bn, bb, bq, bk):
@@ -22,7 +23,7 @@ def gen_scenario_1_board():
       white_pawns = np.uint64(0b0000000000000000000000000000000000000000000000001111111100000000) #65280
       white_rooks = np.uint64(0b0000000000000000000000000000000000000100000000000000000000000000) #129
       white_nights = np.uint64(0b0000000000000000000000000000000000000000000000000000000001000010) #66
-      white_bishops = np.uint64(0b0000000000000000000000000000000000100000000000000000000000100100)
+      white_bishops = np.uint64(0b0000000000000000000000000000000000100000000000000000000000000000)
       white_queens = np.uint64(0b0000000000000000000000000000000000000000000000000000000000001000)
       white_kings = np.uint64(0b0000000000000000000000000000000000000000000000000000000000010000)
 
@@ -58,10 +59,25 @@ engine.print_chess_rep(engine.get_all())
 # engine.print_chess_rep(engine.reverse_64_bits(engine.white_pawns))
 
 
-print('white rooks:')
+print('\nwhite rooks:')
 engine.print_chess_rep(engine.white_rooks)
-print('\n')
+
+# print('\nwhite rook attacks')
+# a = engine.one_rook_attack(engine.white_rooks, 1)
+# engine.print_chess_rep(a)
 
 
-a = engine.one_rook_attack(engine.white_rooks, 1)
-engine.print_chess_rep(a)
+x = 10000000
+t1 = time.perf_counter()
+for i in range(x):
+      engine.one_rook_attack(engine.white_rooks, 1)
+t2 = time.perf_counter()
+print('time taken for {0} iterations: {1}, for a total time of {2} per iteration'.format(x, t2-t1, (t2 - t1) / x))
+
+
+# print('\nwhite bishops:')
+# engine.print_chess_rep(engine.white_bishops)
+
+# print('\nwhite bishop attacks')
+# a = engine.one_bishop_attack(engine.white_bishops, 1)
+# engine.print_chess_rep(a)
