@@ -70,6 +70,7 @@ def msb_4(num):
     print(np.binary_repr(num,width=64), ':', num)
     print(np.binary_repr(num2,width=64), ":", num2)
     return(64-int((num2 & -num2)).bit_length()-1)
+    #incorrect
 
 def msb_5(num):
     return(num.bit_length()-1)
