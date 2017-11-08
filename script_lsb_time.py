@@ -3,15 +3,19 @@ import time
 import timeit
 import math
 
-lsb = False
-msb = True
+lsb = True
+msb = False
 
 #num & -num  return least sig digits
 def lsb_1(num):
     return((num & -num).bit_length()-1)
+    #time = 62.42
+    #correct
 
 def lsb_2(num):
     return(math.log2(num & -num))
+    #time = 82.45
+    #correct
 
 def lsb_3(num):
     shifts = 0
@@ -19,6 +23,8 @@ def lsb_3(num):
         num = num >> 1
         shifts += 1
     return(shifts)
+    #time = 83.89
+    #correct
 
 # def lsb_4(num): #DOESNT WORK
 #   return(num & 1)
@@ -30,7 +36,7 @@ def get_lsb_board(board):
     return(num & -num)
 
 def get_msb_board(board):
-    return(-num & num)
+    return(2**msb_4)
 
 def msb_1(num):
     shifts = 0
@@ -38,6 +44,8 @@ def msb_1(num):
         num = num >> 1
         shifts += 1
     return(shifts)
+    #time = 372.04
+    #correct
 
 # def msb_2(num):
 #   #Wrong
@@ -53,13 +61,20 @@ def msb_3(num):
         num = num//2
         count += 1
     return(count)
+    #time = 403
+    #correct 
 
 def msb_4(num):
-    count = 0
-    while(num != 1):
-        num = num//2
-        count += 1
-    return(count)
+    num = np.uint64(num)
+    num2 = num.byteswap()
+    print(np.binary_repr(num,width=64), ':', num)
+    print(np.binary_repr(num2,width=64), ":", num2)
+    return(64-int((num2 & -num2)).bit_length()-1)
+
+def msb_5(num):
+    return(num.bit_length()-1)
+    #time = 46.972
+    #correct 
 
 if lsb:
     print("lsb 1")
@@ -110,22 +125,32 @@ if msb:
     print(timeit.timeit('for n in range(1,100000): msb_3(n)', setup="from __main__ import msb_3",number = 1000))
     print("\n")
 
-    print("msb 4")
-    print(timeit.timeit('for n in range(1,100000): msb_4(n)', setup="from __main__ import msb_4",number = 1000))
+    # print("msb 4")
+    # print(timeit.timeit('for n in range(1,100000): msb_4(n)', setup="from __main__ import msb_4",number = 1000))
+    # print("\n")
+
+    print("msb 5")
+    print(timeit.timeit('for n in range(1,100000): msb_5(n)', setup="from __main__ import msb_5",number = 1000))
     print("\n")
 
     m1 = []
     m2 = []
     m3 = []
     m4 = []
+    m5 = []
 
     for i in range(1,1000):
         m1.append(msb_1(i))
         # m2.append(msb_2(i))
         m3.append(msb_3(i))
-        m4.append(msb_4(i))
+        # m4.append(msb_4(i))
+        m5.append(msb_5(i))
     # assert(m1 == m2)
     # assert(m2 == m3)
+    # print(m1)
+    # print(m4)
+    # print(m5)
     assert(m1 == m3)
-    assert(m1 == m4)
-    assert(m3 == m4)
+    # assert(m1 == m4)
+    assert(m1 == m5)
+    # assert(m3 == m4)
