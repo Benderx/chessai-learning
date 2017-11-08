@@ -172,8 +172,6 @@ class BitboardEngine():
         all_pieces = white | black
         return(all_pieces)
 
-#Rank and file should be 0-7 outputs
-#Diag should match diag mask
 
     #Takes in a 64 bit number with single bit
     #Returns the rank piece is on 0-7, bottom to top
@@ -203,6 +201,7 @@ class BitboardEngine():
         max7 = 9223372036854775808 #2^63
         if num <= max7: return(7)
 
+
     #Takes in a 64 bit number with single bit
     #Returns the file piece is on 0-7, left to right
     #Alters nothing 
@@ -231,6 +230,7 @@ class BitboardEngine():
         file7 = [128, 32768, 8388608, 2147483648, 549755813888, 140737488355328, 36028797018963968, 9223372036854775808] #2^[7,15,23,31,39,47,55,63]
         if num in file7: return(7)
 
+
     #Takes in a rank, file, and direction bool
     #Returns the left diagonal number if direction is true. Right otherwise
     #Alters nothing 
@@ -241,9 +241,9 @@ class BitboardEngine():
         left = total_val
 
         #Determine right index
-        if rank > file: #above line
+        if rank > file: #above middle right diagonal line r = 7
             right = 7+(total_val-2*file)
-        else: #below line
+        else: #below r = 7 line
             right = 7-(total_val-2*rank)
 
         diag = [left,right]
@@ -255,6 +255,7 @@ class BitboardEngine():
         else:
             return(diag[1])
 
+
     # Takes in move information
     #     start : int 0-63 : Square moved piece started on
     #     end : int 0-63 : Square moved piece ended on
@@ -263,7 +264,6 @@ class BitboardEngine():
     #     promotion: int 2-5 : Piece to promote pawn to
     # Return a np.uint32 representing all above info
     # Alters nothing
-
     def encode_move(self, start, end, m_type, piece, promotion):
         encode_start = np.uint8(start)
         encode_end = np.uint16(end) << np.uint8(6)
