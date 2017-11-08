@@ -503,7 +503,7 @@ class BitboardEngine():
         two = np.uint64(2)
 
         hori = (o - two*s) ^ self.reverse_64_bits(o_rev - two*s_rev)
-        hori = hori & self.row_mask[]
+        # hori = hori & self.row_mask[]
 
         return res & ~own
 
