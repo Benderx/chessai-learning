@@ -235,7 +235,25 @@ class BitboardEngine():
     #Returns the left diagonal number if direction is true. Right otherwise
     #Alters nothing 
     def get_diag(self,rank,file,direction):
-        pass
+        total_val = rank + file
+
+        #Left index
+        left = total_val
+
+        #Determine right index
+        if rank > file: #above line
+            right = 7+(total_val-2*file)
+        else: #below line
+            right = 7-(total_val-2*rank)
+
+        diag = [left,right]
+
+        #Which diag to return, left or right, could be expanded for both
+        #Direction should probably just be an int and return diag[int] or ful diag
+        if direction:
+            return(diag[0])
+        else:
+            return(diag[1])
 
     # Takes in move information
     #     start : int 0-63 : Square moved piece started on
