@@ -405,7 +405,22 @@ class BitboardEngine():
     def one_rook_attack(self, board, color):
         s = board
         o = self.get_all()
-        return (o - s - s) ^ self.reverse_64_bits((~o) - (~s) - (~s))
+
+        # white
+        if color == 1:
+            own = self.get_all_white()
+        # black
+        else:
+            own = self.get_all_black()
+
+        o_rev = self.reverse_64_bits(o)
+        s_rev = self.reverse_64_bits(s)
+        two = np.uint64(2)
+
+        hori = (o - two*s) ^ self.reverse_64_bits(o_rev - two*s_rev)
+        hori = hori & self.row_mask[]
+
+        return res & ~own
 
 
     # def rook_attacks(self, board, color):
