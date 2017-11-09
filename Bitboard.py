@@ -332,9 +332,9 @@ class BitboardEngine():
     # Currently 
     def push_move(self, move):
         self.stack_push(move)
-        start = self.decode_from()
-        end = self.decode_to()
-        taken = self.decode_piece()
+        start = self.decode_from(move)
+        end = self.decode_to(move)
+        taken = self.decode_piece(move)
 
         bb_start = np.uint64(2**start)
         bb_end = np.uint64(2**end)
@@ -355,8 +355,20 @@ class BitboardEngine():
 
     # Takes in a move, alters the BitboardEngine's representation to the PREVIOUS state based on the LAST move action
     def pop_move(self, move):
-        move = self.move_stack.pop()
-        pass
+        move = self.stack_pop()
+        premove_start = self.decode_from(move)
+        postmove_end = self.decode_to(move)
+        taken = self.decode_piece(move)
+
+        bb_premove_sq = np.uint64(2**premove_start)
+        bb_postmove_sq = np.uint64(2**postmove_end)
+
+        move_piece = #LOOKUP VAL -> pointer to piece val on that square
+        move_piece = (curr_piece | bb_premove_sq) & (self.get_uint64_max()-bb_postmove_sq)
+        
+        if taken:
+            taken_piece = #LOOKUP VAL -> pointer to piece val on that square
+            taken_piece = taken_piece & (bb_postmove_sq)
 
 
     # Takes in a bitboard and will return the bitboard representing only the least significant bit.
