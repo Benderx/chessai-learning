@@ -31,7 +31,8 @@ class BitboardEngine():
     def init_engine(self):
         self.max_move_length = 500 # This assumes there are only 500 possible legal moves at any one time (affects move array intilization)
         self.in_check = np.uint8(0)
-        self.move_stack = []
+        self.move_stack = 500*[0]
+        self.stack_index = -1
         self.init_mask()
 
 
@@ -256,7 +257,7 @@ class BitboardEngine():
     #     start : int 0-63 : Square moved piece started on
     #     end : int 0-63 : Square moved piece ended on
     #     m_type: int 0-3 : Type of move made
-    #     piece: int 0-4 : Piece taken in move
+    #     piece: int 0-5 : Piece taken in move
     #     promotion: int 2-5 : Piece to promote pawn to
     # Return a np.uint32 representing all above info
     # Alters nothing
@@ -301,6 +302,61 @@ class BitboardEngine():
     # Alters nothing
     def decode_promo(self,move):
         return((move >> np.uint8(17)) & np.uint8(3))
+
+
+    #Takes in nothing
+    #Returns max val for uint64 (all 1's)
+    #Alters nothing
+    def get_uint64_max(self):
+        return(18446744073709551615)
+
+
+    # Takes in a move to be added to the move stack
+    # Returns nothing
+    # Alters the move stack and stack_index value
+    def stack_push(self,move):
+        assert(self.stack_index < 499)
+        self.stack_index+=1
+        self.move_stack[self.stack_index] = move
+
+    # Takes in nothing
+    # Returns the last move in the move stack
+    # Alters the stack_index value
+    def stack_pop(self):
+        assert(self.stack_index > -1)
+        self.stack_index-=1
+        return(self.move_stack[self.stack_index+1])
+
+
+    # Takes in a move, alters the BitboardEngine's representation to the NEXT state based on the CURRENT move action
+    # Currently 
+    def push_move(self, move):
+        self.stack_push(move)
+        start = self.decode_from()
+        end = self.decode_to()
+        taken = self.decode_piece()
+
+        bb_start = np.uint64(2**start)
+        bb_end = np.uint64(2**end)
+
+        curr_piece = #LOOKUP VAL -> pointer to piece val on that square
+        curr_piece = (curr_piece | bb_end) & (self.get_uint64_max()-bb_start)
+
+        #EDIT LOOKUP TABLE THAT THE USED SQUARE IS NOW EMPTY
+        #self.edit_lookup(start,None)
+
+        if taken:
+            taken_piece = #LOOKUP VAL -> pointer to piece val on that square
+            taken_piece = taken_piece & (self.get_uint64_max()-bb_end)
+
+        #EDIT LOOKUP TABLE THAT THE FINAL SQUARE IS NOW NEW PIECE
+        #self.edit_lookup(end,curr_piece)
+
+
+    # Takes in a move, alters the BitboardEngine's representation to the PREVIOUS state based on the LAST move action
+    def pop_move(self, move):
+        move = self.move_stack.pop()
+        pass
 
 
     # Takes in a bitboard and will return the bitboard representing only the least significant bit.
@@ -388,18 +444,6 @@ class BitboardEngine():
     # Northwest: << 7
     # North:     << 8
     # Northeast: << 9
-
-
-    # Takes in a move, alters the BitboardEngine's representation to the NEXT state based on the CURRENT move action
-    def push_move(self, move):
-        self.move_stack.append(move)
-        pass
-
-
-    # Takes in a move, alters the BitboardEngine's representation to the PREVIOUS state based on the LAST move action
-    def pop_move(self, move):
-        move = self.move_stack.pop()
-        pass
 
 
     def get_square(self, piece, color):
@@ -527,7 +571,7 @@ class BitboardEngine():
         row = self.get_rank(board)
         col = self.get_file(board)
         diag = self.get_diag(row,col)
-        line1_mask,line2_mask = diag
+        line1_mask,line2_mask = diag #Can actually just directly set equal to get_diag
 
         s = board
         o = self.get_all()
